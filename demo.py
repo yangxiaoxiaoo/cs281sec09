@@ -83,20 +83,6 @@ def sample_sbm():
     plt.show()
 
 
-def gen_sbm(p, q, N, R):
-    """
-    Generating SBM model with different parameters: p inner block, q inter block
-    return a network of size N, R blocks
-    """
-
-    b1 = p
-    b0 = p
-    a  = q
-    alpha0 = a*np.ones(R)
-    return StochasticBlockModel(R, b0, b1, alpha0)
-
-
-
 def gibbs_sbm((A,f)=(None,None)):
     """
     Test the generation and fitting of an Erdos Renyi model
