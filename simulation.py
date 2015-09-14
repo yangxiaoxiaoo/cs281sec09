@@ -5,11 +5,30 @@ import matplotlib.pyplot as plt
 import scipy
 import scipy.special
 import numpy as np
+import pickle
 from igraph import *
 
+def Gen_probMatrix_from_PQ(p, q, R):
+    d = []
+    for i in range(0,R):
+        d.append([p]* R)
+        d[i][i] = q
+    return d
+
+def Gen_SBM(p, q, N, R):
+    #igraph version with SBM is only available on mac
+    block_size_list = []
+    #create a list of block sizes with equal sizes
+    for i in range(0,R):
+        block_size_list.append(N/R)
+    B = Gen_probMatrix_from_PQ(p, q, R)
+    return B
+    a= Graph.SBM(N,B,block_size_list)
+    return a
 
 def simulate():
-    N = 10
+
+    N = 1000
     R = 5
     b1 = 1.5
     b0 = 0.5
@@ -18,12 +37,19 @@ def simulate():
     SBM_1 = StochasticBlockModel(R, b0, b1, alpha0)
     (A,f,theta) = sample_network(SBM_1,N)
     (B, pi) = theta
-    aftersampled = Graph.Tree(127,2)
-    a= Graph.SBM(N,B,R)
 
-    print A
-    print "________"
-    print Graph.get_adjacency(aftersampled)
+    p = 0.3
+    q = 0.7
+    N = 1000
+    R = 5
+
+    ####run once on mac for picked SBM data
+    ####start-----------
+    #graph_1 = Gen_SBM(p, q, N, R)
+    #pickle.dump(graph_1, open("SBM_03_07_1000_5.p", "wb"))
+    ####end-------------
+
+    SBM_1 = pickle.load(open("SBM_03_07_1000_5.p", "rb"))
     SBM_2 = sparsify.spars(SBM_1, epsilon=0.05)
 
 
