@@ -22,13 +22,12 @@ def Gen_SBM(p, q, N, R):
     for i in range(0,R):
         block_size_list.append(N/R)
     B = Gen_probMatrix_from_PQ(p, q, R)
-    return B
     a= Graph.SBM(N,B,block_size_list)
     return a
 
 def simulate():
 
-    N = 1000
+    N = 10
     R = 5
     b1 = 1.5
     b0 = 0.5
@@ -40,19 +39,20 @@ def simulate():
 
     p = 0.3
     q = 0.7
-    N = 1000
+    N = 10
     R = 5
 
     ####run once on mac for picked SBM data
-    ####start-----------
-    #graph_1 = Gen_SBM(p, q, N, R)
-    #pickle.dump(graph_1, open("SBM_03_07_1000_5.p", "wb"))
+    ####start-----------pickle string won't keep the graph
+    graph_1 = Gen_SBM(p, q, N, R)
+    print graph_1
+    Graph.write_pickle(graph_1,"SBM_03_07_1000_5.p")
     ####end-------------
 
-    SBM_1 = pickle.load(open("SBM_03_07_1000_5.p", "rb"))
-    SBM_2 = sparsify.spars(SBM_1, epsilon=0.05)
+    SBM_1 = Graph.Read_Pickle("SBM_03_07_1000_5.p")
+    SBM_2 = sparsify.spars_combi(SBM_1, epsilon=0.05)
 
-
+'''
 
 
     def invariant_order(f):
@@ -91,6 +91,6 @@ def simulate():
         plt.title("after")
 
     plt.show()
-
+'''
 if __name__ == "__main__":
     simulate()
