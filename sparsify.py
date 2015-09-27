@@ -50,6 +50,7 @@ def spars_combi(G, epsilon):
 
 
     for edge in G.get_edgelist():
+
         H.delete_edges(edge)
 
         #parallel over nodes
