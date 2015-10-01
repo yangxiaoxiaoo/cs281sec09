@@ -8,6 +8,7 @@ import numpy as np
 import pickle
 from igraph import *
 import graph_statistics
+import networkx as nx
 
 def Gen_probMatrix_from_PQ(p, q, R):
     d = []
@@ -28,7 +29,18 @@ def Gen_SBM(p, q, N, R):
 
 def RealSim():
 
-    SBM_1 = Graph.Read_Ncol("MontereyBay_list.txt", directed=False)
+    GraphName = "MontereyBay"
+
+    def Expand(GraphName):
+        #finish the expending process in Networkx and write back to an adjacency list file
+        G = nx.read_adjlist(GraphName +"_list.txt")
+
+        return G
+
+    SBM_1 = Graph.Read_Ncol(GraphName +"_list.txt", directed=False)
+    Expand(GraphName)
+    SBM_expanded = Graph.Read_Ncol(GraphName+"_expanded.txt", directed=False)
+
     dict1 = graph_statistics.regular_stat(SBM_1)
     SBM_2 = sparsify.spars_combi(SBM_1, epsilon=0.5)
    #
@@ -49,6 +61,7 @@ def simulate():
     (A,f,theta) = sample_network(SBM_1,N)
     (B, pi) = theta
 
+
     p = 0.3
     q = 0.7
     N = 100
@@ -62,7 +75,7 @@ def simulate():
     ####end-------------
 
     SBM_1 = Graph.Read_Pickle("SBM_03_07_1000_5.p")
-    SBM_2 = sparsify.spars_combi(SBM_1, epsilon=0.05)
+    SBM_2 = sparsify.spars_combi(SBM_1, epsilon=0.5)
 
 '''
 
