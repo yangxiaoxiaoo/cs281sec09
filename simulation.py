@@ -7,7 +7,7 @@ import scipy.special
 import numpy as np
 import pickle
 from igraph import *
-import networkx
+import graph_statistics
 
 def Gen_probMatrix_from_PQ(p, q, R):
     d = []
@@ -27,28 +27,15 @@ def Gen_SBM(p, q, N, R):
     return a
 
 def RealSim():
-    old_g = pickle.load(open("MontereyBay.pickle", 'r'))
-
- #   SBM_1 = Graph()
-  #  for node, friends in old_g.adj.iteritems():
-        #  if node not in SBM_1.nodes():
-   #     SBM_1.add_vertices(node)
-    #    SBM_1.add_vertices(friends.keys())
-     #   print SBM_1
-      #  edges_list = map(lambda x: (node, x), friends.iterkeys())
-       # SBM_1.add_edges(edges_list)
-
- #    for friend in friends.iterkeys():
-  #          SBM_1.add_vertices(friend)
-   ##        print node
-     #       print friend
-      #      SBM_1.add_edges([(node, friend)])
-       #
 
     SBM_1 = Graph.Read_Ncol("MontereyBay_list.txt", directed=False)
-
-
-    SBM_2 = sparsify.spars_combi(SBM_1, epsilon=0.05)
+    dict1 = graph_statistics.regular_stat(SBM_1)
+    SBM_2 = sparsify.spars_combi(SBM_1, epsilon=0.5)
+   #
+   # dict1 = graph_statistics.regular_stat(SBM_1)
+    dict2 = graph_statistics.regular_stat(SBM_2)
+    for key in dict1:
+        print key + ":"+ str(dict1[key])+"=>" + str(dict2[key])
 
 def simulate():
 

@@ -8,13 +8,15 @@ from igraph import *
 import math
 import random
 
+const = 10
+
 #input graph is unweighted, epsilon is the error rate
 #return a combinatorial sparsified graph preserving cut size
 #Loop simply for edges
 def spars_combi_naive(G, epsilon):
 
     N = G.vcount()
-    rho = 1.0 * (math.log(N, 2)) * (math.log(N, 2))/(epsilon * epsilon)
+    rho = 0.001 * (math.log(N, 10)) * (math.log(N, 10))/(epsilon * epsilon) #A smaller constant?
     H = G
 
 
@@ -39,8 +41,8 @@ def spars_combi_naive(G, epsilon):
 def spars_combi(G, epsilon):
 
     N = G.vcount()
-    rho = 1.0 * (math.log(N, 2)) * (math.log(N, 2))/(epsilon * epsilon)
-    H = G
+    rho = 1.0 * (math.log(N, 10)) * (math.log(N, 10))/(epsilon * epsilon)
+    H = G  #is it the same copy??
 
     ##########for edge connectivity run dijkstra once and have a value for all nodes, instead of too much G.adhesion
     ##########parallel the construction of gomory_hu_tree on spark later
@@ -60,18 +62,20 @@ def spars_combi(G, epsilon):
             for e in path:
                 if T.es[e]["flow"] < min_w:
                     min_w = T.es[e]["flow"]
-        print min_w
+       # print min_w
 
         lamda_connectivity = min_w + 1
         #This edge connectivity will grow really fast when node number N grows
         #lpus one for singletons
-        p_e = rho/lamda_connectivity
+        p_e = rho/lamda_connectivity/const
         print "P_e = "
         print p_e
         random_var = random.random()
         if random_var < p_e:
             w = 1/p_e
             H.add_edge(edge[0], edge[1], weight = w)
-    print "_________AFTER:__________"
-    print H
+        else:
+            print "____________go to egde discarding__________________"
+  #  print "_________AFTER:__________"
+  #  print H
     return H
