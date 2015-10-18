@@ -34,6 +34,39 @@ def RealSim():
     def Expand(GraphName):
         #finish the expending process in Networkx and write back to an adjacency list file
         G = nx.read_adjlist(GraphName +"_list.txt")
+        expanded_list_file = open(GraphName+"_expanded.txt", 'a')
+
+        def hop2(G, A):
+            hop2_set = set()
+            for neighbor in G.neighbors(A):
+                hop2_set.add(neighbor)
+                for neighbor2 in G.neighbors(neighbor):
+                    hop2_set.add(neighbor2)
+            return hop2_set
+
+        def hop3(G, A):
+            hop3_set = set()
+            for neighbor in G.neighbors(A):
+                hop3_set.add(neighbor)
+                hop3_set = hop3_set.union(hop2(G, neighbor))
+            return hop3_set
+
+        for edge in G.edges():
+            A = edge[0]
+            B = edge[1]
+            local_set = hop2(G, A).union(hop2(G, B))
+            local_set.add(A)
+            local_set.add(B)
+            interested = G.subgraph(local_set)
+            hop3_before = 0
+            for node in interested.nodes():
+                hop3_before += len(hop3(interested, node))
+            interested.remove_edge(*edge)
+            hop3_after = 0
+            for node in interested.nodes():
+                hop3_after += len(hop3(interested, node))
+            loss = (hop3_before - hop3_after)/2
+            expanded_list_file.write(str(A) + " "+str(B)+ " ["+ str(loss) + "]\n")
 
         return G
 
