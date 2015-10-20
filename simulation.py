@@ -70,17 +70,34 @@ def RealSim():
 
         return G
 
+
+    def sim(eps, GraphName):
+        SBM_expanded = Graph.Read_Ncol(GraphName+"_expanded.txt", directed=False)
+        w_sum1 = sum(SBM_expanded.es["weight"])
+        SBM_2 = sparsify.spars_combi(SBM_expanded, epsilon=eps)
+        w_sum2 = sum(SBM_2.es["weight"])
+        return (w_sum1 - w_sum2)
+
+    for eps in range(0, 1, 0.1):
+        loss = sim(eps, GraphName)
+
+
+
+'''
     SBM_1 = Graph.Read_Ncol(GraphName +"_list.txt", directed=False)
     Expand(GraphName)
     SBM_expanded = Graph.Read_Ncol(GraphName+"_expanded.txt", directed=False)
 
     dict1 = graph_statistics.regular_stat(SBM_1)
-    SBM_2 = sparsify.spars_combi(SBM_1, epsilon=0.5)
-   #
-   # dict1 = graph_statistics.regular_stat(SBM_1)
+    SBM_2 = sparsify.spars_combi(SBM_expanded, epsilon=0.5)
+
+    dict1 = graph_statistics.regular_stat(SBM_1)
     dict2 = graph_statistics.regular_stat(SBM_2)
     for key in dict1:
         print key + ":"+ str(dict1[key])+"=>" + str(dict2[key])
+'''
+
+
 
 def simulate():
 
