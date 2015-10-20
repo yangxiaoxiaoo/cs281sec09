@@ -74,12 +74,18 @@ def RealSim():
     def sim(eps, GraphName):
         SBM_expanded = Graph.Read_Ncol(GraphName+"_expanded.txt", directed=False)
         w_sum1 = sum(SBM_expanded.es["weight"])
+        e_num1 = SBM_expanded.ecount()
         SBM_2 = sparsify.spars_combi(SBM_expanded, epsilon=eps)
         w_sum2 = sum(SBM_2.es["weight"])
-        return (w_sum1 - w_sum2)
+        e_num2 = SBM_2.ecount()
+        return (w_sum1 - w_sum2),(e_num1 - e_num2)
 
-    for eps in range(0, 1, 0.1):
-        loss = sim(eps, GraphName)
+    with open(GraphName+"_eps_simresult.txt", 'a') as simoutput:
+        for eps in range(1,10):
+            loss_cut = sim(eps*0.1, GraphName)
+            loss = loss_cut[0]
+            cut = loss_cut[1]
+            simoutput.write(str(eps*0.01)+'loss:'+str(loss)+ ' cut:' + str(cut) + '\n')
 
 
 

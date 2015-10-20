@@ -21,7 +21,7 @@ def spars_combi_naive(G, epsilon):
 
 
     for edge in G.get_edgelist():
-        H.delete_edges(edge)
+#        H.delete_edges(edge)
         #adhersion is the same method as edge_disjoint_paths  "...get_all_shortest_paths"
         # and parallel over nodes
 
@@ -31,8 +31,12 @@ def spars_combi_naive(G, epsilon):
         p_e = rho/lamda_connectivity
         random_var = random.random()
         if random_var < p_e:
-            w = 1/p_e
-            H.add_edge(edge[0], edge[1], weight = w)
+#            w = 1/p_e
+#            H.add_edge(edge[0], edge[1], weight = w)
+            pass
+        else:
+            H.delete_edges(edge)
+
 
     return H
 
@@ -68,8 +72,8 @@ def spars_combi(G, epsilon):
         #This edge connectivity will grow really fast when node number N grows
         #lpus one for singletons
         p_e = rho/lamda_connectivity/const
-        print "P_e = "
-        print p_e
+#        print "P_e = "
+#        print p_e
         random_var = random.random()
         if random_var < p_e:
             w = 1/p_e
