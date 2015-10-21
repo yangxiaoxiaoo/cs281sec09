@@ -66,17 +66,20 @@ def RealSim():
             for node in interested.nodes():
                 hop3_after += len(hop3(interested, node))
             loss = (hop3_before - hop3_after)/2
-            expanded_list_file.write(str(A) + " "+str(B)+ " ["+ str(loss) + "]\n")
+            expanded_list_file.write(str(A) + " "+str(B)+ " "+ str(loss) + "\n")
 
         return G
 
 
     def sim(eps, GraphName):
-        SBM_expanded = Graph.Read_Ncol(GraphName+"_expanded.txt", directed=False)
+        SBM_expanded = Graph.Read_Ncol(GraphName+"_expanded2.txt", directed=False)
+        print SBM_expanded.es["weight"]
         w_sum1 = sum(SBM_expanded.es["weight"])
+        print w_sum1
         e_num1 = SBM_expanded.ecount()
         SBM_2 = sparsify.spars_combi(SBM_expanded, epsilon=eps)
         w_sum2 = sum(SBM_2.es["weight"])
+        print w_sum2
         e_num2 = SBM_2.ecount()
         return (w_sum1 - w_sum2),(e_num1 - e_num2)
 

@@ -57,7 +57,7 @@ def spars_combi(G, epsilon):
 
     for edge in G.get_edgelist():
 
-        H.delete_edges(edge)
+   #     H.delete_edges(edge)
 
         #parallel over nodes
         list_of_eid = T.get_shortest_paths(edge[0], to = edge[1], output = "epath")  #[[3, 4]]
@@ -66,7 +66,7 @@ def spars_combi(G, epsilon):
             for e in path:
                 if T.es[e]["flow"] < min_w:
                     min_w = T.es[e]["flow"]
-       # print min_w
+
 
         lamda_connectivity = min_w + 1
         #This edge connectivity will grow really fast when node number N grows
@@ -76,9 +76,11 @@ def spars_combi(G, epsilon):
 #        print p_e
         random_var = random.random()
         if random_var < p_e:
-            w = 1/p_e
-            H.add_edge(edge[0], edge[1], weight = w)
+#            w = 1/p_e
+#            H.add_edge(edge[0], edge[1], weight = w)
+            pass
         else:
+            H.delete_edges(edge)
             print "____________go to egde discarding__________________"
   #  print "_________AFTER:__________"
   #  print H
