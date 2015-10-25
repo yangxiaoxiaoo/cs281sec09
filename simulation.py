@@ -29,11 +29,12 @@ def Gen_SBM(p, q, N, R):
 
 def RealSim():
 
-    GraphName = "MontereyBay"
+    GraphName = "Egypt"
 
     def Expand(GraphName):
         #finish the expending process in Networkx and write back to an adjacency list file
         G = nx.read_adjlist(GraphName +"_list.txt")
+        print "graph loaded-SILLY"
         expanded_list_file = open(GraphName+"_expanded.txt", 'a')
 
         def hop2(G, A):
@@ -72,8 +73,7 @@ def RealSim():
 
 
     def sim(eps, GraphName):
-        SBM_expanded = Graph.Read_Ncol(GraphName+"_expanded2.txt", directed=False)
-        print SBM_expanded.es["weight"]
+        SBM_expanded = Graph.Read_Ncol(GraphName+"_expanded.txt", directed=False)
         w_sum1 = sum(SBM_expanded.es["weight"])
         print w_sum1
         e_num1 = SBM_expanded.ecount()
@@ -83,6 +83,7 @@ def RealSim():
         e_num2 = SBM_2.ecount()
         return (w_sum1 - w_sum2),(e_num1 - e_num2)
 
+    Expand(GraphName)
     with open(GraphName+"_eps_simresult.txt", 'a') as simoutput:
         for eps in range(1,10):
             loss_cut = sim(eps*0.1, GraphName)
