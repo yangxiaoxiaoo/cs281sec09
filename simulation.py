@@ -79,6 +79,7 @@ def RealSim():
         e_num1 = SBM_expanded.ecount()
         SBM_2 = sparsify.spars_combi(SBM_expanded, epsilon=eps)
         w_sum2 = sum(SBM_2.es["weight"])
+        #need to modify! calculate real weight instead
         print w_sum2
         e_num2 = SBM_2.ecount()
         return (w_sum1 - w_sum2),(e_num1 - e_num2)
