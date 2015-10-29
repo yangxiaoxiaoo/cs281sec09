@@ -1,5 +1,6 @@
 #!/usr/bin/python
 #tailed from achtung ~/facebook/FacebookProject/spark_edgeremoval.py  - read from local edgelist instead
+
 #using: spark-submit *this_file* Egypt 50
 
 import networkx
@@ -52,6 +53,7 @@ def edge_to_cost(edge, G_string):
 
 def Reformat(path, name):
     #take a path of on disk spark-output files and convert into LGL file, put to current directory for later usage
+    #tested
     dirs = os.listdir(path)
     with open(name + "_expanded_test.txt", 'w')as fout:
         for file in dirs:
