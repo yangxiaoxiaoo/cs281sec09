@@ -34,6 +34,9 @@ def edge_to_cost(edge, G_string):
 
     dataG = json.loads(G_string)
     G = json_graph.node_link_graph(dataG)
+    #!!!!!!caution!!
+    #when read from edgelist, it is string
+    #when from raw data (old picckle ) should add int convertion
     A = edge[0]
     B = edge[1]
     edge = (A, B)
