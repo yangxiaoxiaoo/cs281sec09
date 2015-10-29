@@ -34,8 +34,8 @@ def edge_to_cost(edge, G_string):
 
     dataG = json.loads(G_string)
     G = json_graph.node_link_graph(dataG)
-    A = int(edge[0])
-    B = int(edge[1])
+    A = edge[0]
+    B = edge[1]
     edge = (A, B)
     local_set = hop2(G, A).union(hop2(G, B))
     local_set.add(A)
