@@ -29,7 +29,9 @@ def Gen_SBM(p, q, N, R):
 
 def RealSim():
 
-    GraphName = "Egypt"
+   # GraphName = "Egypt"
+    GraphName = "MontereyBay"
+
 
     def Expand(GraphName):
         #finish the expending process in Networkx and write back to an adjacency list file
@@ -78,12 +80,17 @@ def RealSim():
         print w_sum1
         e_num1 = SBM_expanded.ecount()
         SBM_2 = sparsify.spars_combi(SBM_expanded, epsilon=eps)
-        w_sum2 = sum(SBM_2.es["weight"])
+        #through away weights for 3-hop recalculation, write into a temparary file
+        SBM_2.write_ncol(GraphName+"_sparse_list.txt", weights = None)
+        Expand(GraphName+"_sparse")
+        SBM_recalc =  Graph.Read_Ncol(GraphName+"_sparse_expanded.txt", directed=False)
+        w_sum2 = sum(SBM_recalc.es["weight"])
         #need to modify! calculate real weight instead
         print w_sum2
         e_num2 = SBM_2.ecount()
         return (w_sum1 - w_sum2),(e_num1 - e_num2)
 
+    #original once expanded, always use
     Expand(GraphName)
     with open(GraphName+"_eps_simresult.txt", 'a') as simoutput:
         for eps in range(1,10):
