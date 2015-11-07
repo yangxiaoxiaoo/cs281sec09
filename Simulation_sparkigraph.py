@@ -3,9 +3,8 @@
 
 #using: spark-submit *this_file* Egypt 50
 
-import networkx
+
 import igraph
-import pickle
 import subprocess
 from pyspark import SparkContext
 import json
@@ -13,47 +12,13 @@ from networkx.readwrite import json_graph
 import sys
 import os, sys
 
-def hop2(G, A):
-    hop2_set = set()
-    for neighbor in G.neighbors(A):
-        hop2_set.add(neighbor)
-        for neighbor2 in G.neighbors(neighbor):
-            hop2_set.add(neighbor2)
-    return hop2_set
-
-def hop3(G, A):
-    hop3_set = set()
-    for neighbor in G.neighbors(A):
-        hop3_set.add(neighbor)
-        hop3_set = hop3_set.union(hop2(G, neighbor))
-    return hop3_set
-
-#sorted removal
 
 
-def edge_to_cost(edge, G_string):
 
-    dataG = json.loads(G_string)
-    G = json_graph.node_link_graph(dataG)
-    #!!!!!!caution!!
-    #when read from edgelist, it is string
-    #when from raw data (old picckle ) should add int convertion
-    A = edge[0]
-    B = edge[1]
-    edge = (A, B)
-    local_set = hop2(G, A).union(hop2(G, B))
-    local_set.add(A)
-    local_set.add(B)
-    interested = G.subgraph(local_set)
-    hop3_before = 0
-    for node in interested.nodes():
-        hop3_before += len(hop3(interested, node))
-    interested.remove_edge(*edge)
-    hop3_after = 0
-    for node in interested.nodes():
-        hop3_after += len(hop3(interested, node))
-    loss = (hop3_before - hop3_after)/2
-    return edge, loss
+def edge_to_cost(edge, G):
+#edge : an igraph edge -> G : an igraph graph
+    local_set = set(G.neighnorhood(order=3))
+
 
 def Reformat(path, name):
     #take a path of on disk spark-output files and convert into LGL file, put to current directory for later usage
