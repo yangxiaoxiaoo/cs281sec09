@@ -17,16 +17,21 @@ B = np.zeros((2,2))
 print type(B)
 '''
 
-R = 10
-b1 = 0.5
-b0 = 0.5
-a  = 0.7
-alpha0 = a*np.ones(R)
-model = StochasticBlockModel(R, b0, b1, alpha0)
-#starting with a set of prior. --may choose them to accelerate converging
+def fit_blocks(R):
 
-f_trace, theta_trace, lp_trace = fit_network(A, model, x0=None, N_iter=50, callback=None, pause=False)
+    b1 = 0.5
+    b0 = 0.5
+    a  = 0.7
+    alpha0 = a*np.ones(R)
+    model = StochasticBlockModel(R, b0, b1, alpha0)
+    #starting with a set of prior. --may choose them to accelerate converging
 
-fout = open("SBM_fit_MontereyBay_10block.txt", "w")
-fout.write(str(f_trace) + str(theta_trace) + str(lp_trace))
-fout.close()
+    f_trace, theta_trace, lp_trace = fit_network(A, model, x0=None, N_iter=50, callback=None, pause=False)
+
+    fout = open("SBM_fit_MontereyBay_6to10blocks.txt", "a")
+    fout.write( "R=" + str(R) +":" +str(f_trace) +" "+ str(theta_trace) +" "+ str(lp_trace) +"\n")
+    fout.close()
+
+if __name__ == "__main__":
+    for R in range(6,11):
+        fit_blocks(R)
