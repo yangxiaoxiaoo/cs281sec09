@@ -27,4 +27,6 @@ model = StochasticBlockModel(R, b0, b1, alpha0)
 
 f_trace, theta_trace, lp_trace = fit_network(A, model, x0=None, N_iter=50, callback=None, pause=False)
 
-
+fout = open("SBM_fit_MontereyBay.txt", "w")
+fout.write(str(f_trace) + str(theta_trace) + str(lp_trace))
+fout.close()
