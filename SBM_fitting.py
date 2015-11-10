@@ -38,7 +38,7 @@ def fit_blocks(R):
 
     f_trace, theta_trace, lp_trace = fit_network(A, model, x0=None, N_iter=50, callback=None, pause=False)
 
-    fout = open("SBM_fit_MontereyBay_6to10blocks.txt", "a")
+    fout = open("SBM_fit_MontereyBay_16blocks.txt", "a")
     fout.write( "R=" + str(R) +":" +str(f_trace) +" "+ str(theta_trace) +" "+ str(lp_trace) +"\n")
     fout.close()
 
@@ -46,7 +46,7 @@ def main():
     G = networkx.read_edgelist("MontereyBay_list.txt")
     A = np.asarray(networkx.to_numpy_matrix(G))
     print A.shape
-    R = decide_block_num()
+ #   R = decide_block_num(G)
   #  fit_blocks(R)
     fit_blocks(16)
 
