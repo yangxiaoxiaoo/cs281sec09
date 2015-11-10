@@ -1,13 +1,11 @@
 from graph_models import *
 import networkx
+import community
 import matplotlib.pyplot as plt
 import scipy
 import scipy.special
 import numpy as np
 
-G = networkx.read_edgelist("MontereyBay_list.txt")
-A = np.asarray(networkx.to_numpy_matrix(G))
-print A.shape
 
 '''
 example::
@@ -16,6 +14,18 @@ print type(A)
 B = np.zeros((2,2))
 print type(B)
 '''
+
+def decide_block_num(G):
+    #community best partition -  louvain method
+    partition = community.best_partition(G)
+    sizes = list()
+    for comm in set(partition.values()):
+        list_nodes = [nodes for nodes in partition.keys() if partition[nodes] == comm]
+        size_com = len(list_nodes)
+        sizes.append(size_com)
+
+    sizes.sort()
+    print sizes
 
 def fit_blocks(R):
 
@@ -32,6 +42,16 @@ def fit_blocks(R):
     fout.write( "R=" + str(R) +":" +str(f_trace) +" "+ str(theta_trace) +" "+ str(lp_trace) +"\n")
     fout.close()
 
+def main():
+    G = networkx.read_edgelist("MontereyBay_list.txt")
+    A = np.asarray(networkx.to_numpy_matrix(G))
+    print A.shape
+    R = decide_block_num()
+  #  fit_blocks(R)
+    fit_blocks(16)
+
+
+
 if __name__ == "__main__":
-    for R in range(6,11):
-        fit_blocks(R)
+  #  decide_block_num(networkx.read_edgelist("MontereyBay_list.txt"))
+    main()
