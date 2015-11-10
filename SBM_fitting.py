@@ -27,7 +27,7 @@ def decide_block_num(G):
     sizes.sort()
     print sizes
 
-def fit_blocks(R):
+def fit_blocks(R, A):
 
     b1 = 0.5
     b0 = 0.5
@@ -48,7 +48,7 @@ def main():
     print A.shape
  #   R = decide_block_num(G)
   #  fit_blocks(R)
-    fit_blocks(16)
+    fit_blocks(16, A)
 
 
 
