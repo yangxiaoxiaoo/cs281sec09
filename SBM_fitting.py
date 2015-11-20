@@ -34,12 +34,14 @@ def convert(inputf, outputf):
     with open(outputf, "w") as fout:
         with open(inputf, "r")as fin:
             s = 0
+            t = 0
             for line in fin:
                 if line[0] == '#':
                     s = int(line.split(' ')[1])
                 else:
                     t = int(line)
-                fout.write(str(s) + " " + str(t) + "\n")
+                    if not (s==0 and t==0):
+                        fout.write(str(s) + " " + str(t) + "\n")
 
 
 def fit_blocks(R, A):
