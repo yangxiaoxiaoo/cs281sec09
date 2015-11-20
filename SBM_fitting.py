@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import scipy
 import scipy.special
 import numpy as np
-
+import igraph
 
 '''
 example::
@@ -15,7 +15,7 @@ B = np.zeros((2,2))
 print type(B)
 '''
 
-def decide_block_num(G):
+def decide_block_num(G,name):
     #community best partition -  louvain method
     partition = community.best_partition(G)
     sizes = list()
@@ -26,6 +26,21 @@ def decide_block_num(G):
 
     sizes.sort()
     print sizes
+    with open("blocksizes.txt", 'a') as fout:
+        fout.write(str(name)+ ' ' + str(sizes))
+
+def convert(inputf, outputf):
+    #convert input an lgl to output an edgelist file
+    with open(outputf, "w") as fout:
+        with open(inputf, "r")as fin:
+            s = 0
+            for line in fin:
+                if line[0] == '#':
+                    s = int(line.split(' ')[1])
+                else:
+                    t = int(line)
+                fout.write(str(s) + " " + str(t) + "\n")
+
 
 def fit_blocks(R, A):
 
@@ -52,6 +67,10 @@ def main():
 
 
 
+
+
 if __name__ == "__main__":
-  #  decide_block_num(networkx.read_edgelist("MontereyBay_list.txt"))
-    main()
+
+    convert("/home/cbw/sbm/fb/Toronto_2008.lgl","Toronto_2008.ncol")
+    decide_block_num(networkx.read_edgelist("Toronto_2008.ncol"),"Toronto2008")
+ #   main()
