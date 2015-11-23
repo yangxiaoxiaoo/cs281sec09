@@ -2,6 +2,9 @@ import os
 import subprocess
 
 '''
+FIXME: community not installed on other clusters!
+
+
 distribute into multiple achtung threads
 for all facebook graphs, do louvain clustering, white cluster size into an output file "blocksizes.txt"
 
@@ -21,7 +24,6 @@ for f in files:
         queue_this_time.append(f)
 
 machines = ["achtung%02i" % (x) for x in range(2, 12)]
-threads = 24
 
 procs = []
 for i, machine in enumerate(machines):
@@ -29,7 +31,7 @@ for i, machine in enumerate(machines):
          machine,
          'python',
          '/home/xiaofeng/facebook/sparsify/cs281sec09/Graph_louvain.py',
-         queue_this_time[i]
+         path + queue_this_time[i]
          ]
 
   procs.append(subprocess.Popen(cmd))
