@@ -31,7 +31,7 @@ for i, machine in enumerate(machines):
          machine,
          'python',
          '/home/xiaofeng/facebook/sparsify/cs281sec09/Graph_louvain.py',
-         path + queue_this_time[i]
+         os.path.join(path, queue_this_time[i])
          ]
 
   procs.append(subprocess.Popen(cmd))

@@ -19,5 +19,5 @@ for f in files:
 for i in range(0, len(queue_this_time)):
     subprocess.check_call('python',
          '/home/xiaofeng/facebook/sparsify/cs281sec09/Graph_louvain.py',
-         path + queue_this_time[i]
+         os.path.join(path, queue_this_time[i])
                       )
