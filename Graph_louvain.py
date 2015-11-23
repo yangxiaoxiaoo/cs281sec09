@@ -42,7 +42,7 @@ def decide_block_num(G,name):
 
 def partition(name):
     graphname = name.strip(".lgl")
-    convert("/home/cbw/sbm/fb/"+ graphname + ".lgl", graphname+".ncol")
+    convert("/home/cbw/sbm/fb/"+ graphname + ".lgl", "/home/xiaofeng/facebook/sparsify/cs281sec09/" + graphname+".ncol")
     decide_block_num(networkx.read_edgelist(graphname + ".ncol"), graphname)
 
 
