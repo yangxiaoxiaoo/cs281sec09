@@ -21,7 +21,8 @@ with open("blocksizes.txt", 'r')as frefer:
         processed.add(line.split(' ')[0])
 for f in files:
     if f.strip('.lgl') not in processed:
-        queue_this_time.append(f)
+        if f.split('.')[1] == 'lgl':
+            queue_this_time.append(f)
 
 machines = ["achtung%02i" % (x) for x in range(2, 12)]
 
