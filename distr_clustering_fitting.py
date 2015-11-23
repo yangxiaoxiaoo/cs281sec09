@@ -28,7 +28,7 @@ for i, machine in enumerate(machines):
   cmd = ['ssh',
          machine,
          'python',
-         'Graph_louvain.py',
+         '/home/xiaofeng/facebook/sparsify/cs281sec09/Graph_louvain.py',
          queue_this_time[i]
          ]
 
