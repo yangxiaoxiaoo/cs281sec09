@@ -18,6 +18,6 @@ for f in files:
 
 for i in range(0, len(queue_this_time)):
     graphfile = os.path.join(path, queue_this_time[i])
-    subprocess.check_call('python',
+    subprocess.check_call(['python',
          '/home/xiaofeng/facebook/sparsify/cs281sec09/Graph_louvain.py',
-         graphfile)
+         graphfile])
