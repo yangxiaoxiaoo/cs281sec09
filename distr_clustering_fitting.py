@@ -27,16 +27,17 @@ machines = ["achtung%02i" % (x) for x in range(2, 12)]
 
 procs = []
 for i, machine in enumerate(machines):
-  cmd = ['ssh',
+    graphfile = os.path.join(path, queue_this_time[i])
+    cmd = ['ssh',
          machine,
          'python',
          '/home/xiaofeng/facebook/sparsify/cs281sec09/Graph_louvain.py',
-         os.path.join(path, queue_this_time[i])
+         graphfile
          ]
 
-  procs.append(subprocess.Popen(cmd))
+    procs.append(subprocess.Popen(cmd))
 
 
 for proc in procs:
-  proc.wait()
+    proc.wait()
 
