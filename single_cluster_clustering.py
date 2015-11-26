@@ -19,7 +19,7 @@ with open("blocksizes.txt", 'r')as frefer:
         processed.add(line.split(' ')[0])
 for f in file_list:
     if f.strip('.lgl') not in processed:
-        if f.split('.')[1] == 'lgl':
+        if len(f.split('.')) == 2 and f.split('.')[1] == 'lgl':
             queue_this_time.append(f)
 
 for i in range(0, len(queue_this_time)):
