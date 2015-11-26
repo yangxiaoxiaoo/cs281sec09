@@ -41,8 +41,9 @@ def decide_block_num(G,name):
 
 
 def partition(graphname):
-    convert(graphname, "/home/xiaofeng/facebook/sparsify/cs281sec09/" + graphname+".ncol")
-    decide_block_num(networkx.read_edgelist(graphname + ".ncol"), graphname)
+    shortname = graphname.split('/')[-1].strip('.lgl')
+    convert(graphname, "/home/xiaofeng/facebook/sparsify/cs281sec09/" + shortname + ".ncol")
+    decide_block_num(networkx.read_edgelist(shortname + ".ncol"), shortname)
 
 
 if __name__ == "__main__":
