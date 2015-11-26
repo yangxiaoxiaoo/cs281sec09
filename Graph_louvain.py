@@ -37,7 +37,7 @@ def decide_block_num(G,name):
     sizes.sort()
     print sizes
     with open("blocksizes.txt", 'a') as fout:
-        fout.write(str(name)+ ' ' + str(sizes))
+        fout.write(str(name)+ ' ' + str(sizes)+'\n')
 
 
 def partition(name):

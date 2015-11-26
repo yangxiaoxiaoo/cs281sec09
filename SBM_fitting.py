@@ -30,6 +30,7 @@ def fit_blocks(R, A):
     fout.write( "R=" + str(R) +":" +str(f_trace) +" "+ str(theta_trace) +" "+ str(lp_trace) +"\n")
     fout.close()
 
+
 def main():
     G = networkx.read_edgelist("MontereyBay_list.txt")
     A = np.asarray(networkx.to_numpy_matrix(G))
