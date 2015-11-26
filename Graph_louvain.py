@@ -5,7 +5,7 @@ import networkx
 
 
 '''
-usage: python Graph_louvain.py Egypy_2008.lgl
+usage: python Graph_louvain.py /home/cbw/sbm/fb/Egypy_2008.lgl
 will append result into output file "blocksizes.txt"
 '''
 
@@ -40,9 +40,8 @@ def decide_block_num(G,name):
         fout.write(str(name)+ ' ' + str(sizes)+'\n')
 
 
-def partition(name):
-    graphname = name.strip(".lgl")
-    convert("/home/cbw/sbm/fb/"+ graphname + ".lgl", "/home/xiaofeng/facebook/sparsify/cs281sec09/" + graphname+".ncol")
+def partition(graphname):
+    convert(graphname, "/home/xiaofeng/facebook/sparsify/cs281sec09/" + graphname+".ncol")
     decide_block_num(networkx.read_edgelist(graphname + ".ncol"), graphname)
 
 
