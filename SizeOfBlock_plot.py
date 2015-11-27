@@ -24,7 +24,7 @@ with open(fin, 'r') as blockfile:
         for string_value in values:
             if int(string_value) >= cut_off:
                 large_count += 1
-        node_num = sum(map(int(), values))
+        node_num = sum(map(lambda x: int(x), values))
         nodenum_list.append(node_num)
         largest_list.append(max_cluster)
         blocknum_list.append(large_count)
