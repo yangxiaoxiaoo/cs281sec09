@@ -3,8 +3,10 @@ since non-facebook graphs dont have a clear cut-off value,
 using a hard cut-off function to decide sizes
 '''
 
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-plt.use('Agg')
+
 
 def cut_off_function(max):
     #decide the cut off value of a max size of clusters
