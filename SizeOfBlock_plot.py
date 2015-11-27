@@ -2,8 +2,9 @@
 since non-facebook graphs dont have a clear cut-off value,
 using a hard cut-off function to decide sizes
 '''
-import numpy as np
+
 import matplotlib.pyplot as plt
+plt.use('Agg')
 
 def cut_off_function(max):
     #decide the cut off value of a max size of clusters
@@ -28,8 +29,9 @@ with open(fin, 'r') as blockfile:
         nodenum_list.append(node_num)
         largest_list.append(max_cluster)
         blocknum_list.append(large_count)
-        outfile = open('blocknumbers_auto200.txt', 'a')
-        outfile.write(str(name) + ' ' + str(large_count)+ '\n')
+
+      #  outfile = open('blocknumbers_auto200.txt', 'a')
+      #  outfile.write(str(name) + ' ' + str(large_count)+ '\n')
 
 plt.scatter(nodenum_list, blocknum_list,color='red')
 plt.savefig("plot_nodenum_blocknum.pdf", facecolor='w', edgecolor='w',orientation='portrait')
