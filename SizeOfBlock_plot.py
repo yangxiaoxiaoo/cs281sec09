@@ -18,7 +18,7 @@ with open(fin, 'r') as blockfile:
     for line in blockfile:
         name = line.split(' ')[0]
         large_count = 0
-        values = line.strip(name + ' ').strip('[').strip(']').split(',')
+        values = line.strip(name + ' ').strip('[').strip(']\n').split(',')
         max_cluster = int(values[-1])
         cut_off = cut_off_function(max_cluster)
         for string_value in values:
