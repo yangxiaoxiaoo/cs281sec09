@@ -54,6 +54,7 @@ def testrun():
 
         for proc in procs:
             proc.wait()
+        print len(list)
 
 
 if __name__ == "__main__":
