@@ -37,7 +37,7 @@ def main(Graphname, blocksize):
     G = networkx.read_edgelist("/home/xiaofeng/facebook/sparsify/cs281sec09/" + Graphname + "ncol")
     A = np.asarray(networkx.to_numpy_matrix(G))
     print A.shape
-    fit_blocks(blocksize, A, Graphname)
+    fit_blocks(int(blocksize), A, Graphname)
 
 
 if __name__ == "__main__":

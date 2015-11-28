@@ -13,7 +13,7 @@ def main():
     blocksizes = list()
     for line in fin:
         Graphname = line.split(' ')[0]
-        blocksize = int(line.split(' ')[1])
+        blocksize = line.split(' ')[1]
         Graphnames.append(Graphname)
         blocksizes.append(blocksize)
 
