@@ -1,4 +1,5 @@
 '''community not installed on other clusters!
+for all facebook graphs, do louvain clustering, white cluster size into an output file "blocksizes.txt"
 '''
 
 import os

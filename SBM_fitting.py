@@ -4,19 +4,20 @@ import matplotlib.pyplot as plt
 import scipy
 import scipy.special
 import numpy as np
+import sys
 
 
 
 
 '''
 Using MCMC to fit SBM model parameters
-only do fitting
+usage: SBM_fitting.py Graphname blocksize
 '''
 
 
 
-def fit_blocks(R, A):
-
+def fit_blocks(R, A, Graphname):
+    #the set is prior
     b1 = 0.5
     b0 = 0.5
     a  = 0.7
@@ -24,25 +25,20 @@ def fit_blocks(R, A):
     model = StochasticBlockModel(R, b0, b1, alpha0)
     #starting with a set of prior. --may choose them to accelerate converging
 
-    f_trace, theta_trace, lp_trace = fit_network(A, model, x0=None, N_iter=50, callback=None, pause=False)
+    f_trace, theta_trace, lp_trace = fit_network(A, model, x0=None, N_iter=3, callback=None, pause=False)
 
-    fout = open("SBM_fit_MontereyBay_16blocks.txt", "a")
-    fout.write( "R=" + str(R) +":" +str(f_trace) +" "+ str(theta_trace) +" "+ str(lp_trace) +"\n")
+    fout = open("SBM_fit_all.txt", "a")
+    fout.write(Graphname + ";; " + "theta_trace:" + str(theta_trace) + ";; lp_trace:" + str(lp_trace) + "\n")
     fout.close()
 
 
-def main():
-    G = networkx.read_edgelist("MontereyBay_list.txt")
+def main(Graphname, blocksize):
+    #ith machine's
+    G = networkx.read_edgelist("/home/xiaofeng/facebook/sparsify/cs281sec09/" + Graphname + "ncol")
     A = np.asarray(networkx.to_numpy_matrix(G))
     print A.shape
- #   R = decide_block_num(G)
-  #  fit_blocks(R)
-    fit_blocks(16, A)
-
-
-
+    fit_blocks(blocksize, A, Graphname)
 
 
 if __name__ == "__main__":
-
-    main()
+    main(sys.argv[1], sys.argv[2])
