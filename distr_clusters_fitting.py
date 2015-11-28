@@ -37,8 +37,11 @@ def main():
 
         for proc in procs:
             proc.wait()
+
+
 def testrun():
     #test run on machines to see if queue works
+    #passed
     machines = ["achtung%02i" % (x) for x in range(2, 12)]
 
     list = [1,2,3,4,5,6,7, 8,9,10,11,12,13,14,15,16,17]
@@ -62,5 +65,7 @@ def testrun():
 
 
 if __name__ == "__main__":
-    #main()
-    testrun()
+    main()
+
+
+   # testrun()

@@ -27,7 +27,7 @@ def fit_blocks(R, A, Graphname):
 
     f_trace, theta_trace, lp_trace = fit_network(A, model, x0=None, N_iter=3, callback=None, pause=False)
 
-    fout = open("SBM_fit_all.txt", "a")
+    fout = open("SBM_fit_all_3iter.txt", "a")
     fout.write(Graphname + ";; " + "theta_trace:" + str(theta_trace) + ";; lp_trace:" + str(lp_trace) + "\n")
     fout.close()
 
