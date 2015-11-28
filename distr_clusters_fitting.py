@@ -49,11 +49,15 @@ def testrun():
             index = list.pop()
             print "in cmd there will be :" + str(index)
             cmd = ['ssh',
-                machine]
+                machine,
+                'python',
+                '/home/xiaofeng/facebook/sparsify/cs281sec09/SBM_fitting.py'
+                ]
             procs.append(subprocess.Popen(cmd))
 
         for proc in procs:
             proc.wait()
+
         print len(list)
 
 
