@@ -22,12 +22,8 @@ def fit_blocks(R, A, Graphname):
     b0 = 0.5
     a  = 0.7#initial value of unified block membership
 
-    #causing memeory error here, try sparse one
 
     alpha0 = a*np.ones(R)
-    sparse_alpha = sparse.csr_matrix(alpha0)
-    print "allocating memory success"
-
     model = StochasticBlockModel(R, b0, b1, alpha0)
     #starting with a set of prior. --may choose them to accelerate converging
 
@@ -41,7 +37,14 @@ def fit_blocks(R, A, Graphname):
 def main(Graphname, blocksize):
     #ith machine's
     G = networkx.read_edgelist("/home/xiaofeng/facebook/sparsify/cs281sec09/" + Graphname + ".ncol")
-    A = np.asarray(networkx.to_numpy_matrix(G))
+
+    matrix = networkx.to_numpy_matrix(G)
+
+    matrix2 = networkx.to_scipy_sparse_matrix(G)
+    print "allocating memory to matrix success"
+
+    #causing memeory error here, try sparse one
+    A = np.asarray(matrix)
     print A.shape
     fit_blocks(int(blocksize), A, Graphname)
 
