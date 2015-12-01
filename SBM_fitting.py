@@ -44,7 +44,8 @@ def main(Graphname, blocksize):
     matrix = networkx.to_scipy_sparse_matrix(G)
     print "allocating memory to matrix success"
 
-    A = np.asarray(matrix)
+   # A = np.asarray(matrix)
+    A = matrix
     print A.shape
     fit_blocks(int(blocksize), A, Graphname)
 
