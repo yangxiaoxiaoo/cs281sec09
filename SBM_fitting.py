@@ -38,12 +38,12 @@ def main(Graphname, blocksize):
     #ith machine's
     G = networkx.read_edgelist("/home/xiaofeng/facebook/sparsify/cs281sec09/" + Graphname + ".ncol")
 
-    matrix = networkx.to_numpy_matrix(G)
+  #causing memeory error here, try sparse one
+   # matrix = networkx.to_numpy_matrix(G)
 
-    matrix2 = networkx.to_scipy_sparse_matrix(G)
+    matrix = networkx.to_scipy_sparse_matrix(G)
     print "allocating memory to matrix success"
 
-    #causing memeory error here, try sparse one
     A = np.asarray(matrix)
     print A.shape
     fit_blocks(int(blocksize), A, Graphname)
