@@ -1,7 +1,7 @@
 from graph_models import *
 import networkx
 import matplotlib.pyplot as plt
-import scipy
+from scipy import sparse
 import scipy.special
 import numpy as np
 import sys
@@ -20,8 +20,14 @@ def fit_blocks(R, A, Graphname):
     #the set is prior
     b1 = 0.5
     b0 = 0.5
-    a  = 0.7
+    a  = 0.7#initial value of unified block membership
+
+    #causing memeory error here, try sparse one
+
     alpha0 = a*np.ones(R)
+    sparse_alpha = sparse.csr_matrix(alpha0)
+    print "allocating memory success"
+
     model = StochasticBlockModel(R, b0, b1, alpha0)
     #starting with a set of prior. --may choose them to accelerate converging
 
