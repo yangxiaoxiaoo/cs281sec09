@@ -58,7 +58,7 @@ and record for each graph a file in "nnum-enum-nlist" with
 cluster index, cluster node numbers, cluster edge numbers, who is in cluster.
 '''
     shortname = str(graph.split('/')[-1].strip('.ncol'))
-    partition = community.best_partition(graph)
+    partition = community.best_partition(networkx.read_edgelist(graph))
     sizes = list()
     for com in set(partition.values()):
         count = count + 1.
