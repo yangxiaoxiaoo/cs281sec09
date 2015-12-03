@@ -37,18 +37,19 @@ def fit_blocks(R, A, Graphname):
 def main(Graphname, blocksize):
     #ith machine's
     G = networkx.read_edgelist("/home/xiaofeng/facebook/sparsify/cs281sec09/" + Graphname + ".ncol")
-
+  #  G = networkx.read_edgelist("./" + Graphname + ".ncol")
   #causing memeory error here, try sparse one
-   # matrix = networkx.to_numpy_matrix(G)
+  #  matrix = networkx.to_numpy_matrix(G)
 
     matrix = networkx.to_scipy_sparse_matrix(G)
     print "allocating memory to matrix success"
 
-   # A = np.asarray(matrix)
+ #   A = np.asarray(matrix)
     A = matrix
     print A.shape
     fit_blocks(int(blocksize), A, Graphname)
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    main
+   # main("Test", 3)

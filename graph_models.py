@@ -7,6 +7,8 @@ Scott Linderman
 
 import numpy as np
 from scipy.special import betaln
+from scipy.sparse import *
+from scipy import *
 import matplotlib.pyplot as plt
 
 import string 
@@ -281,22 +283,22 @@ class StochasticBlockModel(AldousHooverNetwork):
         for r in rrange:
             zother[n] = r
             # Block IDs of nodes we connect to 
-            o1 = A[n,:]
-            if np.any(A[n,:]):
+            o1 = A[n,:].toarray().flatten()
+            if np.any(o1):
                 ln_pi_post[r] += np.sum(np.log(B[np.ix_([r],zother[o1])]))
-            
+
             # Block IDs of nodes we don't connect to
-            o2 = np.logical_not(A[n,:])
+            o2 = np.logical_not(o1)
             if np.any(o2):
                 ln_pi_post[r] += np.sum(np.log(1-B[np.ix_([r],zother[o2])]))
             
             # Block IDs of nodes that connect to us
-            i1 = A[:,n]
+            i1 = A[:,n].toarray().flatten()
             if np.any(i1):
                 ln_pi_post[r] += np.sum(np.log(B[np.ix_(zother[i1],[r])]))
 
             # Block IDs of nodes that do not connect to us
-            i2 = np.logical_not(A[:,n])
+            i2 = np.logical_not(i1)
             if np.any(i2):
                 ln_pi_post[r] += np.sum(np.log(1-B[np.ix_(zother[i2],[r])]))
             
@@ -374,10 +376,16 @@ class StochasticBlockModel(AldousHooverNetwork):
                 for r2 in np.arange(self.R):
                     b0post = self.b0
                     b1post = self.b1
-                    
-                    Ar1r2 = A[np.ix_(z==r1, z==r2)]
+
+                    Ar1r2_pre = (A[np.ix_(z==r1, z==r2)])
+                   # print type(Ar1r2_pre)
+                    if isinstance(Ar1r2_pre, csr.csr_matrix):
+                        Ar1r2 = Ar1r2_pre.toarray()
+                    else:
+                        Ar1r2 = np.array([])
+
                     if np.size(Ar1r2) > 0:
-                        b0post += np.sum(1-Ar1r2)
+                        b0post += np.sum(1 - Ar1r2)
                         b1post += np.sum(Ar1r2)
                     
                     if __BUG1__:
