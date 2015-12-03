@@ -51,5 +51,5 @@ def main(Graphname, blocksize):
 
 
 if __name__ == "__main__":
-    main
+    main(sys.argv[1], sys.argv[2])
    # main("Test", 3)
