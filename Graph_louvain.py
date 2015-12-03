@@ -58,6 +58,7 @@ and record for each graph a file in "nnum-enum-nlist" with
 cluster index, cluster node numbers, cluster edge numbers, who is in cluster.
 '''
     shortname = str(graph.split('/')[-1].strip('.ncol'))
+    nxgraph = networkx.read_edgelist(graph)
     partition = community.best_partition(networkx.read_edgelist(graph))
     sizes = list()
     count = 0
@@ -66,7 +67,7 @@ cluster index, cluster node numbers, cluster edge numbers, who is in cluster.
         list_nodes = [nodes for nodes in partition.keys() if partition[nodes] == com]
         size_com = len(list_nodes)
         sizes.append(size_com)
-        numedges = networkx.number_of_edges(graph.subgraph(list_nodes))
+        numedges = networkx.number_of_edges(nxgraph.subgraph(list_nodes))
         with open("/net/data/graph-models/louvain-clusters/nnum-enum-nlist/" + shortname +".density", 'a') as fout1:
             fout1.write(str(count) +' ' + str(size_com) + ' ' + str(numedges) + str(list_nodes) + '\n')
     sizes.sort()
