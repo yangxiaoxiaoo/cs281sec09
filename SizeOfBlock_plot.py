@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 def cut_off_function(sum):
     #decide the cut off value of a max size of clusters
-    return int(sum * 0.8)
+    return int(sum * (1 - 0.9))
 
 nodenum_list = list()
 largest_list = list()
@@ -26,10 +26,10 @@ with open(fin, 'r') as blockfile:
         node_num = sum(map(lambda x: int(x), values))
         max_cluster = int(values[-1])
         cut_off = cut_off_function(node_num)
-        covered = 0
+        non_covered = 0
         for string_value in values:
-            if covered <= cut_off:
-                covered += int(string_value)
+            if non_covered < cut_off:
+                non_covered += int(string_value)
                 cut_off_size = int(string_value)
             else:
                 large_count += 1
