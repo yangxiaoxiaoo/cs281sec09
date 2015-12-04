@@ -22,7 +22,7 @@ with open(fin, 'r') as blockfile:
     for line in blockfile:
         name = line.split(' ')[0]
         large_count = 0
-        values = line.strip(name + ' ').strip('[').strip(']\n').split(',')
+        values = line.strip(name + ' ').strip('[').strip(']\n').split(',').reverse()
         node_num = sum(map(lambda x: int(x), values))
         max_cluster = int(values[-1])
         cut_off = cut_off_function(node_num)
