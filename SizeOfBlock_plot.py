@@ -66,8 +66,8 @@ def plot_density():
             min_size_interested = line.split(' ')[2]
             with open("/net/data/graph-models/louvain-clusters/nnum-enum-nlist/" + name + ".density", 'r') as fin2:
                 for line in fin2:
-                    node_num = line.split(' ')[1]
-                    edge_num = line.split(' ')[2]
+                    node_num = int(line.split(' ')[1])
+                    edge_num = int(line.split(' ')[2].split('[')[0])
                     if node_num > min_size_interested:
                         bigger_node_sizes.append(node_num)
                         bigger_edge_sizes.append(edge_num)
