@@ -16,8 +16,8 @@ nodenum_list = list()
 largest_list = list()
 blocknum_list = list()
 
-fin = 'blocksizes.txt'
-fout = "blocknum_threshold_90.txt"
+fin = '/net/data/graph-models/louvain-clusters/blocksizes_new.txt'
+fout = "/net/data/graph-models/louvain-clusters/blocknum_threshold_90.txt"
 with open(fin, 'r') as blockfile:
     for line in blockfile:
         name = line.split(' ')[0]
