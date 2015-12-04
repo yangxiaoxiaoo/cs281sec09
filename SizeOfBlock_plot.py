@@ -8,35 +8,42 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
-def cut_off_function(max):
+def cut_off_function(sum):
     #decide the cut off value of a max size of clusters
-    return int(max/200)
+    return int(sum * 0.9)
 
 nodenum_list = list()
 largest_list = list()
 blocknum_list = list()
 
 fin = 'blocksizes.txt'
+fout = "blocknum_threshold_90.txt"
 with open(fin, 'r') as blockfile:
     for line in blockfile:
         name = line.split(' ')[0]
         large_count = 0
         values = line.strip(name + ' ').strip('[').strip(']\n').split(',')
-        max_cluster = int(values[-1])
-        cut_off = cut_off_function(max_cluster)
-        for string_value in values:
-            if int(string_value) >= cut_off:
-                large_count += 1
         node_num = sum(map(lambda x: int(x), values))
+        max_cluster = int(values[-1])
+        cut_off = cut_off_function(node_num)
+        covered = 0
+        for string_value in values:
+            if covered <= cut_off:
+                covered += int(string_value)
+                large_count += 1
+                cut_off_size = int(string_value)
+
         nodenum_list.append(node_num)
         largest_list.append(max_cluster)
         blocknum_list.append(large_count)
+        outf = open(fout, 'a')
+        outf.write(name + ' '+ str(large_count) +' '+ str(cut_off_size) + "\n")
 
       #  outfile = open('blocknumbers_auto200.txt', 'a')
       #  outfile.write(str(name) + ' ' + str(large_count)+ '\n')
 
-plt.scatter(nodenum_list, blocknum_list,color='red')
-plt.savefig("plot_nodenum_blocknum.pdf", facecolor='w', edgecolor='w',orientation='portrait')
+#plt.scatter(nodenum_list, blocknum_list,color='red')
+#plt.savefig("plot_nodenum_blocknum.pdf", facecolor='w', edgecolor='w',orientation='portrait')
 
-plt.scatter(nodenum_list, largest_list,color='blue')
-plt.savefig("plot_nodenum_largest.pdf", facecolor='w', edgecolor='w',orientation='portrait')
+#plt.scatter(nodenum_list, largest_list,color='blue')
+#plt.savefig("plot_nodenum_largest.pdf", facecolor='w', edgecolor='w',orientation='portrait')
