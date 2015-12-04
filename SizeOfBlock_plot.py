@@ -80,7 +80,7 @@ def plot_density():
     plt.savefig("plot_clusterdensity.pdf", facecolor='w', edgecolor='w',orientation='portrait')
 
 
-
-if __name__ == "__main()__":
+if __name__ == "__main__":
     #cut_cover90()
+
     plot_density()
