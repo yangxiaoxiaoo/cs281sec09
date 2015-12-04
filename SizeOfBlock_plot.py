@@ -22,7 +22,7 @@ with open(fin, 'r') as blockfile:
     for line in blockfile:
         name = line.split(' ')[0]
         large_count = 0
-        values = line.strip(name + ' ').strip('[').strip(']\n').split(',').reverse()
+        values = line.strip(name + ' ').strip('[').strip(']\n').split(',')
         node_num = sum(map(lambda x: int(x), values))
         max_cluster = int(values[-1])
         cut_off = cut_off_function(node_num)
@@ -30,8 +30,10 @@ with open(fin, 'r') as blockfile:
         for string_value in values:
             if covered <= cut_off:
                 covered += int(string_value)
-                large_count += 1
                 cut_off_size = int(string_value)
+            else:
+                large_count += 1
+
 
         nodenum_list.append(node_num)
         largest_list.append(max_cluster)
