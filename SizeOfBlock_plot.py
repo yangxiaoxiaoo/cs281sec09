@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 def cut_off_function(sum):
     #decide the cut off value of a max size of clusters
-    return int(sum * 0.9)
+    return int(sum * 0.8)
 
 nodenum_list = list()
 largest_list = list()
