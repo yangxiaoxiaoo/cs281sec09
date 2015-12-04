@@ -73,7 +73,7 @@ def plot_density():
                     else:
                         smaller_node_sizes.append(node_num)
                         smaller_edge_sizes.append(edge_num)
-
+            print name
     plt.scatter(bigger_node_sizes, bigger_edge_sizes,color='red')
     plt.scatter(smaller_node_sizes, smaller_edge_sizes,color='blue')
     plt.savefig("plot_clusterdensity.pdf", facecolor='w', edgecolor='w',orientation='portrait')
