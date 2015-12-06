@@ -96,6 +96,6 @@ def plot_density():
 
 
 if __name__ == "__main__":
-    cut_cover90()
+    #cut_cover90()
 
-    #plot_density()
+    plot_density()
