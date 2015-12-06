@@ -6,6 +6,7 @@ using a hard cut-off function to decide sizes
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import math
 
 
 def cut_cover90():
@@ -75,6 +76,20 @@ def plot_density():
                         smaller_node_sizes.append(node_num)
                         smaller_edge_sizes.append(edge_num)
 
+    #plot a boundary of dense/sparse region
+    def simulate_boundary(node_max, edge_max):
+        list_of_node_size = list()
+        list_of_edge_size = list()
+        for n in range(1, 10, node_max):
+            rho = 1014 * math.log(n) / 0.38
+            m = 2 * rho * n
+            list_of_edge_size.append(n)
+            list_of_edge_size.append(m)
+        return (list_of_node_size, list_of_edge_size)
+
+
+    list_of_node_size, list_of_edge_size = simulate_boundary(max(bigger_node_sizes), max(bigger_edge_sizes))
+    plt.plot(list_of_node_size, list_of_edge_size)
     plt.scatter(bigger_node_sizes, bigger_edge_sizes,color='red')
     plt.scatter(smaller_node_sizes, smaller_edge_sizes,color='blue')
     plt.savefig("plot_clusterdensity.pdf", facecolor='w', edgecolor='w',orientation='portrait')
