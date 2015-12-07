@@ -84,8 +84,9 @@ def plot_density():
         for n in range(1, node_max):
             rho = 1014 * math.log(n) / 0.38
             m = 2 * rho * n
-            list_of_node_size.append(n)
-            list_of_edge_size.append(m)
+            if m < edge_max:
+                list_of_node_size.append(n)
+                list_of_edge_size.append(m)
         print len(list_of_edge_size)
         print len(list_of_node_size)
         return list_of_node_size, list_of_edge_size
@@ -94,7 +95,7 @@ def plot_density():
     list_of_node_size, list_of_edge_size = simulate_boundary(max(bigger_node_sizes), max(bigger_edge_sizes))
     print len(list_of_edge_size)
     print len(list_of_node_size)
-    plt.plot(np.array(list_of_node_size), np.array(list_of_edge_size))
+    plt.plot(np.array(list_of_node_size), np.array(list_of_edge_size), color = 'green')
     plt.scatter(bigger_node_sizes, bigger_edge_sizes,color='red')
     plt.scatter(smaller_node_sizes, smaller_edge_sizes,color='blue')
     plt.savefig("plot_clusterdensity.pdf", facecolor='w', edgecolor='w',orientation='portrait')
