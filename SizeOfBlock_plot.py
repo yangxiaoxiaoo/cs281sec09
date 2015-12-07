@@ -90,6 +90,8 @@ def plot_density():
 
 
     list_of_node_size, list_of_edge_size = simulate_boundary(max(bigger_node_sizes), max(bigger_edge_sizes))
+    print len(list_of_edge_size)
+    print len(list_of_node_size)
     plt.plot(np.array(list_of_node_size), np.array(list_of_edge_size))
     plt.scatter(bigger_node_sizes, bigger_edge_sizes,color='red')
     plt.scatter(smaller_node_sizes, smaller_edge_sizes,color='blue')
