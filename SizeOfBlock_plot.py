@@ -86,7 +86,9 @@ def plot_density():
             m = 2 * rho * n
             list_of_edge_size.append(n)
             list_of_edge_size.append(m)
-        return (list_of_node_size, list_of_edge_size)
+        print len(list_of_edge_size)
+        print len(list_of_node_size)
+        return list_of_node_size, list_of_edge_size
 
 
     list_of_node_size, list_of_edge_size = simulate_boundary(max(bigger_node_sizes), max(bigger_edge_sizes))
