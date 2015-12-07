@@ -5,6 +5,7 @@ from scipy import sparse
 import scipy.special
 import numpy as np
 import sys
+import Queue
 
 
 
@@ -35,8 +36,11 @@ def fit_blocks(R, A, Graphname):
 
 
 def main(Graphname, blocksize):
-    #ith machine's
-    G = networkx.read_edgelist("/home/xiaofeng/facebook/sparsify/cs281sec09/" + Graphname + ".ncol")
+    #decepticons:
+    G = networkx.read_edgelist("~/graph-models/realgraph/" + Graphname + ".ncol")
+
+ #achtung only:   G = networkx.read_edgelist("/home/xiaofeng/facebook/sparsify/cs281sec09/" + Graphname + ".ncol")
+
   #  G = networkx.read_edgelist("./" + Graphname + ".ncol")
   #causing memeory error here, try sparse one
   #  matrix = networkx.to_numpy_matrix(G)

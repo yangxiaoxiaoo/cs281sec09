@@ -5,6 +5,8 @@ import subprocess
 based on the auto-decided block size, fit SBM
 distribute into multiple achtung threads
 do 3 iterations
+
+on achtung machines, graph data is at net-file-system, while on the decepticons should be new place
 '''
 
 def main():
@@ -17,21 +19,51 @@ def main():
         Graphnames.append(Graphname)
         blocksizes.append(blocksize)
 
-    machines = ["achtung%02i" % (x) for x in range(2, 12)]
+ #   machines = ["achtung%02i" % (x) for x in range(2, 12)]
+    machines = ['bonecrusher',
+                'hook',
+                'longhaul',
+                'mixmaster',
+                'scrapper',
+                'scavenger'
+                ]
 
 
 
     while len(Graphnames) >= 1:
         procs = []
         for i, machine in enumerate(machines):
-            Graphname = Graphnames.pop()
-            blocksize = blocksizes.pop()
+            Graphname1 = Graphnames.pop()
+            blocksize1 = blocksizes.pop()
+            Graphname2 = Graphnames.pop()
+            blocksize2 = blocksizes.pop()
+            Graphname3 = Graphnames.pop()
+            blocksize3 = blocksizes.pop()
+            Graphname4 = Graphnames.pop()
+            blocksize4 = blocksizes.pop()
             cmd = ['ssh',
                 machine,
                 'python',
-                '/home/xiaofeng/facebook/sparsify/cs281sec09/SBM_fitting.py',
-                Graphname,
-                blocksize
+                '~/graph-models/SBM_fitting.py',
+                Graphname1,
+                blocksize1,
+                   '|',
+                   'python',
+                '~/graph-models/SBM_fitting.py',
+                Graphname2,
+                blocksize2,
+                   '|',
+                   'python',
+                '~/graph-models/SBM_fitting.py',
+                Graphname3,
+                blocksize3,
+                   '|',
+                   'python',
+                '~/graph-models/SBM_fitting.py',
+                Graphname4,
+                blocksize4,
+
+
                 ]
             procs.append(subprocess.Popen(cmd))
 
