@@ -84,7 +84,7 @@ def plot_density():
         for n in range(1, node_max):
             rho = 1014 * math.log(n) / 0.38
             m = 2 * rho * n
-            if m < edge_max:
+            if m < 10 * edge_max:
                 list_of_node_size.append(n)
                 list_of_edge_size.append(m)
         print len(list_of_edge_size)
