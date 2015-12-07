@@ -64,7 +64,7 @@ def plot_density():
         for line in fin:
             name = line.split(' ')[0]
             print name
-            min_size_interested = line.split(' ')[2]
+            min_size_interested = int(line.split(' ')[2])
             with open("/net/data/graph-models/louvain-clusters/nnum-enum-nlist/" + name + ".density", 'r') as fin2:
                 for line in fin2:
                     node_num = int(line.split(' ')[1])
