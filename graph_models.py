@@ -9,12 +9,9 @@ import numpy as np
 from scipy.special import betaln
 from scipy.sparse import *
 from scipy import *
-import matplotlib.pyplot as plt
-
 import string 
 import logging
 import copy
-
 from sample_utils import *
 #from elliptical_slice import *
 #from hmc import *
