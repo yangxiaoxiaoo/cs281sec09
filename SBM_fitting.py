@@ -37,7 +37,7 @@ def fit_blocks(R, A, Graphname):
 
 def main(Graphname, blocksize):
     #decepticons:
-    G = networkx.read_edgelist("~/graph-models/realgraph/" + Graphname + ".ncol")
+    G = networkx.read_edgelist("/home/xiaofeng/graph-models/realgraph/" + Graphname + ".ncol")
 
  #achtung only:   G = networkx.read_edgelist("/home/xiaofeng/facebook/sparsify/cs281sec09/" + Graphname + ".ncol")
 
