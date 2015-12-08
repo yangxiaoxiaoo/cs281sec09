@@ -95,9 +95,14 @@ def plot_density():
     list_of_node_size, list_of_edge_size = simulate_boundary(max(bigger_node_sizes), max(bigger_edge_sizes))
     print len(list_of_edge_size)
     print len(list_of_node_size)
-    plt.plot(np.array(list_of_node_size), np.array(list_of_edge_size), color = 'green')
-    plt.scatter(bigger_node_sizes, bigger_edge_sizes,color='red')
-    plt.scatter(smaller_node_sizes, smaller_edge_sizes,color='blue')
+    sparse_region = plt.plot(np.array(list_of_node_size), np.array(list_of_edge_size), color = 'green',label = 'dense/sparse boundary')
+    bigger = plt.scatter(bigger_node_sizes, bigger_edge_sizes,color='red')
+    smaller = plt.scatter(smaller_node_sizes, smaller_edge_sizes,color='blue')
+    plt.yscale('log')
+    plt.ylabel('number of edges')
+    plt.xscale('log')
+    plt.xlabel('number of nodes')
+    plt.legend([sparse_region, (bigger, smaller)], ["bigger clusters 90%nodes","smaller clusters 10%nodes"])
     plt.savefig("plot_clusterdensity.pdf", facecolor='w', edgecolor='w',orientation='portrait')
 
 
