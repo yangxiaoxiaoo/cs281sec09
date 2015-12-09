@@ -31,7 +31,7 @@ def check_fit_results():
                 ]
     for machine in machines:
         subprocess.check_call(
-            "ssh " + machine + "cd ~/graph-models/" + "ls",
+            "ssh " + machine + " ls ~/graph-models/",
             shell=True)
 
 
