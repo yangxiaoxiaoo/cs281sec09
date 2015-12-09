@@ -31,7 +31,7 @@ def check_fit_results():
                 ]
     for machine in machines:
         subprocess.check_call(
-            "ssh " + machine + "wc -l ~/graph-models/SBM_fit_all_3iter.txt",
+            "ssh " + machine + "ls ~/graph-models/",
             shell=True)
 
 
