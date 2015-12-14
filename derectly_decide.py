@@ -30,7 +30,6 @@ def main():
                             p_values.append(p)
 
     plt.scatter(bigger_node_sizes, p_values,color='red')
-    plt.yscale('log')
     plt.ylabel('p-value')
     plt.xscale('log')
     plt.xlabel('number of nodes')
