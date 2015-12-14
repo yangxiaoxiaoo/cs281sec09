@@ -21,7 +21,7 @@ def main():
                     edge_num = int(line.split(' ')[2].split('[')[0])
                     if node_num > min_size_interested:
                         complete_num = node_num * (node_num - 1) / 2
-                        p = edge_num / complete_num
+                        p = float(edge_num) / float(complete_num)
                         print p
                         bigger_node_sizes.append(node_num)
                         p_values.append(p)
