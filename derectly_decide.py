@@ -15,7 +15,6 @@ def main():
     with open("/net/data/graph-models/louvain-clusters/blocknum_threshold_90.txt", 'r') as fin:
         for line in fin:
             name = line.split(' ')[0]
-            print name
             min_size_interested = int(line.split(' ')[2])
             with open("/net/data/graph-models/louvain-clusters/nnum-enum-nlist/" + name + ".density", 'r') as fin2:
                 with open("/net/data/graph-models/louvain-clusters/block_paras/" + name + ".pvalue", 'w') as fout:
@@ -28,6 +27,9 @@ def main():
                             fout.write(str(node_num) + ' ' + str(p) + '\n')
                             bigger_node_sizes.append(node_num)
                             p_values.append(p)
+
+                            if p == 1.0:
+                                print name
 
     plt.scatter(bigger_node_sizes, p_values,color='red')
     plt.ylabel('p-value')
