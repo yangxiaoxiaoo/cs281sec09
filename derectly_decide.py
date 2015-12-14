@@ -30,6 +30,7 @@ def main():
 
                             if p == 1.0:
                                 print name
+                                print node_num
 
     plt.scatter(bigger_node_sizes, p_values,color='red')
     plt.ylabel('p-value')
