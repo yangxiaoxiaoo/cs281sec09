@@ -47,40 +47,14 @@ def pre_CDF_title(input_data, point,input_title):
     i = 0
     print x[i]
     fp.write(str(x[i]) + ' '+ str(CDF[i])+'\n')
-    #devide the first bin into 100 more bins:
-    count2 = [0]*point
-    step_len_2 = (x[1]-x[0])/point
-    for i in range(0, N):
-        for j in range(0, point):
 
-            if input_data[i] <= Range_low + step_len_2 * (j+1):
-                count2[j] += 1
-    position = 1
-    for item in count2:
-        x.insert(position,Range_low + position * step_len_2)
-        CDF.insert(position,float(item)/float(N))
-        position += 1
-
-#...pragmatic here
-    count3 = [0]*point
-    step_len_3 = (x[1]-x[0])/point
-    for i in range(0, N):
-        for j in range(0, point):
-
-            if input_data[i] <= Range_low + step_len_3 * (j+1):
-                count3[j] += 1
-    position = 1
-    for item in count3:
-        x.insert(position,Range_low + position * step_len_3)
-        CDF.insert(position,float(item)/float(N))
-        position += 1
 
     print "lenx and len(CDF) = "
     print len(x)
     print len(CDF)
 
 
-    for i in range(1, 3 * point, 1):
+    for i in range(1, point, 1):
         print x[i]
         fp.write(str(x[i]) + ' '+ str(CDF[i])+'\n')
     fp.write(str(Range_up)+' ' + '1'+ '\n')
@@ -105,7 +79,7 @@ def main():
                         p_values.append(p)
 
 
-    pre_CDF_title(p_values, 1000,"cdf_pvalue")
+    pre_CDF_title(p_values, 10000,"cdf_pvalue")
 
 
 
