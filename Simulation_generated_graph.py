@@ -64,7 +64,7 @@ def main():
 
 def plot_np():
 
-    n = 20
+    n = 200
     p = np.arange(0, 0.2, 0.001)
 
     m = p * n *(n-1)/2
@@ -83,50 +83,89 @@ def plot_np():
     Appx1 = m + N_3line + N_2line
     plt.plot(p, Appx1)
     plt.xlabel("p")
-    plt.title("n=20, 1-order approxamation")
+    plt.title("1-order approxamation")
     plt.subplot(212)
     Error1_2 = N_1a + N_1b + N_2a + N_2b + N_2c + N_3
-    plt.plot(p, Error1_2)
+    plt.plot(p, Appx1 - Error1_2)
     plt.xlabel("p")
-    plt.title("n=20, 1-/2- error")
+    plt.title("1-/2- error")
 
-    '''
-    plt.subplot(221)
-    plt.plot(p, N_3line)
-    plt.title("N_3line")
-
-    plt.subplot(222)
-    plt.plot(p, N_2line)
-    plt.title("N_2line")
-
-    plt.subplot(223)
-    plt.plot(p, N_1a)
-    plt.title("N_1a")
-
-    plt.subplot(224)
-    plt.plot(p, N_1b)
-    plt.title("N_1b")
-
-
-    plt.subplot(221)
-    plt.plot(p, N_2a)
-    plt.title("N_2a")
-
-    plt.subplot(222)
-    plt.plot(p, N_2b)
-    plt.title("N_2b")
-
-    plt.subplot(223)
-    plt.plot(p, N_2c)
-    plt.title("N_2c")
-
-    plt.subplot(224)
-    plt.plot(p, N_3)
-    plt.title("N_3")
-'''
 
     plt.show()
 
+
+def plot_2appro():
+    n = 500
+    p = np.arange(0.001, 0.2, 0.001)
+    m = p * n *(n-1)/2
+
+    N_3line = 12 * choose(n, 4) * pow(p,3) * pow((1-p),3)
+    N_2line = 3 * choose(n, 3) * pow(p,2) * (1-p)
+    N_1a = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_1b = 3 * choose(n, 3) * pow(p,3)
+    N_2a = 60 * choose(n, 5) * pow(p,5) * pow((1-p),5)
+    N_2b = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_2c = 24 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_3 = 360 * choose(n, 6) * pow(p,6) * pow((1-p),9)
+
+    Error2_3 = (N_1a * N_1b + N_1a * N_2a + N_1a * N_2b + N_1a * N_2c + N_1a* N_3
+                            + N_1b * N_2a + N_1b * N_2b + N_1b * N_2c + N_1b* N_3
+                                          + N_2a * N_2b + N_2a * N_2c + N_2a* N_3
+                                                        + N_2b * N_2c + N_2b* N_3
+                                                                      + N_2c* N_3
+                + pow(N_1a, 2) + pow(N_1b, 2) + pow(N_2a, 2) + pow(N_2b, 2) + pow(N_2c, 2) + pow(N_3, 2)
+     )/m
+
+    Error1_2 = N_1a + N_1b + N_2a + N_2b + N_2c + N_3
+
+    plt.figure(1)
+    '''
+    ax = plt.subplot(311)
+    Appx1 = m + N_3line + N_2line
+    p1, = ax.plot(p, Appx1, label= "1-appr")
+    handles, labels = ax.get_legend_handles_labels()
+    ax.legend(handles, labels)
+    plt.xlabel("p")
+    plt.title("n=" + str(n)+", 1 approxamation")
+
+    ax = plt.subplot(312)
+    Appx1 = m + N_3line + N_2line
+    Error1_2 = N_1a + N_1b + N_2a + N_2b + N_2c + N_3
+    Appx2 = Appx1 - Error1_2
+    p1, = ax.plot(p, Appx1, label= "1-appr")
+    p2, = ax.plot(p, Appx2, label= "2-appr")
+    handles, labels = ax.get_legend_handles_labels()
+    ax.legend(handles, labels)
+    plt.xlabel("p")
+    plt.title("n=" + str(n)+", 1 and 2 approxamation")
+
+    ax = plt.subplot(313)
+    Appx1 = m + N_3line + N_2line
+    Error1_2 = N_1a + N_1b + N_2a + N_2b + N_2c + N_3
+    Appx2 = Appx1 - Error1_2
+    Appx3 = Appx2 + Error2_3
+    p1, = ax.plot(p, Appx1, label= "1-appr")
+    p2, = ax.plot(p, Appx1 - Error1_2, label= "2-appr")
+    p3, = ax.plot(p, Appx3, label= "3-appr")
+    handles, labels = ax.get_legend_handles_labels()
+    ax.legend(handles, labels)
+    plt.xlabel("p")
+    plt.title("n=" + str(n)+", all 3 approxamation orders")
+    '''
+    plt.subplot(211)
+    plt.plot(p, Error1_2)
+    plt.xlabel("p")
+    plt.title("n=" + str(n) +", 1-2 error")
+    plt.subplot(212)
+
+    plt.plot(p, Error2_3)
+    plt.xlabel("p")
+    plt.title("n=" + str(n) +", 2-3 error")
+
+    plt.show()
+
+
 if __name__ == "__main__":
     #main()
-    plot_np()
+    #plot_np()
+    plot_2appro()
