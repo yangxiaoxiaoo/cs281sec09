@@ -36,10 +36,12 @@ def main():
 
     N_list, P_list = Simulation_generated_graph.decidePforN(0.5,max(bigger_node_sizes))
 
-    plt.scatter(bigger_node_sizes, p_values,color='red')
+    nodes = plt.scatter(bigger_node_sizes, p_values,color='red')
+    errorline = plt.plot(N_list, P_list, color="blue")
     plt.ylabel('p-value')
     plt.xscale('log')
     plt.xlabel('number of nodes')
+    plt.legend([(nodes, errorline)], ["90%nodes","0.5errorline"])
     plt.savefig("plot_pvalue_errorline.pdf", facecolor='w', edgecolor='w',orientation='portrait')
 
 
