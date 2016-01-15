@@ -41,7 +41,6 @@ def main():
     plt.ylabel('p-value')
     plt.xscale('log')
     plt.xlabel('number of nodes')
-    plt.legend([(nodes, errorline)], ["90%nodes","0.5errorline"])
     plt.savefig("plot_pvalue_errorline.pdf", facecolor='w', edgecolor='w',orientation='portrait')
 
 
