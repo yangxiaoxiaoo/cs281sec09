@@ -139,7 +139,7 @@ def plot_2appro():
     plt.xlabel("p")
     plt.title("n=" + str(n)+", 1 and 2 approxamation")
 
-    ax = plt.subplot(313)
+    ax = plt.subplot(111)
     Appx1 = m + N_3line + N_2line
     Error1_2 = N_1a + N_1b + N_2a + N_2b + N_2c + N_3
     Appx2 = Appx1 - Error1_2
@@ -148,21 +148,61 @@ def plot_2appro():
     p2, = ax.plot(p, Appx1 - Error1_2, label= "2-appr")
     p3, = ax.plot(p, Appx3, label= "3-appr")
     handles, labels = ax.get_legend_handles_labels()
+    ax.set_yscale('log')
     ax.legend(handles, labels)
     plt.xlabel("p")
     plt.title("n=" + str(n)+", all 3 approxamation orders")
     '''
-    plt.subplot(211)
-    plt.plot(p, Error1_2)
+    err = plt.subplot(111)
+    p1, = err.plot(p, Error1_2, label = "error 1- to 2-")
+    p2, = err.plot(p, Error2_3, label = "error 2- to 3-")
+    handles, labels = err.get_legend_handles_labels()
+    err.set_yscale('log')
+    err.legend(handles, labels)
     plt.xlabel("p")
-    plt.title("n=" + str(n) +", 1-2 error")
-    plt.subplot(212)
+    plt.title("n=" + str(n) +", errors")
 
-    plt.plot(p, Error2_3)
-    plt.xlabel("p")
-    plt.title("n=" + str(n) +", 2-3 error")
 
     plt.show()
+
+def decidePforN(error, Nmax):
+    n = 500
+    p = np.arange(0.001, 0.2, 0.001)
+    m = p * n *(n-1)/2
+
+    N_3line = 12 * choose(n, 4) * pow(p,3) * pow((1-p),3)
+    N_2line = 3 * choose(n, 3) * pow(p,2) * (1-p)
+    N_1a = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_1b = 3 * choose(n, 3) * pow(p,3)
+    N_2a = 60 * choose(n, 5) * pow(p,5) * pow((1-p),5)
+    N_2b = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_2c = 24 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_3 = 360 * choose(n, 6) * pow(p,6) * pow((1-p),9)
+
+    Error2_3 = (N_1a * N_1b + N_1a * N_2a + N_1a * N_2b + N_1a * N_2c + N_1a* N_3
+                            + N_1b * N_2a + N_1b * N_2b + N_1b * N_2c + N_1b* N_3
+                                          + N_2a * N_2b + N_2a * N_2c + N_2a* N_3
+                                                        + N_2b * N_2c + N_2b* N_3
+                                                                      + N_2c* N_3
+                + pow(N_1a, 2) + pow(N_1b, 2) + pow(N_2a, 2) + pow(N_2b, 2) + pow(N_2c, 2) + pow(N_3, 2)
+     )/m
+
+    Appx1 = m + N_3line + N_2line
+    Error1_2 = N_1a + N_1b + N_2a + N_2b + N_2c + N_3
+    Appx2 = Appx1 - Error1_2
+    Appx3 = Appx2 + Error2_3
+
+    N_list = list()
+    P_list = list()
+    for N in range(1,Nmax,step=100):
+        for i in range(1, len(p)):
+            if Appx3[i] > (1 + error)*Appx1[i]:
+                p_diverge = p[i]
+                break
+        N_list.append(N)
+        P_list.append(p_diverge)
+    return N_list, P_list
+
 
 
 if __name__ == "__main__":
