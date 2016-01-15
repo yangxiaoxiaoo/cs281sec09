@@ -194,7 +194,7 @@ def decidePforN(error, Nmax):
 
     N_list = list()
     P_list = list()
-    for N in range(1,Nmax,step=100):
+    for N in range(1,Nmax,100):
         for i in range(1, len(p)):
             if Appx3[i] > (1 + error)*Appx1[i]:
                 p_diverge = p[i]
