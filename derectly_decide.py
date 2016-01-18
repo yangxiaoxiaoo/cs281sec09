@@ -50,15 +50,17 @@ def dataset_select(threshold):
                             interested_p_values.append(p)
 
     nodes = plt.subplot(111)
-    nodes_1 = nodes.scatter(interested_node_sizes, interested_p_values,color='red')
-    nodes_2 = nodes.scatter(other_node_sizes, other_p_values, color='blue')
+    nodes_1 = nodes.scatter(interested_node_sizes, interested_p_values,color='red', label="few blocks coverd datasets")
+    nodes_2 = nodes.scatter(other_node_sizes, other_p_values, color='many blocks covered datasets')
     plt.ylabel('p-value')
     plt.xscale('log')
     plt.xlabel('number of nodes')
     handles, labels = nodes.get_legend_handles_labels()
     plt.legend(handles, labels)
     plt.savefig("plot_pvalues_threshold" +str(threshold) +".pdf", facecolor='w', edgecolor='w',orientation='portrait')
-
+    print(len(dataset_names))
+    for item in dataset_names:
+        print item
 
 
 def main():
