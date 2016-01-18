@@ -50,8 +50,8 @@ def dataset_select(threshold):
                             interested_p_values.append(p)
 
     nodes = plt.subplot(111)
-    nodes_1, = nodes.scatter(interested_node_sizes, interested_p_values,color='red', label="few blocks coverd datasets")
-    nodes_2, = nodes.scatter(other_node_sizes, other_p_values, color="blue", label= 'many blocks covered datasets')
+    nodes_1, = nodes.scatter(interested_node_sizes, interested_p_values,color='red', label="fewblocks")
+    nodes_2, = nodes.scatter(other_node_sizes, other_p_values, color="blue", label= 'manyblocks')
     plt.ylabel('p-value')
     plt.xscale('log')
     plt.xlabel('number of nodes')
