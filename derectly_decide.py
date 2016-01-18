@@ -86,8 +86,8 @@ def main():
 
     N_list, P_list = Simulation_generated_graph.decidePforN(5,max(bigger_node_sizes))
 
-    nodes = plt.scatter(bigger_node_sizes, p_values,color='red')
-    errorline = plt.plot(N_list, P_list, color="blue")
+    nodes, = plt.scatter(bigger_node_sizes, p_values,color='red')
+    errorline, = plt.plot(N_list, P_list, color="blue")
     plt.ylabel('p-value')
     plt.xscale('log')
     plt.xlabel('number of nodes')
@@ -96,5 +96,5 @@ def main():
 
 if __name__ == "__main__":
     #main()
-    dataset_threshold()
-    #dataset_select(100)
+    #dataset_threshold()
+    dataset_select(100)
