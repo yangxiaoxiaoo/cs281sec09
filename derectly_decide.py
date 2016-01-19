@@ -86,7 +86,7 @@ def main():
                                 print name
                                 print node_num
 
-    N_list, P_list = Simulation_generated_graph.decidePforN(5,max(bigger_node_sizes))
+    N_list, P_list = Simulation_generated_graph.decidePforN(0.5,max(bigger_node_sizes))
 
     nodes = plt.scatter(bigger_node_sizes, p_values,color='red')
     errorline = plt.plot(N_list, P_list, color="blue")

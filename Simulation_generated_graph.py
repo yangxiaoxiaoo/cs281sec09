@@ -169,7 +169,7 @@ def decidePforN(error, Nmax):
     N_list = list()
     P_list = list()
 
-    for n in (range(1,100) + range(1,Nmax,100)):
+    for n in (range(1,100, 1) + range(1,Nmax,100)):
 
         p = np.arange(0.001, 0.2, 0.001)
         m = p * n *(n-1)/2
@@ -202,8 +202,9 @@ def decidePforN(error, Nmax):
                 p_diverge = p[i]
                 print i
                 break
-        N_list.append(n)
-        P_list.append(p_diverge)
+        if p_diverge != 0:
+            N_list.append(n)
+            P_list.append(p_diverge)
 
     return N_list, P_list
 
