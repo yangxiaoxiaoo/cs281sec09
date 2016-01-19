@@ -97,6 +97,6 @@ def main():
 
 
 if __name__ == "__main__":
-    #main()
+    main()
     #dataset_threshold()
-    dataset_select(100)
+    #dataset_select(100)
