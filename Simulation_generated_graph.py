@@ -165,6 +165,8 @@ def plot_2appro():
 
     plt.show()
 
+
+
 def decidePforN(error, Nmax):
     N_list = list()
     P_list = list()
@@ -210,7 +212,93 @@ def decidePforN(error, Nmax):
 
 
 
+def OF3(n, p):
+    #objective function in 3-approximation
+    m = p * n *(n-1)/2
+
+    N_3line = 12 * choose(n, 4) * pow(p,3) * pow((1-p),3)
+    N_2line = 3 * choose(n, 3) * pow(p,2) * (1-p)
+    N_1a = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_1b = 3 * choose(n, 3) * pow(p,3)
+    N_2a = 60 * choose(n, 5) * pow(p,5) * pow((1-p),5)
+    N_2b = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_2c = 24 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_3 = 360 * choose(n, 6) * pow(p,6) * pow((1-p),9)
+
+    Error2_3 = (N_1a * N_1b + N_1a * N_2a + N_1a * N_2b + N_1a * N_2c + N_1a* N_3
+                            + N_1b * N_2a + N_1b * N_2b + N_1b * N_2c + N_1b* N_3
+                                          + N_2a * N_2b + N_2a * N_2c + N_2a* N_3
+                                                        + N_2b * N_2c + N_2b* N_3
+                                                                      + N_2c* N_3
+                + pow(N_1a, 2) + pow(N_1b, 2) + pow(N_2a, 2) + pow(N_2b, 2) + pow(N_2c, 2) + pow(N_3, 2)
+            )/m
+
+    Appx1 = m + N_3line + N_2line
+    Error1_2 = N_1a + N_1b + N_2a + N_2b + N_2c + N_3
+    Appx2 = Appx1 - Error1_2
+    Appx3 = Appx2 + Error2_3
+    return Appx3
+
+def oracle(n, p):
+    #plot oracle lines
+    edge_num_list = list()
+    OF_list = list()
+
+    m = p * n *(n-1)/2
+    N_3line = 12 * choose(n, 4) * pow(p,3) * pow((1-p),3)
+    N_2line = 3 * choose(n, 3) * pow(p,2) * (1-p)
+    N_1a = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_1b = 3 * choose(n, 3) * pow(p,3)
+    N_2a = 60 * choose(n, 5) * pow(p,5) * pow((1-p),5)
+    N_2b = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_2c = 24 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_3 = 360 * choose(n, 6) * pow(p,6) * pow((1-p),9)
+
+    #p1
+    edge_num_list.append(m + 2*N_2line + 3*N_3line + 4* N_1a + 3*N_1b + 5*N_2a + 4 * N_2b + 4 * N_2c + 6 * N_3)
+    OF_list.append(0)
+    #p2
+    edge_num_list.append(m + 2*N_2line  + 4* N_1a + 3*N_1b + 4 * N_2b )
+    OF_list.append(OF3(n, p) - m - N_2line + N_1a + N_1b + N_2b)
+    #p3
+    edge_num_list.append(m)
+    OF_list.append(OF3(n, p) - m )
+    #p4
+    edge_num_list.append(m)
+    OF_list.append(OF3(n, p))
+
+    return edge_num_list, OF_list
+
+
+def benchmark(n, p):
+    #plot  benchmark
+    edge_num_list = list()
+    OF_list = list()
+    for p_varient in range(p, 0, 0.0001):
+        OF = OF3(n, p_varient)
+        edge_num_list.append(p_varient * n *(n-1)/2)
+        OF_list.append(OF)
+    return edge_num_list, OF_list
+
+def upperlower_plot(n, p):
+    list_oracle_x, list_oracle_y = oracle(n, p)
+    list_benchmark_x, list_benchmark_y = benchmark(n, p)
+    upperlower = plt.subplot(111)
+    oracle_line = upperlower.scatter(list_oracle_x, list_oracle_y,color='red', label="Oracle")
+    nodes_2 = upperlower.scatter(list_benchmark_x,list_benchmark_y, color="blue", label= 'benchmark')
+    plt.ylabel('3-hop loss')
+    #plt.xscale('log')
+    plt.xlabel('number of removed edges')
+    handles, labels = upperlower.get_legend_handles_labels()
+    plt.legend(handles, labels)
+    plt.savefig("plot_bounds.pdf", facecolor='w', edgecolor='w',orientation='portrait')
+
+
+
+
+
 if __name__ == "__main__":
     #main()
     #plot_np()
-    plot_2appro()
+    #plot_2appro()
+    upperlower_plot(100, 0.01)
