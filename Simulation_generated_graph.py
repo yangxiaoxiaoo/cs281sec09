@@ -196,7 +196,7 @@ def decidePforN(error, Nmax):
         Appx2 = Appx1 - Error1_2
         Appx3 = Appx2 + Error2_3
 
-        p_diverge = 0
+        p_diverge = 1
         for i in range(1, len(p)):
             if Appx3[i] > float(1 + error)*Appx1[i]:
                 p_diverge = p[i]
