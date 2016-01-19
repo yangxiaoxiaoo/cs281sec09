@@ -169,7 +169,7 @@ def decidePforN(error, Nmax):
     N_list = list()
     P_list = list()
 
-    for n in range(1,Nmax,100):
+    for n in (range(1,100) + range(1,Nmax,100)):
 
         p = np.arange(0.001, 0.2, 0.001)
         m = p * n *(n-1)/2
