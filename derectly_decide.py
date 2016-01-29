@@ -101,7 +101,7 @@ def main():
 
     plt.ylabel('p-value')
     plt.xscale('log')
-    plt.xscale('log')
+    plt.yscale('log')
     plt.xlabel('number of nodes')
     handles, labels = plotline.get_legend_handles_labels()
     plt.legend(handles, labels)
