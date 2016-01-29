@@ -69,7 +69,7 @@ def main():
         for line in fin:
             name = line.split(' ')[0]
             min_size_interested = int(line.split(' ')[2])
-            if name not in deletedset():
+            if name not in deletedset:
                 with open("/net/data/graph-models/louvain-clusters/nnum-enum-nlist/" + name + ".density", 'r') as fin2:
                     for line in fin2:
                         node_num = int(line.split(' ')[1])
