@@ -210,6 +210,23 @@ def decidePforN(error, Nmax):
 
     return N_list, P_list
 
+def OF1(n, p):
+    #objective function in 3-approximation
+    m = p * n *(n-1)/2
+
+    N_3line = 12 * choose(n, 4) * pow(p,3) * pow((1-p),3)
+    N_2line = 3 * choose(n, 3) * pow(p,2) * (1-p)
+    N_1a = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_1b = 3 * choose(n, 3) * pow(p,3)
+    N_2a = 60 * choose(n, 5) * pow(p,5) * pow((1-p),5)
+    N_2b = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_2c = 24 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_3 = 360 * choose(n, 6) * pow(p,6) * pow((1-p),9)
+
+    Appx1 = m + N_3line + N_2line -(N_1a + N_1b + N_2a + N_2b + N_2c + N_3)
+    return Appx1
+
+
 
 
 def OF3(n, p):
@@ -239,7 +256,34 @@ def OF3(n, p):
     Appx3 = Appx2 + Error2_3
     return Appx3
 
-def oracle(n, p):
+def dis2_relations(n, p):
+    #objective function in 3-approximation
+    m = p * n *(n-1)/2
+
+    N_2line = 3 * choose(n, 3) * pow(p,2) * (1-p)
+    N_1a = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_1b = 3 * choose(n, 3) * pow(p,3)
+    N_2a = 60 * choose(n, 5) * pow(p,5) * pow((1-p),5)
+    N_2b = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_2c = 24 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+
+
+    Error2_3 = (N_1a * N_1b + N_1a * N_2a + N_1a * N_2b + N_1a * N_2c
+                            + N_1b * N_2a + N_1b * N_2b + N_1b * N_2c
+                                          + N_2a * N_2b + N_2a * N_2c
+                                                        + N_2b * N_2c
+
+                + pow(N_1a, 2) + pow(N_1b, 2) + pow(N_2a, 2) + pow(N_2b, 2) + pow(N_2c, 2)
+            )/m
+
+    Appx1 = m  + N_2line
+    Error1_2 = N_1a + N_1b + N_2a + N_2b + N_2c
+    Appx2 = Appx1 - Error1_2
+    Appx3 = Appx2 + Error2_3
+    return Appx3
+
+
+def oracle_1(n, p):
     #plot oracle lines
     edge_num_list = list()
     OF_list = list()
@@ -255,43 +299,88 @@ def oracle(n, p):
     N_3 = 360 * choose(n, 6) * pow(p,6) * pow((1-p),9)
 
     #p1
-    edge_num_list.append(m + 2*N_2line + 3*N_3line + 4* N_1a + 3*N_1b + 5*N_2a + 4 * N_2b + 4 * N_2c + 6 * N_3)
+    edge_num_list.append( N_1a + N_1b + N_2a + N_2b +  N_2c + N_3)
     OF_list.append(0)
     #p2
-    edge_num_list.append(m + 2*N_2line  + 4* N_1a + 3*N_1b + 4 * N_2b )
-    OF_list.append(OF3(n, p) - m - N_2line + N_1a + N_1b + N_2b)
+    #edge_num_list.append(N_1a + N_1b + N_2a + N_2b +  N_2c + N_3 + N_3line - float(1)/12 * (N_3line * N_3line/m) - 6*N_3 - 5 * N_2a - 4 * N_1a)
+    #OF_list.append(OF1(n, p) - dis2_relations(n,p))
     #p3
+    #edge_num_list.append(N_1a + N_1b + N_2a + N_2b +  N_2c + N_3 + N_3line - 6*N_3 - 5 * N_2a - 4 * N_1a + N_2line - 4* N_1b - 4* N_2b - 4*N_2c)
+    #OF_list.append(OF3(n, p) - (m - N_3line/12 - N_2line/3))
+    #p4
     edge_num_list.append(m)
-    OF_list.append(OF3(n, p) - m )
+    OF_list.append(OF1(n, p))
+
+    return edge_num_list, OF_list
+
+
+def oracle_3(n, p):
+    #plot oracle lines
+    edge_num_list = list()
+    OF_list = list()
+
+    m = p * n *(n-1)/2
+    N_3line = 12 * choose(n, 4) * pow(p,3) * pow((1-p),3)
+    N_2line = 3 * choose(n, 3) * pow(p,2) * (1-p)
+    N_1a = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_1b = 3 * choose(n, 3) * pow(p,3)
+    N_2a = 60 * choose(n, 5) * pow(p,5) * pow((1-p),5)
+    N_2b = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_2c = 24 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_3 = 360 * choose(n, 6) * pow(p,6) * pow((1-p),9)
+
+    #p1
+    x_1 = N_1a + N_1b + N_2a + N_2b +  N_2c + N_3 -\
+                          (N_1a*N_1a + N_1b*N_1a + N_2a*N_1a + N_2b*N_1a +  N_2c*N_1a + N_3*N_1a +
+                           N_1b*N_1b + N_2a*N_1b + N_2b*N_1b +  N_2c*N_1b + N_3*N_1b +
+                            N_2a*N_2a + N_2b*N_2a +  N_2c*N_2a + N_3*N_2a +
+                           N_2b*N_2b +  N_2c*N_2b + N_3*N_2b +
+                            N_2c*N_2c + N_3*N_2c +
+                           N_3*N_3
+                           )/m
+    edge_num_list.append(x_1)
+    OF_list.append(0)
+    #p2
+    #x_2 = x_1 + 3*N_3line - 6*N_3 - 5 * N_2a - 4 * N_1a
+    #edge_num_list.append(x_2)
+    #OF_list.append(OF3(n, p) - dis2_relations(n,p))
+    #p3
+    #x_3 = x_2 + 2*N_2line - 4* N_1b - 4* N_2b - 4*N_2c
+    #edge_num_list.append(x_3)
+    #OF_list.append(OF3(n, p) - (m - N_3line/12 - N_2line/3))
     #p4
     edge_num_list.append(m)
     OF_list.append(OF3(n, p))
 
     return edge_num_list, OF_list
 
-
 def benchmark(n, p):
     #plot  benchmark
     edge_num_list = list()
     OF_list = list()
-    for p_varient in range(p, 0, 0.0001):
+    p_varient = p
+    while p_varient > 0:
         OF = OF3(n, p_varient)
         edge_num_list.append(p_varient * n *(n-1)/2)
         OF_list.append(OF)
+        p_varient -= 0.0001
     return edge_num_list, OF_list
 
 def upperlower_plot(n, p):
-    list_oracle_x, list_oracle_y = oracle(n, p)
+    list_oracle1_x, list_oracle1_y = oracle_1(n, p)
+    list_oracle3_x, list_oracle3_y = oracle_3(n, p)
     list_benchmark_x, list_benchmark_y = benchmark(n, p)
     upperlower = plt.subplot(111)
-    oracle_line = upperlower.scatter(list_oracle_x, list_oracle_y,color='red', label="Oracle")
-    nodes_2 = upperlower.scatter(list_benchmark_x,list_benchmark_y, color="blue", label= 'benchmark')
-    plt.ylabel('3-hop loss')
+    oracle_line1 = upperlower.scatter(list_oracle1_x, list_oracle1_y,color='red', label="Oracle")
+    oracle_line2 = upperlower.scatter(list_oracle3_x, list_oracle3_y,color='green', label="Oracle")
+    nodes_2 = upperlower.plot(list_benchmark_x,list_benchmark_y, color="blue", label= 'benchmark')
+    plt.ylabel('3-hop relations loss')
     #plt.xscale('log')
     plt.xlabel('number of removed edges')
     handles, labels = upperlower.get_legend_handles_labels()
-    plt.legend(handles, labels)
+    plt.legend(handles, labels, loc='upper left')
     plt.savefig("plot_bounds.pdf", facecolor='w', edgecolor='w',orientation='portrait')
+    plt.show(upperlower)
 
 
 
@@ -301,4 +390,4 @@ if __name__ == "__main__":
     #main()
     #plot_np()
     #plot_2appro()
-    upperlower_plot(100, 0.01)
+    upperlower_plot(500, 0.004)

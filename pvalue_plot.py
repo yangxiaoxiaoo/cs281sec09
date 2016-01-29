@@ -62,21 +62,23 @@ def pre_CDF_title(input_data, point,input_title):
 
 
 def main():
+    deletedset = set(['roadNet-CA', 'roadNet-PA','roadNet-TX', 'web-BerkSta', 'web-Google', 'web-NotreDame','web-Stanford'])
     bigger_node_sizes = list()
     p_values = list()
     with open("/net/data/graph-models/louvain-clusters/blocknum_threshold_90.txt", 'r') as fin:
         for line in fin:
             name = line.split(' ')[0]
             min_size_interested = int(line.split(' ')[2])
-            with open("/net/data/graph-models/louvain-clusters/nnum-enum-nlist/" + name + ".density", 'r') as fin2:
-                for line in fin2:
-                    node_num = int(line.split(' ')[1])
-                    edge_num = int(line.split(' ')[2].split('[')[0])
-                    if node_num > min_size_interested:
-                        complete_num = node_num * (node_num - 1) / 2
-                        p = float(edge_num) / float(complete_num)
-                        bigger_node_sizes.append(node_num)
-                        p_values.append(p)
+            if name not in deletedset():
+                with open("/net/data/graph-models/louvain-clusters/nnum-enum-nlist/" + name + ".density", 'r') as fin2:
+                    for line in fin2:
+                        node_num = int(line.split(' ')[1])
+                        edge_num = int(line.split(' ')[2].split('[')[0])
+                        if node_num > min_size_interested:
+                            complete_num = node_num * (node_num - 1) / 2
+                            p = float(edge_num) / float(complete_num)
+                            bigger_node_sizes.append(node_num)
+                            p_values.append(p)
 
 
     pre_CDF_title(p_values, 10000,"cdf_pvalue")
