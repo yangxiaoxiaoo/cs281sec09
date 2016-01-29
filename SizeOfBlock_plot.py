@@ -64,18 +64,19 @@ def plot_density():
         smaller_edge_sizes = list()
         for line in fin:
             name = line.split(' ')[0]
-            print name
-            min_size_interested = int(line.split(' ')[2])
-            with open("/net/data/graph-models/louvain-clusters/nnum-enum-nlist/" + name + ".density", 'r') as fin2:
-                for line in fin2:
-                    node_num = int(line.split(' ')[1])
-                    edge_num = int(line.split(' ')[2].split('[')[0])
-                    if node_num > min_size_interested:
-                        bigger_node_sizes.append(node_num)
-                        bigger_edge_sizes.append(edge_num)
-                    else:
-                        smaller_node_sizes.append(node_num)
-                        smaller_edge_sizes.append(edge_num)
+            deletedset = set(['roadNet-CA', 'roadNet-PA','roadNet-TX', 'web-BerkSta', 'web-Google', 'web-NotreDame','web-Stanford'])
+            if name not in deletedset:
+                min_size_interested = int(line.split(' ')[2])
+                with open("/net/data/graph-models/louvain-clusters/nnum-enum-nlist/" + name + ".density", 'r') as fin2:
+                    for line in fin2:
+                        node_num = int(line.split(' ')[1])
+                        edge_num = int(line.split(' ')[2].split('[')[0])
+                        if node_num > min_size_interested:
+                            bigger_node_sizes.append(node_num)
+                            bigger_edge_sizes.append(edge_num)
+                        else:
+                            smaller_node_sizes.append(node_num)
+                            smaller_edge_sizes.append(edge_num)
 
     #plot a boundary of dense/sparse region
     def simulate_boundary(node_max, edge_max):
