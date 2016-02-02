@@ -3,8 +3,6 @@ import os
 import matplotlib.pyplot as plt
 import networkx as nx
 import itertools
-from networkx.readwrite import json_graph
-import json
 
 
 FIG_FOLDER = "./figs/"
@@ -289,6 +287,37 @@ def patternsets2(MotifG1, MotifG2):
 
     return patternset
 
+def three_hop(Graph):
+    def hop2(G, A):
+        hop2_set = set()
+        for neighbor in G.neighbors(A):
+            hop2_set.add(neighbor)
+            for neighbor2 in G.neighbors(neighbor):
+                hop2_set.add(neighbor2)
+        return hop2_set
+
+    def hop3(G, A):
+        hop3_set = set()
+        for neighbor in G.neighbors(A):
+            hop3_set.add(neighbor)
+            hop3_set = hop3_set.union(hop2(G, neighbor))
+        return hop3_set
+
+    relations = 0
+    for node in Graph.nodes():
+        relations += len(hop3(Graph, node))
+    return relations/2
+
+
+def count_loss(Motif_pattern):
+    loss = 0
+    for edge in Motif_pattern.edges():
+        before = three_hop(Motif_pattern)
+        Motif_pattern.remove_edge(*edge)
+        loss = before - three_hop(Motif_pattern)
+        Motif_pattern.add_edge(*edge)
+    return loss
+
 
 def enumerateall():
     G_1a = nx.Graph()
@@ -394,6 +423,13 @@ def main():
         nx.draw(item)
         plt.show()
 
+    '''
+    dict_number_to_loss = dict()
+    for item in patterns:
+        k = count_appearance(item)
+        v = count_loss(item)
+        dict_number_to_loss[k] = v
+    '''
 
 if __name__ == '__main__':
     #main()
