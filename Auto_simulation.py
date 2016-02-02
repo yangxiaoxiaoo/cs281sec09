@@ -253,8 +253,11 @@ def patternsets2(MotifG1, MotifG2):
                     print "in this particular order" + str(i)
                     if MotifG1 == MotifG2:
                         print "!!same motif"
+                        G = nx.disjoint_union(MotifG1, MotifG2)
                     else:
                         G = nx.union(MotifG1, MotifG2)
+
+                    if len(G) != 0:
                         G2 = nx.Graph()
                         G22 = nx.Graph()
                         Motif2merged_nodes = set()
@@ -298,13 +301,43 @@ def enumerateall():
     G_1b.add_edge(5, 6)
     G_1b.add_edge(6, 7)
     G_1b.add_edge(5, 7)
+
+    G_2a  =nx.Graph()
+    G_2a.add_edge(8, 9)
+    G_2a.add_edge(9, 10)
+    G_2a.add_edge(10, 11)
+    G_2a.add_edge(11, 12)
+    G_2a.add_edge(12, 8)
+
+  #  G_2b = nx.Graph()
+  #  G_2b.add_edge(1, 2)
+  #  G_2b.add_edge(2, 3)
+  #  G_2b.add_edge(3, 4)
+  #  G_2b.add_edge(4, 1)
+
+
+    G_2c = nx.Graph()
+    G_2c.add_edge(13, 14)
+    G_2c.add_edge(14, 15)
+    G_2c.add_edge(13, 15)
+    G_2c.add_edge(15, 16)
+
+    G_3 = nx.Graph()
+    G_3.add_edge(17, 18)
+    G_3.add_edge(18, 19)
+    G_3.add_edge(19, 20)
+    G_3.add_edge(20, 21)
+    G_3.add_edge(21, 22)
+    G_3.add_edge(22, 17)
+
     #make sure theat all nodes have different names at this moment
 
     allpatterns = set()
-    Motifset = set([G_1a, G_1b])
+    Motifset = set([G_1a, G_1b, G_2a, G_2c, G_3])
     for Motif1 in Motifset:
         for Motif2 in Motifset:
-            if not Motif1 == Motif2:
+            #if not Motif1 == Motif2:
+            if True:
                 for item in patternsets2(Motif1, Motif2):
                     allpatterns.add(item)
     print len(allpatterns)
@@ -330,6 +363,29 @@ def test():
     set_of_tested_graphs2 = set([G_2, G_1a])
     print len(deisomorphism(set_of_tested_graphs2)) == 1
 
+    G_1a = nx.Graph()
+    G_1a.add_edge(1, 2)
+    G_1a.add_edge(2, 3)
+    G_1a.add_edge(3, 4)
+    G_1a.add_edge(4, 1)
+
+    G_1b = nx.Graph()
+    G_1b.add_edge(5, 6)
+    G_1b.add_edge(6, 7)
+    G_1b.add_edge(5, 7)
+    Motifset = set([G_1a, G_1b])
+
+    allpatterns = set()
+    for Motif1 in Motifset:
+        for Motif2 in Motifset:
+            if not Motif1 == Motif2:
+                for item in patternsets2(Motif1, Motif2):
+                    allpatterns.add(item)
+            else:
+                nx.relabel_nodes(Motif2, mapping=dict(zip(Motif2.nodes(),range(Motif2.number_of_nodes() +1 , 2 * Motif2.number_of_nodes()))))
+    print len(deisomorphism(allpatterns)) == 3 #one is empty in all three
+
+
 
 def main():
     patterns = enumerateall()
@@ -340,5 +396,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
-    #test()
+    #main()
+    test()
