@@ -209,17 +209,19 @@ def motif_H():
 def deisomorphism(patternset):
     deisoed_set = set()
     for item in patternset:
-        print item
-        if any(nx.is_isomorphic(item, item2) for item2 in deisoed_set):
-            pass
-        else:
+        Unique = True
+        for item2 in deisoed_set:
+            if nx.is_isomorphic(item, item2):
+                Unique = False
+        if Unique:
             deisoed_set.add(item)
     return deisoed_set
 
 def merge_nodes(G,node1,node2):
-    for neighbor in G.neighbors(node1):
-        G.add_edge(neighbor, node2)
-    G.remove_node(node1)
+    if node1 in G and node2 in G:
+        for neighbor in G.neighbors(node1):
+            G.add_edge(neighbor, node2)
+        G.remove_node(node1)
     return G
 
 def patternsets2(MotifG1, MotifG2):
@@ -232,42 +234,55 @@ def patternsets2(MotifG1, MotifG2):
 
     #select L (two+) edges to overlap
     for L in range(1, edgenum_max + 1):
+        print L
         L_subsets = list(itertools.combinations(MotifG1.edges(),L))
         L_subsets2 = list(itertools.combinations(MotifG2.edges(),L))
      #   print "all possible combination of choosing"+str(L) +"edges"
      #   print L_subsets2
         for subset1 in L_subsets:
             for subset2 in L_subsets2:
-             #   print "already chose these" +str(L)+" edges in Motif2"
-             #   print subset2
+                print "already chose these" +str(L)+" edges in Motif2"
+                print subset2
                 permutations = list(itertools.permutations(subset1))
              #   print "already chose another"+str(L)+"in Motif1, now ordering them"
              #   print permutations
                 i = 0
                 for permutation in permutations:
-               #     print "this permutation is"
-               #     print permutation
-               #     print "in this particular order" + str(i)
-                    for j in range(0, len(permutation)):
-                        edge_1 = permutation[j]
-                        edge_2 = subset2[j]
-                #        print "edge 1"
-                #        print edge_1
-                #        print "edge 2"
-                #        print edge_2
-                    i += 1
+                    print "this permutation is"
+                    print permutation
+                    print "in this particular order" + str(i)
                     if MotifG1 == MotifG2:
                         print "!!same motif"
                     else:
                         G = nx.union(MotifG1, MotifG2)
-                    G1 = merge_nodes(G, edge_1[0], edge_2[0])
-                    G2 = merge_nodes(G1, edge_1[1], edge_2[1])
-                    patternset.add(G2)
+                        G2 = nx.Graph()
+                        G22 = nx.Graph()
+                        Motif2merged_nodes = set()
+                        for j in range(0, len(permutation)):
+                            edge_1 = permutation[j]
+                            edge_2 = subset2[j]
+                            print "edge 1"
+                            print edge_1
+                            print "edge 2"
+                            print edge_2
 
-                    G = nx.union(MotifG1, MotifG2)
-                    G11 = merge_nodes(G, edge_1[1], edge_2[0])
-                    G22 = merge_nodes(G11, edge_1[0], edge_2[1])
-                    patternset.add(G22)
+                            if edge_2[0] not in Motif2merged_nodes:
+                                G1 = merge_nodes(G, edge_1[0], edge_2[0])
+                                Motif2merged_nodes.add(edge_2[0])
+                            if edge_2[1] not in Motif2merged_nodes:
+                                G2 = merge_nodes(G1, edge_1[1], edge_2[1])
+                                Motif2merged_nodes.add(edge_2[1])
+
+                            if edge_2[0] not in Motif2merged_nodes:
+                                G11 = merge_nodes(G, edge_1[1], edge_2[0])
+                            if edge_2[1] not in Motif2merged_nodes:
+                                G22 = merge_nodes(G11, edge_1[0], edge_2[1])
+
+                        patternset.add(G2)
+                        patternset.add(G22)
+                        print G2.nodes()
+                    i += 1
+
 
     return patternset
 
@@ -275,14 +290,14 @@ def patternsets2(MotifG1, MotifG2):
 def enumerateall():
     G_1a = nx.Graph()
     G_1a.add_edge(1, 2)
-    G_1a.add_edge(2, 3, color='r')
+    G_1a.add_edge(2, 3)
     G_1a.add_edge(3, 4)
     G_1a.add_edge(4, 1)
 
     G_1b = nx.Graph()
     G_1b.add_edge(5, 6)
     G_1b.add_edge(6, 7)
-    G_1b.add_edge(5, 7, color='r')
+    G_1b.add_edge(5, 7)
     #make sure theat all nodes have different names at this moment
 
     allpatterns = set()
@@ -291,9 +306,10 @@ def enumerateall():
         for Motif2 in Motifset:
             if not Motif1 == Motif2:
                 for item in patternsets2(Motif1, Motif2):
-                    print item
                     allpatterns.add(item)
+    print len(allpatterns)
     return deisomorphism(allpatterns)
+
 
 def test():
     G_1a = nx.Graph()
@@ -302,15 +318,27 @@ def test():
     print (len(merge_nodes(G_1a,1, 3)) == 2)
     G_2 = nx.Graph()
     G_2.add_edge(3, 2)
-    test_set = set()
-    test_set.add(G_1a)
-    test_set.add(G_2)
     print nx.is_isomorphic(G_1a, G_2)
-    print nx.could_be_isomorphic(G_1a, G_2)
-    print deisomorphism(test_set)
+
+
+    G_3 = nx.Graph()
+    G_3.add_edge(1,2)
+    G_3.add_edge(3,2)
+    print not nx.is_isomorphic(G_2, G_3)
+    set_of_tested_graphs = set([G_1a, G_2, G_3])
+    print len(deisomorphism(set_of_tested_graphs)) == 2
+    set_of_tested_graphs2 = set([G_2, G_1a])
+    print len(deisomorphism(set_of_tested_graphs2)) == 1
+
+
+def main():
+    patterns = enumerateall()
+    print len(patterns)
+    for item in patterns:
+        nx.draw(item)
+        plt.show()
 
 
 if __name__ == '__main__':
-
-    print len(enumerateall())
+    main()
     #test()
