@@ -3,6 +3,8 @@ import os
 import matplotlib.pyplot as plt
 import networkx as nx
 import itertools
+import json
+from networkx.readwrite import json_graph
 
 
 FIG_FOLDER = "./figs/"
@@ -320,7 +322,7 @@ def count_loss(Motif_pattern):
 
 def count_appearance(Motif_pattern, N, p):
     nodes_num = Motif_pattern.number_of_nodes()
-
+    #...unfinished
 
 def enumerate2():
     G_1a = nx.Graph()
@@ -504,6 +506,9 @@ def test():
                 for item in patternsets2(Motif1, Motif2):
                     allpatterns.add(item)
     print len(deisomorphism(allpatterns)) == 3 #one is empty in all three
+    for item in (deisomorphism(allpatterns)):
+        dataG = json_graph.node_link_data(item)
+        print json.dumps(dataG)
 
 
 
@@ -533,5 +538,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
-    #test()
+    #main()
+    test()

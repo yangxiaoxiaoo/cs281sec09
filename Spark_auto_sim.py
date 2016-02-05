@@ -4,7 +4,6 @@ from pyspark import SparkContext
 import json
 import pickle
 from networkx.readwrite import json_graph
-import matplotlib.pyplot as plt
 import networkx as nx
 import itertools
 
@@ -119,104 +118,45 @@ def count_loss(Motif_pattern):
         Motif_pattern.add_edge(*edge)
     return loss
 
-def count_appearance(Motif_pattern, N, p):
-    nodes_num = Motif_pattern.number_of_nodes()
+def Motifsets():
+    G_1a = nx.Graph()
+    G_1a.add_edge(1, 2)
+    G_1a.add_edge(2, 3)
+    G_1a.add_edge(3, 4)
+    G_1a.add_edge(4, 1)
 
+    G_1b = nx.Graph()
+    G_1b.add_edge(5, 6)
+    G_1b.add_edge(6, 7)
+    G_1b.add_edge(5, 7)
+
+    G_2a  =nx.Graph()
+    G_2a.add_edge(8, 9)
+    G_2a.add_edge(9, 10)
+    G_2a.add_edge(10, 11)
+    G_2a.add_edge(11, 12)
+    G_2a.add_edge(12, 8)
+
+    G_2c = nx.Graph()
+    G_2c.add_edge(13, 14)
+    G_2c.add_edge(14, 15)
+    G_2c.add_edge(13, 15)
+    G_2c.add_edge(15, 16)
+
+    G_3 = nx.Graph()
+    G_3.add_edge(17, 18)
+    G_3.add_edge(18, 19)
+    G_3.add_edge(19, 20)
+    G_3.add_edge(20, 21)
+    G_3.add_edge(21, 22)
+    G_3.add_edge(22, 17)
+
+   # return set([G_1a, G_1b, G_2a, G_2c, G_3])
+    return  set([G_1a, G_1b])
 
 def enumerate2():
-    G_1a = nx.Graph()
-    G_1a.add_edge(1, 2)
-    G_1a.add_edge(2, 3)
-    G_1a.add_edge(3, 4)
-    G_1a.add_edge(4, 1)
-
-    G_1b = nx.Graph()
-    G_1b.add_edge(5, 6)
-    G_1b.add_edge(6, 7)
-    G_1b.add_edge(5, 7)
-
-    G_2a  =nx.Graph()
-    G_2a.add_edge(8, 9)
-    G_2a.add_edge(9, 10)
-    G_2a.add_edge(10, 11)
-    G_2a.add_edge(11, 12)
-    G_2a.add_edge(12, 8)
-
-    G_2c = nx.Graph()
-    G_2c.add_edge(13, 14)
-    G_2c.add_edge(14, 15)
-    G_2c.add_edge(13, 15)
-    G_2c.add_edge(15, 16)
-
-    G_3 = nx.Graph()
-    G_3.add_edge(17, 18)
-    G_3.add_edge(18, 19)
-    G_3.add_edge(19, 20)
-    G_3.add_edge(20, 21)
-    G_3.add_edge(21, 22)
-    G_3.add_edge(22, 17)
-
-    #make sure theat all nodes have different names at this moment
-
     allpatterns = set()
-    #Motifset = set([G_1a, G_1b, G_2a, G_2c, G_3])
-    Motifset = set([G_1a, G_1b])
-    for Motif1 in Motifset:
-        for Motif2 in Motifset:
-            if not Motif1 == Motif2:
-                for item in patternsets2(Motif1, Motif2):
-                    allpatterns.add(item)
-            else:
-                print Motif2.nodes()
-                print "--->"
-                node_max = max(Motif2.nodes())
-                to_list = range(node_max + 1,  + node_max + Motif2.number_of_nodes() +1)
-                print to_list
-                Motif3 = nx.relabel_nodes(Motif2, mapping=dict(zip(Motif2.nodes(),to_list)))
-                print Motif3.nodes()
-                for item in patternsets2(Motif1, Motif3):
-                    allpatterns.add(item)
-    print len(allpatterns)
-    return deisomorphism(allpatterns)
-
-def enumerate3():
-    G_1a = nx.Graph()
-    G_1a.add_edge(1, 2)
-    G_1a.add_edge(2, 3)
-    G_1a.add_edge(3, 4)
-    G_1a.add_edge(4, 1)
-
-    G_1b = nx.Graph()
-    G_1b.add_edge(5, 6)
-    G_1b.add_edge(6, 7)
-    G_1b.add_edge(5, 7)
-
-    G_2a  =nx.Graph()
-    G_2a.add_edge(8, 9)
-    G_2a.add_edge(9, 10)
-    G_2a.add_edge(10, 11)
-    G_2a.add_edge(11, 12)
-    G_2a.add_edge(12, 8)
-
-    G_2c = nx.Graph()
-    G_2c.add_edge(13, 14)
-    G_2c.add_edge(14, 15)
-    G_2c.add_edge(13, 15)
-    G_2c.add_edge(15, 16)
-
-    G_3 = nx.Graph()
-    G_3.add_edge(17, 18)
-    G_3.add_edge(18, 19)
-    G_3.add_edge(19, 20)
-    G_3.add_edge(20, 21)
-    G_3.add_edge(21, 22)
-    G_3.add_edge(22, 17)
-
-
-
-    allpatterns = set()
-    #Motifset = set([G_1a, G_1b, G_2a, G_2c, G_3])
-    Motifset = set([G_1a, G_1b])
+    Motifset = Motifsets()
     for Motif1 in Motifset:
         for Motif2 in Motifset:
             if len(set(Motif1.nodes()).intersection(Motif2.nodes())) == 0:
@@ -234,6 +174,10 @@ def enumerate3():
                     allpatterns.add(item)
     print len(allpatterns)
     patterns_2 = deisomorphism(allpatterns)
+    return patterns_2
+
+def enumerate3():
+    patterns_2 = enumerate2()
     allpatterns_5_order = set()
     for Motif1 in patterns_2:
         for Motif2 in Motifset:
@@ -252,13 +196,52 @@ def enumerate3():
                     allpatterns_5_order.add(item)
     return deisomorphism(allpatterns_5_order)
 
-def main():
-    #patterns = enumerate2()
-    patterns = enumerate3()
+
+def worker_all_collapse(Motifset, G_string):
+    dataG = json.loads(G_string)
+    Motif2 = json_graph.node_link_graph(dataG)
+    patternset = set()
+    for Motif1 in Motifset:
+        if len(set(Motif1.nodes()).intersection(Motif2.nodes())) == 0:
+            for item in patternsets2(Motif1, Motif2):
+                patternset.add(item)
+        else:
+            node_max = max(max(Motif2.nodes()), max(Motif1.nodes()))
+            to_list = range(node_max + 1,  + node_max + Motif2.number_of_nodes() +1)
+            Motif3 = nx.relabel_nodes(Motif2, mapping=dict(zip(Motif2.nodes(),to_list)))
+            for item in patternsets2(Motif1, Motif3):
+                    patternset.add(item)
+    return deisomorphism(patternset)
+
+def setcomb(set1, set2):
+    #not bottleneck operation
+    all_set = set()
+    for item in set1:
+        all_set.add(item)
+    for item in set2:
+        all_set.add(item)
+    return all_set
 
 if __name__ == "__main__":
     sc = SparkContext(appName="Sorted_removal")
 
+    Motifset = Motifsets()
+    patterns2 = enumerate2()
+    output_file = "/net/data/graph-models/sim-graphs/approx3-json"
+    with open(output_file, 'w') as fout:
+        for item in patterns2:
+            string_item = json.dumps(json_graph.node_link_data(item))
+            fout.write(string_item)
+
+    broadMotifset = sc.broadcast(Motifset)
+    subprocess.check_call("hdfs dfs -put /net/data/graph-models/sim-graphs/approx3-json approx3-json", shell=True)
+    approx3Motifs = sc.textFile("hdfs://scrapper/user/xiaofeng/approx3-json")
+    collapsed_patterns = approx3Motifs.map(lambda line: worker_all_collapse(broadMotifset.value, line)).reduce(lambda a, b: setcomb(a, b))
+    collapsed_patterns.persist()
+
+
+
+'''
     old_g = pickle.load(open("/net/data/facebook/facebook-ucsb/Facebook_2008/MontereyBay/original_pickles/MontereyBay.pickle", 'r'))
     new_g = nx.Graph()
     for node, friends in old_g.adj.iteritems():
@@ -281,3 +264,4 @@ if __name__ == "__main__":
     costs.saveAsTextFile("hdfs://scrapper/user/xiaofeng/costs_MontereyBay")
     sc.stop()
     subprocess.check_call("hdfs dfs -get costs_MontereyBay costs/", shell=True)
+'''
