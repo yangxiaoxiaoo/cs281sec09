@@ -507,13 +507,19 @@ def test():
 
 
 
+
 def main():
     #patterns = enumerate2()
     patterns = enumerate3()
     print len(patterns)
+    output = "noniso_5order_graphs/"
+    index = 1
     for item in patterns:
-        nx.draw(item)
-        plt.show()
+        #nx.draw(item)
+        #plt.show()
+        nx.write_edgelist(item, output + str(index))
+        index += 1
+
 
     '''
     dict_number_to_loss = dict()
