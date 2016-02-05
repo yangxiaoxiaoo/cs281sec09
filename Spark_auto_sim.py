@@ -224,7 +224,7 @@ def setcomb(set1, set2):
 
 
 if __name__ == "__main__":
-    sc = SparkContext(appName="Sorted_removal")
+    sc = SparkContext(appName="Motif_counting")
 
     Motifset = Motifsets()
     patterns2 = enumerate2()
@@ -240,10 +240,11 @@ if __name__ == "__main__":
     collapsed_patterns = approx3Motifs.flatMap(lambda line: worker_all_collapse(broadMotifset.value, line))
     collapsed_patterns.persist()
     non_iso_set = set()
-    while not collapsed_patterns.isEmpty():
-        povet = collapsed_patterns.take(0)
+    while not collapsed_patterns.isEmpty(): #or use count() != 0 as an alternative
+        povet = collapsed_patterns.take(0)#BROADCAST
+        povet_broad = sc.broadcast(povet)
         non_iso_set.add(povet)
-        collapsed_patterns.filter(lambda x: not nx.is_isomorphic(x, povet))
+        collapsed_patterns = collapsed_patterns.filter(lambda x: not nx.is_isomorphic(x, povet_broad.value))
 
     output_file2 = "/net/data/graph-models/sim-graphs/approx5-json"
     with open(output_file2, 'w') as fout:
@@ -251,28 +252,3 @@ if __name__ == "__main__":
             string_item = json.dumps(json_graph.node_link_data(item))
             fout.write(string_item)
 
-
-'''
-    old_g = pickle.load(open("/net/data/facebook/facebook-ucsb/Facebook_2008/MontereyBay/original_pickles/MontereyBay.pickle", 'r'))
-    new_g = nx.Graph()
-    for node, friends in old_g.adj.iteritems():
-        if node not in new_g.nodes():
-            new_g.add_node(node)
-        for friend in friends.iterkeys():
-            new_g.add_node(friend)
-            new_g.add_edge(node, friend)
-#serialize the networkx graph as text files of edgelist
-#into a text file for workers to read
-
- #   networkx.write_edgelist(new_g, "edgelist/MontereyBay", data=False)
- #   subprocess.check_call("hdfs dfs -put edgelist/MontereyBay edgelist/", shell=True)
-
-    dataG = json_graph.node_link_data(new_g)
-    stringG = json.dumps(dataG)
-    originalG = sc.broadcast(stringG)
-    edges = sc.textFile("hdfs://scrapper/user/xiaofeng/edgelist/MontereyBay")
-    costs = edges.map(lambda line: line.split(' ')).map(lambda edge: edge_to_cost(edge, originalG.value))
-    costs.saveAsTextFile("hdfs://scrapper/user/xiaofeng/costs_MontereyBay")
-    sc.stop()
-    subprocess.check_call("hdfs dfs -get costs_MontereyBay costs/", shell=True)
-'''
