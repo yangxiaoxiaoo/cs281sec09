@@ -211,7 +211,7 @@ def worker_all_collapse(Motifset, G_string):
             Motif3 = nx.relabel_nodes(Motif2, mapping=dict(zip(Motif2.nodes(),to_list)))
             for item in patternsets2(Motif1, Motif3):
                     patternset.add(item)
-    return deisomorphism(patternset)
+    return list(deisomorphism(patternset))
 
 def setcomb(set1, set2):
     #not bottleneck operation
@@ -222,13 +222,14 @@ def setcomb(set1, set2):
         all_set.add(item)
     return all_set
 
+
 if __name__ == "__main__":
     sc = SparkContext(appName="Sorted_removal")
 
     Motifset = Motifsets()
     patterns2 = enumerate2()
-    output_file = "/net/data/graph-models/sim-graphs/approx3-json"
-    with open(output_file, 'w') as fout:
+    output_file1 = "/net/data/graph-models/sim-graphs/approx3-json"
+    with open(output_file1, 'w') as fout:
         for item in patterns2:
             string_item = json.dumps(json_graph.node_link_data(item))
             fout.write(string_item)
@@ -236,9 +237,19 @@ if __name__ == "__main__":
     broadMotifset = sc.broadcast(Motifset)
     subprocess.check_call("hdfs dfs -put /net/data/graph-models/sim-graphs/approx3-json approx3-json", shell=True)
     approx3Motifs = sc.textFile("hdfs://scrapper/user/xiaofeng/approx3-json")
-    collapsed_patterns = approx3Motifs.map(lambda line: worker_all_collapse(broadMotifset.value, line)).reduce(lambda a, b: setcomb(a, b))
+    collapsed_patterns = approx3Motifs.flatMap(lambda line: worker_all_collapse(broadMotifset.value, line))
     collapsed_patterns.persist()
+    non_iso_set = set()
+    while not collapsed_patterns.isEmpty():
+        povet = collapsed_patterns.take(0)
+        non_iso_set.add(povet)
+        collapsed_patterns.filter(lambda x: not nx.is_isomorphic(x, povet))
 
+    output_file2 = "/net/data/graph-models/sim-graphs/approx5-json"
+    with open(output_file2, 'w') as fout:
+        for item in non_iso_set:
+            string_item = json.dumps(json_graph.node_link_data(item))
+            fout.write(string_item)
 
 
 '''
