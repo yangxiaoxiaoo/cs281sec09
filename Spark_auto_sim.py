@@ -211,7 +211,7 @@ def worker_all_collapse(Motifset, G_string):
             Motif3 = nx.relabel_nodes(Motif2, mapping=dict(zip(Motif2.nodes(),to_list)))
             for item in patternsets2(Motif1, Motif3):
                     patternset.add(item)
-    return list(deisomorphism(patternset))
+    return deisomorphism(patternset)
 
 def setcomb(set1, set2):
     #not bottleneck operation
@@ -243,6 +243,7 @@ if __name__ == "__main__":
     while not collapsed_patterns.isEmpty(): #or use count() != 0 as an alternative
         povet = collapsed_patterns.take(0)#BROADCAST
         povet_broad = sc.broadcast(povet)
+        print type(povet)
         non_iso_set.add(povet)
         collapsed_patterns = collapsed_patterns.filter(lambda x: not nx.is_isomorphic(x, povet_broad.value))
 
