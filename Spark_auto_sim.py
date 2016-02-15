@@ -232,7 +232,7 @@ if __name__ == "__main__":
     with open(output_file1, 'w') as fout:
         for item in patterns2:
             string_item = json.dumps(json_graph.node_link_data(item))
-            fout.write(string_item)
+            fout.write(string_item + "\n")
 
     broadMotifset = sc.broadcast(Motifset)
     subprocess.check_call("hdfs dfs -put /net/data/graph-models/sim-graphs/approx3-json approx3-json", shell=True)
