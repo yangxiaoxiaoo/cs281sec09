@@ -225,17 +225,12 @@ def setcomb(set1, set2):
 
 
 if __name__ == "__main__":
-    #sc = SparkContext(appName="Motif_counting")
+    sc = SparkContext(appName="Motif_counting")
     checkpointDirectory = "~/checkpoints/"
-    def FunctionCreateContext():
-        sc = SparkContext(appName="Motif_counting")
-        ssc = StreamingContext(sc, 1)
-        ssc.checkpoint(checkpointDirectory)
-        return ssc
+    ssc = StreamingContext(sc, 1)
+    ssc.checkpoint(checkpointDirectory)
 
-    context = StreamingContext.getOrCreate(checkpointDirectory,
-                                       FunctionCreateContext)
-    context.start()
+
     Motifset = Motifsets()
     patterns2 = enumerate2()
     output_file1 = "/net/data/graph-models/sim-graphs/approx3-json"
@@ -244,21 +239,20 @@ if __name__ == "__main__":
             string_item = json.dumps(json_graph.node_link_data(item))
             fout.write(string_item + "\n")
 
-    broadMotifset = context.broadcast(Motifset)
+    broadMotifset = ssc.broadcast(Motifset)
     subprocess.check_call("hdfs dfs -put /net/data/graph-models/sim-graphs/approx3-json approx3-json", shell=True)
-    approx3Motifs = context.textFile("hdfs://scrapper/user/xiaofeng/approx3-json")
+    approx3Motifs = ssc.textFile("hdfs://scrapper/user/xiaofeng/approx3-json")
     collapsed_patterns = approx3Motifs.flatMap(lambda line: worker_all_collapse(broadMotifset.value, line))
     collapsed_patterns.persist()
     non_iso_set = set()
     while not collapsed_patterns.isEmpty(): #or use count() != 0 as an alternative
         povet = collapsed_patterns.take(1)[0]#BROADCAST
-        povet_broad = context.broadcast(povet)
+        povet_broad = ssc.broadcast(povet)
         print type(povet)
 
         non_iso_set.add(povet)
         collapsed_patterns = collapsed_patterns.filter(lambda x: not nx.is_isomorphic(x, povet_broad.value))
         collapsed_patterns.checkpoint()
-    context.stop()
 
     output_file2 = "/net/data/graph-models/sim-graphs/approx5-json"
     with open(output_file2, 'w') as fout:
