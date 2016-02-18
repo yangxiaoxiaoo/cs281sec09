@@ -227,8 +227,8 @@ def setcomb(set1, set2):
 if __name__ == "__main__":
     sc = SparkContext(appName="Motif_counting")
     checkpointDirectory = "~/checkpoints/"
-    ssc = StreamingContext(sc, 1)
-    ssc.checkpoint(checkpointDirectory)
+    #ssc = StreamingContext(sc, 1)
+    sc.checkpoint(checkpointDirectory)
 
 
     Motifset = Motifsets()
@@ -239,15 +239,15 @@ if __name__ == "__main__":
             string_item = json.dumps(json_graph.node_link_data(item))
             fout.write(string_item + "\n")
 
-    broadMotifset = ssc.broadcast(Motifset)
+    broadMotifset = sc.broadcast(Motifset)
     subprocess.check_call("hdfs dfs -put /net/data/graph-models/sim-graphs/approx3-json approx3-json", shell=True)
-    approx3Motifs = ssc.textFile("hdfs://scrapper/user/xiaofeng/approx3-json")
+    approx3Motifs = sc.textFile("hdfs://scrapper/user/xiaofeng/approx3-json")
     collapsed_patterns = approx3Motifs.flatMap(lambda line: worker_all_collapse(broadMotifset.value, line))
     collapsed_patterns.persist()
     non_iso_set = set()
     while not collapsed_patterns.isEmpty(): #or use count() != 0 as an alternative
         povet = collapsed_patterns.take(1)[0]#BROADCAST
-        povet_broad = ssc.broadcast(povet)
+        povet_broad = sc.broadcast(povet)
         print type(povet)
 
         non_iso_set.add(povet)
