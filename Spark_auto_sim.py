@@ -225,7 +225,7 @@ def setcomb(set1, set2):
 
 
 if __name__ == "__main__":
-    sc = SparkContext(appName="Motif_counting")
+    #sc = SparkContext(appName="Motif_counting")
     checkpointDirectory = "~/checkpoints/"
     def FunctionCreateContext():
         sc = SparkContext(appName="Motif_counting")
