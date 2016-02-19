@@ -228,7 +228,7 @@ if __name__ == "__main__":
     sc = SparkContext(appName="Motif_counting")
     checkpointDirectory = "~/checkpoints/"
     #ssc = StreamingContext(sc, 1)
-    sc.checkpoint(checkpointDirectory)
+    #sc.checkpoint(checkpointDirectory)
 
 
     Motifset = Motifsets()
@@ -252,7 +252,7 @@ if __name__ == "__main__":
 
         non_iso_set.add(povet)
         collapsed_patterns = collapsed_patterns.filter(lambda x: not nx.is_isomorphic(x, povet_broad.value))
-        collapsed_patterns.checkpoint()
+        collapsed_patterns.checkpoint
 
     output_file2 = "/net/data/graph-models/sim-graphs/approx5-json"
     with open(output_file2, 'w') as fout:
