@@ -260,5 +260,5 @@ if __name__ == "__main__":
     with open(output_file2, 'w') as fout:
         for item in non_iso_set:
             string_item = json.dumps(json_graph.node_link_data(item))
-            fout.write(string_item)
+            fout.write(string_item + '\n')
 
