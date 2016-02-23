@@ -213,7 +213,8 @@ def worker_all_collapse(Motifset, G_string):
             Motif3 = nx.relabel_nodes(Motif2, mapping=dict(zip(Motif2.nodes(),to_list)))
             for item in patternsets2(Motif1, Motif3):
                     patternset.add(item)
-    return list(deisomorphism(patternset))
+    #return list(deisomorphism(patternset))
+    return list(patternset)
 
 def setcomb(set1, set2):
     #not bottleneck operation
@@ -246,6 +247,9 @@ if __name__ == "__main__":
     collapsed_patterns = approx3Motifs.flatMap(lambda line: worker_all_collapse(broadMotifset.value, line))
     collapsed_patterns.persist()
     non_iso_set = set()
+
+    #parallelzation comes only after this point???--shouldn't let worker each do deiso first!!
+
     while not collapsed_patterns.isEmpty(): #or use count() != 0 as an alternative
 
         povet = collapsed_patterns.take(1)[0]#BROADCAST
