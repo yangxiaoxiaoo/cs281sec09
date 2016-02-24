@@ -262,6 +262,7 @@ if __name__ == "__main__":
         non_iso_set.add(povet)
         collapsed_patterns = collapsed_patterns.filter(lambda x: not nx.is_isomorphic(x, povet_broad.value))
         collapsed_patterns.cache()
+        print collapsed_patterns.count()
         #collapsed_patterns.checkpoint
 
     output_file2 = "/net/data/graph-models/sim-graphs/approx5-json"
