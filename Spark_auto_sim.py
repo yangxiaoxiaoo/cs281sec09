@@ -243,8 +243,11 @@ if __name__ == "__main__":
 
     broadMotifset = sc.broadcast(Motifset)
     subprocess.check_call("hdfs dfs -put /net/data/graph-models/sim-graphs/approx3-json approx3-json", shell=True)
-    approx3Motifs = sc.textFile("hdfs://scrapper/user/xiaofeng/approx3-json")
+    approx3Motifs = sc.textFile("hdfs://scrapper/user/xiaofeng/approx3-json", 192)
+    #.number of partitions
     collapsed_patterns = approx3Motifs.flatMap(lambda line: worker_all_collapse(broadMotifset.value, line))
+    #save to HDFS, as a text file, and keep using that RDD
+
     collapsed_patterns.persist()
     non_iso_set = set()
 
