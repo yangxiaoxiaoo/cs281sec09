@@ -70,6 +70,8 @@ def main():
     machines = ["achtung%02i" % (x) for x in range(2, 12)]
     m_size = 2
     graph_ids = get_graph_ids(m_size)
+    print "graph ids"
+    print graph_ids
 
     while m_size <= 6:
         filepath = "/net/data/graph-models/louvain-clusters/communities/"
@@ -78,14 +80,13 @@ def main():
             if file.split('.')[-1]== 'new':
                 filename = os.path.join(filepath, file)
                 filenames.append(filename)
-        print filenames
+
 
         while len(filenames) > 0:
             procs = []
             for i, machine in enumerate(machines):
                 if len(filenames) > 0:
                     filename = filenames.pop()
-                    print filename
                     if len(graph_ids) == 1: #other sizes motif
                         cmd = ['ssh',
                         machine,
