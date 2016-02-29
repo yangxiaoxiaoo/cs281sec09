@@ -68,12 +68,13 @@ def test():
 def main():
 
     machines = ["achtung%02i" % (x) for x in range(2, 12)]
-    m_size = 2
-    graph_ids = get_graph_ids(m_size)
-    print "graph ids"
-    print graph_ids
 
+    m_size = 2
     while m_size <= 6:
+        graph_ids = get_graph_ids(m_size)
+        print "graph ids"
+        print graph_ids
+
         filepath = "/net/data/graph-models/louvain-clusters/communities/"
         filenames = list()
         for file in os.listdir(filepath):
