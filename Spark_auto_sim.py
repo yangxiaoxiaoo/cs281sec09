@@ -152,9 +152,9 @@ def Motifsets():
     G_3.add_edge(21, 22)
     G_3.add_edge(22, 17)
 
-    #return set([G_1a, G_1b, G_2a])
-    return set([G_1a, G_1b, G_2a, G_2c, G_3])
-   # return  set([G_1a, G_1b])
+  #  return set([G_1a, G_1b, G_2a])
+   # return set([G_1a, G_1b, G_2a, G_2c, G_3])
+    return  set([G_1a, G_1b])
 
 def enumerate2():
     allpatterns = set()
@@ -229,9 +229,6 @@ def setcomb(set1, set2):
 if __name__ == "__main__":
     sc = SparkContext(appName="Motif_counting")
     checkpointDirectory = "~/checkpoints/"
-    #ssc = StreamingContext(sc, 1)
-    #sc.checkpoint(checkpointDirectory)
-
 
     Motifset = Motifsets()
     patterns2 = enumerate2()
@@ -246,24 +243,39 @@ if __name__ == "__main__":
     approx3Motifs = sc.textFile("hdfs://scrapper/user/xiaofeng/approx3-json", 192)
     #.number of partitions
     collapsed_patterns = approx3Motifs.flatMap(lambda line: worker_all_collapse(broadMotifset.value, line))
+    collapsed_patterns.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue")
     #save to HDFS, as a text file, and keep using that RDD
 
     collapsed_patterns.persist()
     non_iso_set = set()
 
-    #parallelzation comes only after this point???--shouldn't let worker each do deiso first!!
 
-    while not collapsed_patterns.isEmpty(): #or use count() != 0 as an alternative
+#    while not collapsed_patterns.isEmpty(): #or use count() != 0 as an alternative
 
-        povet = collapsed_patterns.take(1)[0]#BROADCAST
-        povet_broad = sc.broadcast(povet)
-        print type(povet)
+#        povet = collapsed_patterns.take(1)[0]#BROADCAST
+#        povet_broad = sc.broadcast(povet)
+#        print type(povet)
 
-        non_iso_set.add(povet)
-        collapsed_patterns = collapsed_patterns.filter(lambda x: not nx.is_isomorphic(x, povet_broad.value))
-        collapsed_patterns.cache()
-        print collapsed_patterns.count()
-        #collapsed_patterns.checkpoint
+#        non_iso_set.add(povet)
+#        collapsed_patterns = collapsed_patterns.filter(lambda x: not nx.is_isomorphic(x, povet_broad.value))
+#
+
+
+###########write to hard disk the queue of elements waiting to be processed
+    while True:
+        collapsed_patterns = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue")
+        if collapsed_patterns.count() == 0:
+            break
+        else:
+            povet = collapsed_patterns.take(1)[0]#BROADCAST
+            povet_broad = sc.broadcast(povet)
+            non_iso_set.add(povet)
+            collapsed_patterns_new = collapsed_patterns.filter(lambda x: not nx.is_isomorphic(x, povet_broad.value))
+            subprocess.check_call("hdfs", 'dfs', '-rm', '-r', 'patterns_queue')
+            collapsed_patterns_new.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue")
+            print collapsed_patterns.count()
+
+
 
     output_file2 = "/net/data/graph-models/sim-graphs/approx5-json"
     with open(output_file2, 'w') as fout:
