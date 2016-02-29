@@ -271,7 +271,7 @@ if __name__ == "__main__":
             povet_broad = sc.broadcast(povet)
             non_iso_set.add(povet)
             collapsed_patterns_new = collapsed_patterns.filter(lambda x: not nx.is_isomorphic(x, povet_broad.value))
-            subprocess.check_call("hdfs", 'dfs', '-rm', '-r', 'patterns_queue')
+            subprocess.check_call("hdfs dfs -rm -r patterns_queue", shell=True)
             collapsed_patterns_new.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue")
             print collapsed_patterns.count()
 
