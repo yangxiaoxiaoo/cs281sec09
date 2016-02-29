@@ -79,9 +79,10 @@ def main():
                 filename = os.path.join(filepath, file)
                 filenames.append(filename)
 
-        procs = []
-        for i, machine in enumerate(machines):
-            while len(filenames) > 0:
+
+        while len(filenames) > 0:
+            procs = []
+            for i, machine in enumerate(machines):
                 filename = filenames.pop()
                 if len(graph_ids) == 1: #other sizes motif
                     cmd = ['ssh',
@@ -91,7 +92,7 @@ def main():
                     "-s",
                     str(m_size),
                     "-f",
-                    "/net/data/graph-models/louvain-clusters/communities_sub/"+filename.strip("/net/data/graph-models/louvain-clusters/communities/"),
+                    "/net/data/graph-models/louvain-clusters/communities_sub/"+filename.split("/")[-1] +"_s"+str(m_size),
                     "-r",
                     "2",
                     "-ospmem",
@@ -108,16 +109,17 @@ def main():
                     "-s",
                     str(m_size),
                     "-f",
-                    "/net/data/graph-models/louvain-clusters/communities_sub/"+filename.strip("/net/data/graph-models/louvain-clusters/communities/"),
+                    "/net/data/graph-models/louvain-clusters/communities_sub/"+filename.split("/")[-1]+"_s"+str(m_size),
                     "-r",
                     "2",
                     "-omem",
                     "-nd"
                     ]
+                    print cmd
 
             procs.append(subprocess.Popen(cmd))
 
-        for proc in procs:
+            for proc in procs:
                 proc.wait()
 
         m_size += 1
