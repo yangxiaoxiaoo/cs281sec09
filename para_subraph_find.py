@@ -120,7 +120,7 @@ def main():
                         ]
                         print cmd
 
-                    procs.append(subprocess.Popen(cmd))
+                        procs.append(subprocess.Popen(cmd))
 
             for proc in procs:
                 proc.wait()
