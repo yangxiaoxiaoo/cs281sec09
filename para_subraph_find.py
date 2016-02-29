@@ -2,6 +2,7 @@
 import networkx as nx
 import os
 import subprocess
+import numpy as np
 
 def Motifsets():
     G_1a = nx.Graph()
@@ -39,13 +40,29 @@ def Motifsets():
     return set([G_1a, G_1b, G_2a, G_2c, G_3])
 
 
+
+
+
 def get_graph_ids(size):
     list_of_ids = list()
     all_motifs = Motifsets()
     for graph in all_motifs:
         if graph.number_of_nodes() == size:
-            list_of_ids.append(graph)
+            A = np.array(nx.adjacency_matrix(graph))
+            print A
+            value = 0
+            for i in range(0, size):
+                for j in range(0, size ):
+                    if A[i][j]:
+                        value += pow(2, (i* size + j))
+            print value
+            list_of_ids.append(value)
+
     return list_of_ids
+
+def test():
+    for i in range(1, 7):
+        print get_graph_ids(i)
 
 
 def main():
@@ -62,46 +79,50 @@ def main():
                 filename = os.path.join(filepath, file)
                 filenames.append(filename)
 
-
         procs = []
-
         for i, machine in enumerate(machines):
-            filename = filenames.pop()
-            if len(graph_ids) == 1: #other sizes motif
-                cmd = ['ssh',
+            while len(filenames) > 0:
+                filename = filenames.pop()
+                if len(graph_ids) == 1: #other sizes motif
+                    cmd = ['ssh',
                     machine,
                     "facebook/sparsify/mfinder1.21/mfinder",
                     filename,
                     "-s",
                     m_size,
+                    "-f",
+                    "/net/data/graph-models/louvain-clusters/communities_sub/"+filename,
                     "-r",
                     2,
                     "-ospmem",
                     graph_ids[0],
-                    "nd",
+                    "-nd",
                     "-omem"
                        ]
 
-            else: #size 4 motif: multiple possible shapes
-                cmd = ['ssh',
+                else: #size 4 motif: multiple possible shapes
+                    cmd = ['ssh',
                     machine,
                     "facebook/sparsify/mfinder1.21/mfinder",
                     filename,
                     "-s",
                     m_size,
+                    "-f",
+                    "/net/data/graph-models/louvain-clusters/communities_sub/"+filename,
                     "-r",
                     2,
                     "-omem",
-                    "nd"
+                    "-nd"
                     ]
 
-            procs.append(subprocess.Popen(cmd))
+                procs.append(subprocess.Popen(cmd))
 
-        for proc in procs:
-            proc.wait()
+            for proc in procs:
+                proc.wait()
 
         m_size += 1
 
 
 if __name__ == "__main__":
+    #test()
     main()
