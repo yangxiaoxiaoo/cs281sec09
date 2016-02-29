@@ -78,13 +78,14 @@ def main():
             if file.split('.')[-1]== 'new':
                 filename = os.path.join(filepath, file)
                 filenames.append(filename)
-
+        print filenames
 
         while len(filenames) > 0:
             procs = []
             for i, machine in enumerate(machines):
                 if len(filenames) > 0:
                     filename = filenames.pop()
+                    print filename
                     if len(graph_ids) == 1: #other sizes motif
                         cmd = ['ssh',
                         machine,
