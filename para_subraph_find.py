@@ -101,7 +101,7 @@ def main():
                     "-omem"
                        ]
 
-                else: #size 4 motif: multiple possible shapes
+                if len(graph_ids) == 2: #size 4 motif: multiple possible shapes
                     cmd = ['ssh',
                     machine,
                     "facebook/sparsify/mfinder1.21/mfinder",
