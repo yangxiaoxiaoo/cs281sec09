@@ -115,9 +115,9 @@ def main():
                     "-nd"
                     ]
 
-                procs.append(subprocess.Popen(cmd))
+            procs.append(subprocess.Popen(cmd))
 
-            for proc in procs:
+        for proc in procs:
                 proc.wait()
 
         m_size += 1
