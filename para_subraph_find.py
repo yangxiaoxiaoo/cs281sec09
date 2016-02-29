@@ -93,9 +93,9 @@ def main():
                     "-f",
                     "/net/data/graph-models/louvain-clusters/communities_sub/"+filename,
                     "-r",
-                    2,
+                    "2",
                     "-ospmem",
-                    graph_ids[0],
+                    str(graph_ids[0]),
                     "-nd",
                     "-omem"
                        ]
@@ -110,7 +110,7 @@ def main():
                     "-f",
                     "/net/data/graph-models/louvain-clusters/communities_sub/"+filename,
                     "-r",
-                    2,
+                    "2",
                     "-omem",
                     "-nd"
                     ]
