@@ -100,6 +100,8 @@ def main():
                     "-nd",
                     "-omem"
                        ]
+                    print cmd
+                    procs.append(subprocess.Popen(cmd))
 
                 if len(graph_ids) == 2: #size 4 motif: multiple possible shapes
                     cmd = ['ssh',
@@ -117,7 +119,7 @@ def main():
                     ]
                     print cmd
 
-            procs.append(subprocess.Popen(cmd))
+                    procs.append(subprocess.Popen(cmd))
 
             for proc in procs:
                 proc.wait()
