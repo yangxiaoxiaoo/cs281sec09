@@ -264,10 +264,11 @@ if __name__ == "__main__":
 
 ###########write to hard disk the queue of elements waiting to be processed
     while True:
-        collapsed_patterns = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue")
+
         if collapsed_patterns.count() == 0:
             break
         else:
+            collapsed_patterns = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue")
             povet = collapsed_patterns.take(1)[0]#BROADCAST
             povet_broad = sc.broadcast(povet)
             non_iso_set.add(povet)
