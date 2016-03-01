@@ -75,12 +75,20 @@ def main():
         print "graph ids"
         print graph_ids
 
+        processed_set = set()
+        already_processed = "/net/data/graph-models/louvain-clusters/communities_sub/"
+        for file in os.listdir(already_processed):
+            processed_set.add(file.split('_s')[0])
+
         filepath = "/net/data/graph-models/louvain-clusters/communities/"
         filenames = list()
         for file in os.listdir(filepath):
             if file.split('.')[-1]== 'new':
-                filename = os.path.join(filepath, file)
-                filenames.append(filename)
+                if file not in processed_set:
+                    filename = os.path.join(filepath, file)
+                    filenames.append(filename)
+
+
 
 
         while len(filenames) > 0:
