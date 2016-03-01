@@ -1,4 +1,6 @@
-#!/usr/bin/python
+#adapted from "Spark_auto_sim.py
+#manually parallelize deisomorphism process, instead of using spark
+
 import subprocess
 import json
 from networkx.readwrite import json_graph
@@ -229,11 +231,10 @@ def main():
             string_item = json.dumps(json_graph.node_link_data(item))
             fout.write(string_item + "\n")
 
-    broadMotifset = sc.broadcast(Motifset)
     subprocess.check_call("hdfs dfs -put /net/data/graph-models/sim-graphs/approx3-json approx3-json", shell=True)
     approx3Motifs = sc.textFile("hdfs://scrapper/user/xiaofeng/approx3-json", 192)
     #.number of partitions
-    collapsed_patterns = approx3Motifs.flatMap(lambda line: worker_all_collapse(broadMotifset.value, line))
+    collapsed_patterns = approx3Motifs.flatMap(lambda line: worker_all_collapse(Motifset, line))
     subprocess.check_call("hdfs dfs -rm -r patterns_queue", shell=True)
     collapsed_patterns.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue")
     #save to HDFS, as a text file, and keep using that RDD

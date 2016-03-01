@@ -78,7 +78,7 @@ def main():
         processed_set = set()
         already_processed = "/net/data/graph-models/louvain-clusters/communities_sub/"
         for file in os.listdir(already_processed):
-            processed_set.add(file.split('_s')[0])
+            processed_set.add(file.split('_s'+str(m_size))[0])
 
         filepath = "/net/data/graph-models/louvain-clusters/communities/"
         filenames = list()
@@ -94,44 +94,52 @@ def main():
         while len(filenames) > 0:
             procs = []
             for i, machine in enumerate(machines):
+                #again, check if the file is being processed by other machines!
+                processed_set = set()
+                already_processed = "/net/data/graph-models/louvain-clusters/communities_sub/"
+                for file in os.listdir(already_processed):
+                    processed_set.add(file.split('_s'+str(m_size))[0])
+
                 if len(filenames) > 0:
                     filename = filenames.pop()
-                    if len(graph_ids) == 1: #other sizes motif
-                        cmd = ['ssh',
-                        machine,
-                        "facebook/sparsify/mfinder1.21/mfinder",
-                        filename,
-                        "-s",
-                        str(m_size),
-                        "-f",
-                        "/net/data/graph-models/louvain-clusters/communities_sub/"+filename.split("/")[-1] +"_s"+str(m_size),
-                        "-r",
-                        "2",
-                        "-ospmem",
-                        str(graph_ids[0]),
-                        "-nd",
-                        "-omem"
-                        ]
-                        print cmd
-                        procs.append(subprocess.Popen(cmd))
+                    #check if it is in processed set
+                    if filename not in processed_set:
+                        if len(graph_ids) == 1: #other sizes motif
+                            cmd = ['ssh',
+                            machine,
+                            "facebook/sparsify/mfinder1.21/mfinder",
+                            filename,
+                            "-s",
+                            str(m_size),
+                            "-f",
+                            "/net/data/graph-models/louvain-clusters/communities_sub/"+filename.split("/")[-1] +"_s"+str(m_size),
+                            "-r",
+                            "2",
+                            "-ospmem",
+                            str(graph_ids[0]),
+                            "-nd",
+                            "-omem"
+                            ]
+                            print cmd
+                            procs.append(subprocess.Popen(cmd))
 
-                    if len(graph_ids) == 2: #size 4 motif: multiple possible shapes
-                        cmd = ['ssh',
-                        machine,
-                        "facebook/sparsify/mfinder1.21/mfinder",
-                        filename,
-                        "-s",
-                        str(m_size),
-                        "-f",
-                        "/net/data/graph-models/louvain-clusters/communities_sub/"+filename.split("/")[-1]+"_s"+str(m_size),
-                        "-r",
-                        "2",
-                        "-omem",
-                        "-nd"
-                        ]
-                        print cmd
+                        if len(graph_ids) == 2: #size 4 motif: multiple possible shapes
+                            cmd = ['ssh',
+                            machine,
+                            "facebook/sparsify/mfinder1.21/mfinder",
+                            filename,
+                            "-s",
+                            str(m_size),
+                            "-f",
+                            "/net/data/graph-models/louvain-clusters/communities_sub/"+filename.split("/")[-1]+"_s"+str(m_size),
+                            "-r",
+                            "2",
+                            "-omem",
+                            "-nd"
+                            ]
+                            print cmd
 
-                        procs.append(subprocess.Popen(cmd))
+                            procs.append(subprocess.Popen(cmd))
 
             for proc in procs:
                 proc.wait()
