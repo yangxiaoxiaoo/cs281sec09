@@ -245,7 +245,6 @@ if __name__ == "__main__":
     collapsed_patterns = approx3Motifs.flatMap(lambda line: worker_all_collapse(broadMotifset.value, line))\
         .map(lambda graph: json.dumps(json_graph.node_link_data(graph)))
         #to string
-    subprocess.check_call("hdfs dfs -rm -r patterns_queue", shell=True)
     collapsed_patterns.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
     #save to HDFS, as a text file, and keep using that RDD
 
