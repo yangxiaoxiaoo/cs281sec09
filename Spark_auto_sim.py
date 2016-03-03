@@ -286,7 +286,7 @@ if __name__ == "__main__":
 
                 collapsed_patterns_new.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue2")
                 subprocess.check_call("hdfs dfs -rm -r patterns_queue1", shell=True)
-                print collapsed_patterns.count()
+                print collapsed_patterns_new.count()
                 flip = False
             else:
                 collapsed_patterns = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue2")
@@ -297,7 +297,7 @@ if __name__ == "__main__":
 
                 collapsed_patterns_new.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
                 subprocess.check_call("hdfs dfs -rm -r patterns_queue2", shell=True)
-                print collapsed_patterns.count()
+                print collapsed_patterns_new.count()
                 flip = True
 
 
