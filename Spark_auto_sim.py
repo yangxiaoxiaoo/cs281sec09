@@ -244,7 +244,7 @@ if __name__ == "__main__":
     #.number of partitions
     collapsed_patterns = approx3Motifs.flatMap(lambda line: worker_all_collapse(broadMotifset.value, line))
     subprocess.check_call("hdfs dfs -rm -r patterns_queue", shell=True)
-    collapsed_patterns.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue")
+    collapsed_patterns.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
     #save to HDFS, as a text file, and keep using that RDD
 
     collapsed_patterns.persist()
@@ -263,19 +263,34 @@ if __name__ == "__main__":
 
 
 ###########write to hard disk the queue of elements waiting to be processed
+    flip = True
     while True:
 
         if collapsed_patterns.count() == 0:
             break
         else:
-            collapsed_patterns = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue")
-            povet = collapsed_patterns.take(1)[0]#BROADCAST
-            povet_broad = sc.broadcast(povet)
-            non_iso_set.add(povet)
-            collapsed_patterns_new = collapsed_patterns.filter(lambda x: not nx.is_isomorphic(x, povet_broad.value))
-            subprocess.check_call("hdfs dfs -rm -r patterns_queue", shell=True)
-            collapsed_patterns_new.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue")
-            print collapsed_patterns.count()
+            if flip == True:
+                collapsed_patterns = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
+                povet = collapsed_patterns.take(1)[0]#BROADCAST
+                povet_broad = sc.broadcast(povet)
+                non_iso_set.add(povet)
+                collapsed_patterns_new = collapsed_patterns.filter(lambda x: not nx.is_isomorphic(x, povet_broad.value))
+
+                collapsed_patterns_new.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue2")
+                subprocess.check_call("hdfs dfs -rm -r patterns_queue1", shell=True)
+                print collapsed_patterns.count()
+                flip = False
+            else:
+                collapsed_patterns = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue2")
+                povet = collapsed_patterns.take(1)[0]#BROADCAST
+                povet_broad = sc.broadcast(povet)
+                non_iso_set.add(povet)
+                collapsed_patterns_new = collapsed_patterns.filter(lambda x: not nx.is_isomorphic(x, povet_broad.value))
+
+                collapsed_patterns_new.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
+                subprocess.check_call("hdfs dfs -rm -r patterns_queue2", shell=True)
+                print collapsed_patterns.count()
+                flip = True
 
 
 
