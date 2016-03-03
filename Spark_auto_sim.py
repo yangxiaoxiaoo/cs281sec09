@@ -273,12 +273,11 @@ if __name__ == "__main__":
 ###########write to hard disk the queue of elements waiting to be processed
     flip = True
     while True:
-
-        if collapsed_patterns.count() == 0:
-            break
-        else:
+        if True:
             if flip == True:
                 collapsed_patterns = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
+                if collapsed_patterns.count() == 0:
+                    break
                 povet = collapsed_patterns.take(1)[0]#BROADCAST
                 povet_broad = sc.broadcast(povet)
                 non_iso_set.add(povet)
@@ -286,10 +285,11 @@ if __name__ == "__main__":
 
                 collapsed_patterns_new.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue2")
                 subprocess.check_call("hdfs dfs -rm -r patterns_queue1", shell=True)
-                print collapsed_patterns_new.count()
                 flip = False
             else:
                 collapsed_patterns = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue2")
+                if collapsed_patterns.count() == 0:
+                    break
                 povet = collapsed_patterns.take(1)[0]#BROADCAST
                 povet_broad = sc.broadcast(povet)
                 non_iso_set.add(povet)
@@ -297,7 +297,6 @@ if __name__ == "__main__":
 
                 collapsed_patterns_new.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
                 subprocess.check_call("hdfs dfs -rm -r patterns_queue2", shell=True)
-                print collapsed_patterns_new.count()
                 flip = True
 
 
