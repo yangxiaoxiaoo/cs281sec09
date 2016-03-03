@@ -241,14 +241,23 @@ if __name__ == "__main__":
     broadMotifset = sc.broadcast(Motifset)
     subprocess.check_call("hdfs dfs -put /net/data/graph-models/sim-graphs/approx3-json approx3-json", shell=True)
     approx3Motifs = sc.textFile("hdfs://scrapper/user/xiaofeng/approx3-json", 192)
-    #.number of partitions
-    collapsed_patterns = approx3Motifs.flatMap(lambda line: worker_all_collapse(broadMotifset.value, line))
+    #number of partitions
+    collapsed_patterns = approx3Motifs.flatMap(lambda line: worker_all_collapse(broadMotifset.value, line))\
+        .map(lambda graph: json.dumps(json_graph.node_link_data(graph)))
+        #to string
     subprocess.check_call("hdfs dfs -rm -r patterns_queue", shell=True)
     collapsed_patterns.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
     #save to HDFS, as a text file, and keep using that RDD
 
     collapsed_patterns.persist()
     non_iso_set = set()
+
+    def iso_json(string1,string2):
+        dataG1 = json.loads(string1)
+        graph1 = json_graph.node_link_graph(dataG1)
+        dataG2 = json.loads(string2)
+        graph2 = json_graph.node_link_graph(dataG2)
+        return nx.is_isomorphic(graph1, graph2)
 
 
 #    while not collapsed_patterns.isEmpty(): #or use count() != 0 as an alternative
@@ -274,7 +283,7 @@ if __name__ == "__main__":
                 povet = collapsed_patterns.take(1)[0]#BROADCAST
                 povet_broad = sc.broadcast(povet)
                 non_iso_set.add(povet)
-                collapsed_patterns_new = collapsed_patterns.filter(lambda x: not nx.is_isomorphic(x, povet_broad.value))
+                collapsed_patterns_new = collapsed_patterns.filter(lambda x: not iso_json(x, povet_broad.value))
 
                 collapsed_patterns_new.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue2")
                 subprocess.check_call("hdfs dfs -rm -r patterns_queue1", shell=True)
@@ -285,7 +294,7 @@ if __name__ == "__main__":
                 povet = collapsed_patterns.take(1)[0]#BROADCAST
                 povet_broad = sc.broadcast(povet)
                 non_iso_set.add(povet)
-                collapsed_patterns_new = collapsed_patterns.filter(lambda x: not nx.is_isomorphic(x, povet_broad.value))
+                collapsed_patterns_new = collapsed_patterns.filter(lambda x: not  iso_json(x, povet_broad.value))
 
                 collapsed_patterns_new.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
                 subprocess.check_call("hdfs dfs -rm -r patterns_queue2", shell=True)
