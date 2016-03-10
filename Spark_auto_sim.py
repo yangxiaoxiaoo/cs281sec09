@@ -153,8 +153,8 @@ def Motifsets():
     G_3.add_edge(22, 17)
 
   #  return set([G_1a, G_1b, G_2a])
-    return set([G_1a, G_1b, G_2a, G_2c, G_3])
-   # return  set([G_1a, G_1b])
+  #  return set([G_1a, G_1b, G_2a, G_2c, G_3])
+    return  set([G_1a, G_1b])
 
 def enumerate2():
     allpatterns = set()
@@ -233,6 +233,7 @@ if __name__ == "__main__":
     Motifset = Motifsets()
     patterns2 = enumerate2()
     output_file1 = "/net/data/graph-models/sim-graphs/approx3-json"
+    output_file_inter = "/net/data/graph-models/sim-graphs/approx5-json-inter"
     with open(output_file1, 'w') as fout:
         for item in patterns2:
             string_item = json.dumps(json_graph.node_link_data(item))
@@ -256,51 +257,79 @@ if __name__ == "__main__":
         graph1 = json_graph.node_link_graph(dataG1)
         dataG2 = json.loads(string2)
         graph2 = json_graph.node_link_graph(dataG2)
-        return nx.is_isomorphic(graph1, graph2)
+       # return nx.is_isomorphic(graph1, graph2)
+        return nx.faster_could_be_isomorphic(graph1, graph2)
 
-
-#    while not collapsed_patterns.isEmpty(): #or use count() != 0 as an alternative
-
-#        povet = collapsed_patterns.take(1)[0]#BROADCAST
-#        povet_broad = sc.broadcast(povet)
-#        print type(povet)
-
-#        non_iso_set.add(povet)
-#        collapsed_patterns = collapsed_patterns.filter(lambda x: not nx.is_isomorphic(x, povet_broad.value))
-#
 
 
 ###########write to hard disk the queue of elements waiting to be processed
     flip = True
+    counter = 0
+    counterMax = 20
     while True:
         if True:
             if flip == True:
-                collapsed_patterns = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
-                if collapsed_patterns.count() == 0:
-                    break
-                povet = collapsed_patterns.take(1)[0]#BROADCAST
-                povet_broad = sc.broadcast(povet)
-                non_iso_set.add(povet)
-                collapsed_patterns_new = collapsed_patterns.filter(lambda x: not iso_json(x, povet_broad.value))
 
-                collapsed_patterns_new.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue2")
-                subprocess.check_call("hdfs dfs -rm -r patterns_queue1", shell=True)
-                flip = False
+                if counter > counterMax:
+                    if collapsed_patterns.count() < 2:
+                        break
+                    povet = collapsed_patterns.take(1)[0]#BROADCAST
+                    povet_broad = sc.broadcast(povet)
+                    non_iso_set.add(povet)
+                    fout_inter = open(output_file_inter, 'r')
+                    fout_inter.write(povet + '\n')
+                    fout_inter.close()
+                    collapsed_patterns_new = collapsed_patterns.filter(lambda x: not iso_json(x, povet_broad.value))
+                    collapsed_patterns_new.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue2")
+                    subprocess.check_call("hdfs dfs -rm -r patterns_queue1", shell=True)
+                    collapsed_patterns = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue2")
+                    flip = False
+                    counter = 0
+
+                else:
+                    if collapsed_patterns.count() < 2:
+                        break
+                    povet = collapsed_patterns.take(1)[0]#BROADCAST
+                    povet_broad = sc.broadcast(povet)
+                    non_iso_set.add(povet)
+                    fout_inter = open(output_file_inter, 'r')
+                    fout_inter.write(povet + '\n')
+                    fout_inter.close()
+                    collapsed_patterns = collapsed_patterns.filter(lambda x: not iso_json(x, povet_broad.value))
+                    counter += 1
+
             else:
-                collapsed_patterns = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue2")
-                if collapsed_patterns.count() == 0:
-                    break
-                povet = collapsed_patterns.take(1)[0]#BROADCAST
-                povet_broad = sc.broadcast(povet)
-                non_iso_set.add(povet)
-                collapsed_patterns_new = collapsed_patterns.filter(lambda x: not  iso_json(x, povet_broad.value))
 
-                collapsed_patterns_new.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
-                subprocess.check_call("hdfs dfs -rm -r patterns_queue2", shell=True)
-                flip = True
+                if counter > counterMax:
+                    if collapsed_patterns.count() < 2:
+                        break
+                    povet = collapsed_patterns.take(1)[0]#BROADCAST
+                    povet_broad = sc.broadcast(povet)
+                    non_iso_set.add(povet)
+                    fout_inter = open(output_file_inter, 'r')
+                    fout_inter.write(povet + '\n')
+                    fout_inter.close()
+                    collapsed_patterns_new = collapsed_patterns.filter(lambda x: not iso_json(x, povet_broad.value))
+                    collapsed_patterns_new.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
+                    subprocess.check_call("hdfs dfs -rm -r patterns_queue1", shell=True)
+                    collapsed_patterns = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
+                    flip = True
+                    counter = 0
+                else:
+                    if collapsed_patterns.count() < 2:
+                        break
+                    povet = collapsed_patterns.take(1)[0]#BROADCAST
+                    povet_broad = sc.broadcast(povet)
+                    non_iso_set.add(povet)
+                    fout_inter = open(output_file_inter, 'r')
+                    fout_inter.write(povet + '\n')
+                    fout_inter.close()
+                    collapsed_patterns = collapsed_patterns.filter(lambda x: not iso_json(x, povet_broad.value))
+                    counter += 1
 
 
 
+'''
     output_file2 = "/net/data/graph-models/sim-graphs/approx5-json"
     with open(output_file2, 'w') as fout:
         for item in non_iso_set:
@@ -310,3 +339,4 @@ if __name__ == "__main__":
           #  string_item = json.dumps(json_graph.node_link_data(item))
           #  fout.write(string_item + '\n')
 
+'''
