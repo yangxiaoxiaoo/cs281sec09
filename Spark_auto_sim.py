@@ -227,6 +227,20 @@ def setcomb(set1, set2):
 
 
 if __name__ == "__main__":
+    try:
+        subprocess.check_call("hdfs dfs -rm approx3-json", shell=True)
+    except:
+        print "no approx3-json file exist"
+    try:
+        subprocess.check_call("hdfs dfs -rm -r patterns_queue1", shell=True)
+    except:
+        print "no patterns_queue1 file exist"
+    try:
+        subprocess.check_call("hdfs dfs -rm -r patterns_queue2", shell=True)
+    except:
+        print "no patterns_queue2 file exist"
+
+
     sc = SparkContext(appName="Motif_counting")
     checkpointDirectory = "~/checkpoints/"
 
