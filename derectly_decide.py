@@ -68,21 +68,22 @@ def dataset_select(threshold):
 def main():
     bigger_node_sizes = list()
     p_values = list()
-    deletedset = set(['roadNet-CA', 'roadNet-PA','roadNet-TX', 'web-BerkSta', 'web-Google', 'web-NotreDame','web-Stanford'])
+    deletedset = set(['roadNet-CA', 'roadNet-PA','roadNet-TX', 'web-BerkSta', 'web-Google', 'web-NotreDame','web-Stanford', 'email-EuA','soc-sign-epinions'])
     with open("/net/data/graph-models/louvain-clusters/blocknum_threshold_90.txt", 'r') as fin:
         for line in fin:
             name = line.split(' ')[0]
             min_size_interested = int(line.split(' ')[2])
             if name not in deletedset:
                 with open("/net/data/graph-models/louvain-clusters/nnum-enum-nlist/" + name + ".density", 'r') as fin2:
-                    with open("/net/data/graph-models/louvain-clusters/block_paras/" + name + ".pvalue", 'w') as fout:
+                    if True:
+               #     with open("/net/data/graph-models/louvain-clusters/block_paras/" + name + ".pvalue", 'w') as fout:
                         for line in fin2:
                             node_num = int(line.split(' ')[1])
                             edge_num = int(line.split(' ')[2].split('[')[0])
                             if node_num > min_size_interested:
                                 complete_num = node_num * (node_num - 1) / 2
                                 p = float(edge_num) / float(complete_num)
-                                fout.write(str(node_num) + ' ' + str(p) + '\n')
+                           #     fout.write(str(node_num) + ' ' + str(p) + '\n')
                                 bigger_node_sizes.append(node_num)
                                 p_values.append(p)
 
