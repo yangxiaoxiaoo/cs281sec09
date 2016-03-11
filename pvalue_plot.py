@@ -62,7 +62,7 @@ def pre_CDF_title(input_data, point,input_title):
 
 
 def main():
-    deletedset = set(['roadNet-CA', 'roadNet-PA','roadNet-TX', 'web-BerkSta', 'web-Google', 'web-NotreDame','web-Stanford'])
+    deletedset = set(['roadNet-CA', 'roadNet-PA','roadNet-TX', 'web-BerkSta', 'web-Google', 'web-NotreDame','web-Stanford','email-EuA','soc-sign-epinions' ])
     bigger_node_sizes = list()
     p_values = list()
     with open("/net/data/graph-models/louvain-clusters/blocknum_threshold_90.txt", 'r') as fin:
