@@ -294,7 +294,7 @@ if __name__ == "__main__":
                     povet = collapsed_patterns.take(1)[0]#BROADCAST
                     povet_broad = sc.broadcast(povet)
                     non_iso_set.add(povet)
-                    fout_inter = open(output_file_inter, 'r')
+                    fout_inter = open(output_file_inter, 'a')
                     fout_inter.write(povet + '\n')
                     fout_inter.close()
                     collapsed_patterns_new = collapsed_patterns.filter(lambda x: not iso_json(x, povet_broad.value))
@@ -310,7 +310,7 @@ if __name__ == "__main__":
                     povet = collapsed_patterns.take(1)[0]#BROADCAST
                     povet_broad = sc.broadcast(povet)
                     non_iso_set.add(povet)
-                    fout_inter = open(output_file_inter, 'r')
+                    fout_inter = open(output_file_inter, 'a')
                     fout_inter.write(povet + '\n')
                     fout_inter.close()
                     collapsed_patterns = collapsed_patterns.filter(lambda x: not iso_json(x, povet_broad.value))
@@ -324,7 +324,7 @@ if __name__ == "__main__":
                     povet = collapsed_patterns.take(1)[0]#BROADCAST
                     povet_broad = sc.broadcast(povet)
                     non_iso_set.add(povet)
-                    fout_inter = open(output_file_inter, 'r')
+                    fout_inter = open(output_file_inter, 'a')
                     fout_inter.write(povet + '\n')
                     fout_inter.close()
                     collapsed_patterns_new = collapsed_patterns.filter(lambda x: not iso_json(x, povet_broad.value))
@@ -339,7 +339,7 @@ if __name__ == "__main__":
                     povet = collapsed_patterns.take(1)[0]#BROADCAST
                     povet_broad = sc.broadcast(povet)
                     non_iso_set.add(povet)
-                    fout_inter = open(output_file_inter, 'r')
+                    fout_inter = open(output_file_inter, 'a')
                     fout_inter.write(povet + '\n')
                     fout_inter.close()
                     collapsed_patterns = collapsed_patterns.filter(lambda x: not iso_json(x, povet_broad.value))

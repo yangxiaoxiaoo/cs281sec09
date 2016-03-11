@@ -1,4 +1,6 @@
-#adapted from "Spark_auto_sim.py
+#NOT FINISHED OR USED
+
+# #adapted from "Spark_auto_sim.py
 #manually parallelize deisomorphism process, instead of using spark
 
 import subprocess
