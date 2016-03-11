@@ -242,7 +242,8 @@ def clean_up():
 
 
 
-if __name__ == "__main__":
+
+def main():
     clean_up()
 
     sc = SparkContext(appName="Motif_counting")
@@ -290,7 +291,7 @@ if __name__ == "__main__":
 
                 if counter > counterMax:
                     if collapsed_patterns.count() < 2:
-                        break
+                        return 0
                     povet = collapsed_patterns.take(1)[0]#BROADCAST
                     povet_broad = sc.broadcast(povet)
                     non_iso_set.add(povet)
@@ -306,7 +307,7 @@ if __name__ == "__main__":
 
                 else:
                     if collapsed_patterns.count() < 2:
-                        break
+                        return 0
                     povet = collapsed_patterns.take(1)[0]#BROADCAST
                     povet_broad = sc.broadcast(povet)
                     non_iso_set.add(povet)
@@ -320,7 +321,7 @@ if __name__ == "__main__":
 
                 if counter > counterMax:
                     if collapsed_patterns.count() < 2:
-                        break
+                        return 0
                     povet = collapsed_patterns.take(1)[0]#BROADCAST
                     povet_broad = sc.broadcast(povet)
                     non_iso_set.add(povet)
@@ -329,13 +330,13 @@ if __name__ == "__main__":
                     fout_inter.close()
                     collapsed_patterns_new = collapsed_patterns.filter(lambda x: not iso_json(x, povet_broad.value))
                     collapsed_patterns_new.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
-                    subprocess.check_call("hdfs dfs -rm -r patterns_queue1", shell=True)
+                    subprocess.check_call("hdfs dfs -rm -r patterns_queue2", shell=True)
                     collapsed_patterns = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
                     flip = True
                     counter = 0
                 else:
                     if collapsed_patterns.count() < 2:
-                        break
+                        return 0
                     povet = collapsed_patterns.take(1)[0]#BROADCAST
                     povet_broad = sc.broadcast(povet)
                     non_iso_set.add(povet)
@@ -345,6 +346,10 @@ if __name__ == "__main__":
                     collapsed_patterns = collapsed_patterns.filter(lambda x: not iso_json(x, povet_broad.value))
                     counter += 1
 
+
+
+if __name__ == "__main__":
+    main()
 
 
 '''
