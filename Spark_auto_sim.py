@@ -153,8 +153,8 @@ def Motifsets():
     G_3.add_edge(22, 17)
 
   #  return set([G_1a, G_1b, G_2a])
-  #  return set([G_1a, G_1b, G_2a, G_2c, G_3])
-    return  set([G_1a, G_1b])
+    return set([G_1a, G_1b, G_2a, G_2c, G_3])
+  #  return  set([G_1a, G_1b])
 
 def enumerate2():
     allpatterns = set()
