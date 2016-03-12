@@ -269,6 +269,17 @@ def main():
     collapsed_patterns.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
     #save to HDFS, as a text file, and keep using that RDD
 
+    def print_inter(line):
+        output_file_preinter =  "/net/data/graph-models/sim-graphs/approx5-pre"
+        fout_inter = open(output_file_preinter, 'a')
+        fout_inter.write(povet + '\n')
+        fout_inter.close()
+
+
+    ###########store intermediest result first
+    collapsed_patterns.foreach(lambda line: print_inter(line))
+
+
     collapsed_patterns.unpersist()
     non_iso_set = set()
 
@@ -280,15 +291,7 @@ def main():
        # return nx.is_isomorphic(graph1, graph2)
         return nx.faster_could_be_isomorphic(graph1, graph2)
 
-    def print_inter(line):
-        output_file_preinter =  "/net/data/graph-models/sim-graphs/approx5-pre"
-        fout_inter = open(output_file_preinter, 'a')
-        fout_inter.write(povet + '\n')
-        fout_inter.close()
 
-
-    ###########store intermediest result first
-    collapsed_patterns.foreach(lambda line: print_inter(line))
 
 
 ###########write to hard disk the queue of elements waiting to be processed
