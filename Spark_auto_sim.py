@@ -213,8 +213,8 @@ def worker_all_collapse(Motifset, G_string):
             Motif3 = nx.relabel_nodes(Motif2, mapping=dict(zip(Motif2.nodes(),to_list)))
             for item in patternsets2(Motif1, Motif3):
                     patternset.add(item)
-    #return list(deisomorphism(patternset))
-    return list(patternset)
+    return list(deisomorphism(patternset))
+   # return list(patternset)
 
 def setcomb(set1, set2):
     #not bottleneck operation
@@ -268,7 +268,7 @@ def main():
     collapsed_patterns.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
     #save to HDFS, as a text file, and keep using that RDD
 
-    collapsed_patterns.persist()
+  #  collapsed_patterns.persist()
     non_iso_set = set()
 
     def iso_json(string1,string2):
@@ -281,10 +281,12 @@ def main():
 
 
 
+
+
 ###########write to hard disk the queue of elements waiting to be processed
     flip = True
     counter = 0
-    counterMax = 100
+    counterMax = 0
     while True:
         if True:
             if flip == True:
