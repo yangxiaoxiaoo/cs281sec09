@@ -182,7 +182,7 @@ def enumerate3():
     patterns_2 = enumerate2()
     allpatterns_5_order = set()
     for Motif1 in patterns_2:
-        for Motif2 in Motifset:
+        for Motif2 in Motifset: #ignore warning: seperation of functions.
             if len(set(Motif1.nodes()).intersection(Motif2.nodes())) == 0:
                 for item in patternsets2(Motif1, Motif2):
                     allpatterns_5_order.add(item)
@@ -212,6 +212,7 @@ def worker_all_collapse(Motifset, G_string):
             to_list = range(node_max + 1,  + node_max + Motif2.number_of_nodes() +1)
             Motif3 = nx.relabel_nodes(Motif2, mapping=dict(zip(Motif2.nodes(),to_list)))
             for item in patternsets2(Motif1, Motif3):
+                if item.size() > 0:
                     patternset.add(item)
     return list(deisomorphism(patternset))
    # return list(patternset)
