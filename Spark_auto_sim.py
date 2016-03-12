@@ -269,16 +269,7 @@ def main():
     collapsed_patterns.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
     #save to HDFS, as a text file, and keep using that RDD
 
-    def print_inter(line):
-        output_file_preinter =  "/net/data/graph-models/sim-graphs/approx5-pre"
-        fout_inter = open(output_file_preinter, 'a')
-        fout_inter.write(povet + '\n')
-        fout_inter.close()
-
-
-    ###########store intermediest result first
-    collapsed_patterns.foreach(lambda line: print_inter(line))
-
+    subprocess.check_call("hdfs dfs -get -r patterns_queue1 /net/data/graph-models/sim-graphs/approx5-pre", shell=True)
 
     collapsed_patterns.unpersist()
     non_iso_set = set()
