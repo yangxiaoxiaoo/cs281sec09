@@ -153,8 +153,8 @@ def Motifsets():
     G_3.add_edge(22, 17)
 
   #  return set([G_1a, G_1b, G_2a])
-  #  return set([G_1a, G_1b, G_2a, G_2c, G_3])
-    return  set([G_1a, G_1b])
+    return set([G_1a, G_1b, G_2a, G_2c, G_3])
+#    return  set([G_1a, G_1b])
 
 def enumerate2():
     allpatterns = set()
@@ -269,7 +269,7 @@ def main():
     collapsed_patterns.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
     #save to HDFS, as a text file, and keep using that RDD
 
-    subprocess.check_call("hdfs dfs -get -r patterns_queue1 /net/data/graph-models/sim-graphs/approx5-pre", shell=True)
+
 
     collapsed_patterns.unpersist()
     non_iso_set = set()
