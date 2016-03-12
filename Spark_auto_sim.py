@@ -280,14 +280,21 @@ def main():
        # return nx.is_isomorphic(graph1, graph2)
         return nx.faster_could_be_isomorphic(graph1, graph2)
 
+    def print_inter(line):
+        output_file_preinter =  "/net/data/graph-models/sim-graphs/approx5-pre"
+        fout_inter = open(output_file_preinter, 'a')
+        fout_inter.write(povet + '\n')
+        fout_inter.close()
 
 
+    ###########store intermediest result first
+    collapsed_patterns.foreach(lambda line: print_inter(line))
 
 
 ###########write to hard disk the queue of elements waiting to be processed
     flip = True
     counter = 0
-    counterMax = 20
+    counterMax = 0
     while True:
         if True:
             if flip == True:
