@@ -268,7 +268,7 @@ def main():
     collapsed_patterns.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
     #save to HDFS, as a text file, and keep using that RDD
 
-  #  collapsed_patterns.persist()
+    collapsed_patterns.unpersist()
     non_iso_set = set()
 
     def iso_json(string1,string2):
@@ -301,6 +301,7 @@ def main():
                     fout_inter.write(povet + '\n')
                     fout_inter.close()
                     collapsed_patterns_new = collapsed_patterns.filter(lambda x: not iso_json(x, povet_broad.value))
+                    collapsed_patterns.unpersist()
                     collapsed_patterns_new.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue2")
                     subprocess.check_call("hdfs dfs -rm -r patterns_queue1", shell=True)
                     collapsed_patterns = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue2")
@@ -331,6 +332,7 @@ def main():
                     fout_inter.write(povet + '\n')
                     fout_inter.close()
                     collapsed_patterns_new = collapsed_patterns.filter(lambda x: not iso_json(x, povet_broad.value))
+                    collapsed_patterns.unpersist()
                     collapsed_patterns_new.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
                     subprocess.check_call("hdfs dfs -rm -r patterns_queue2", shell=True)
                     collapsed_patterns = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
