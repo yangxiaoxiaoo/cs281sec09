@@ -287,7 +287,7 @@ def main():
 ###########write to hard disk the queue of elements waiting to be processed
     flip = True
     counter = 0
-    counterMax = 0
+    counterMax = 20
     while True:
         if True:
             if flip == True:
