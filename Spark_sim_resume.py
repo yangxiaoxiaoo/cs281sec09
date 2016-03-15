@@ -26,7 +26,8 @@ def main():
         return nx.faster_could_be_isomorphic(graph1, graph2)
 
     flip = True
-    while True:
+    left_size = collapsed_patterns.count()
+    for i in range(0, left_size):
         if flip:
             left_size = collapsed_patterns.count()
             print "left RDD size to be processed:"
