@@ -25,21 +25,36 @@ def main():
        # return nx.is_isomorphic(graph1, graph2)
         return nx.faster_could_be_isomorphic(graph1, graph2)
 
-
+    flip = True
     while True:
-        left_size = collapsed_patterns.count()
-        print "left RDD size to be processed:"
-        print left_size
-        if left_size <= 1:
-            return 0
-        povet = collapsed_patterns.take(1)[0]#BROADCAST
-        povet_broad = sc.broadcast(povet)
-        non_iso_set.add(povet)
-        fout_inter = open(output_file_inter, 'a')
-        fout_inter.write(str(left_size) + ' ' + povet + '\n')
-        fout_inter.close()
-        collapsed_patterns = collapsed_patterns.filter(lambda x: not iso_json(x, povet_broad.value))
-
+        if flip:
+            left_size = collapsed_patterns.count()
+            print "left RDD size to be processed:"
+            print left_size
+            if left_size <= 1:
+                return 0
+            povet = collapsed_patterns.take(1)[0]#BROADCAST
+            povet_broad = sc.broadcast(povet)
+            non_iso_set.add(povet)
+            fout_inter = open(output_file_inter, 'a')
+            fout_inter.write(str(left_size) + ' ' + povet + '\n')
+            fout_inter.close()
+            collapsed_patterns_new = collapsed_patterns.filter(lambda x: not iso_json(x, povet_broad.value))
+            flip = not flip
+        else:
+            left_size = collapsed_patterns_new.count()
+            print "left RDD size to be processed:"
+            print left_size
+            if left_size <= 1:
+                return 0
+            povet = collapsed_patterns_new.take(1)[0]#BROADCAST
+            povet_broad = sc.broadcast(povet)
+            non_iso_set.add(povet)
+            fout_inter = open(output_file_inter, 'a')
+            fout_inter.write(str(left_size) + ' ' + povet + '\n')
+            fout_inter.close()
+            collapsed_patterns = collapsed_patterns_new.filter(lambda x: not iso_json(x, povet_broad.value))
+            flip = not flip
 
 
 if __name__ == "__main__":
