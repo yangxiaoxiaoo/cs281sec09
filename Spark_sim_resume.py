@@ -12,7 +12,7 @@ import itertools
 
 def main():
 
-    sc = SparkContext(appName="Motif_counting")
+    sc = SparkContext(appName="Motif_counting", timeout= '36000')
     collapsed_patterns = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue1")
     output_file_inter = "/net/data/graph-models/sim-graphs/approx5-json-inter"
     non_iso_set = set()
