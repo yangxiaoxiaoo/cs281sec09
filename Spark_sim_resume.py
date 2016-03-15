@@ -22,8 +22,8 @@ def main():
         graph1 = json_graph.node_link_graph(dataG1)
         dataG2 = json.loads(string2)
         graph2 = json_graph.node_link_graph(dataG2)
-       # return nx.is_isomorphic(graph1, graph2)
-        return nx.faster_could_be_isomorphic(graph1, graph2)
+        return nx.is_isomorphic(graph1, graph2)
+       # return nx.faster_could_be_isomorphic(graph1, graph2)
 
     flip = True
     left_size = collapsed_patterns.count()
