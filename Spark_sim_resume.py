@@ -27,7 +27,7 @@ def main():
 
     flip = True
     left_size = collapsed_patterns.count()
-    for i in range(0, left_size):
+    while True:
         if flip:
             left_size = collapsed_patterns.count()
             print "left RDD size to be processed:"
@@ -41,7 +41,7 @@ def main():
             fout_inter.write(str(left_size) + ' ' + povet + '\n')
             fout_inter.close()
             collapsed_patterns_new = collapsed_patterns.filter(lambda x: not iso_json(x, povet_broad.value))
-            collapsed_patterns.unpersist()
+            del collapsed_patterns
             flip = not flip
         else:
             left_size = collapsed_patterns_new.count()
@@ -56,7 +56,7 @@ def main():
             fout_inter.write(str(left_size) + ' ' + povet + '\n')
             fout_inter.close()
             collapsed_patterns = collapsed_patterns_new.filter(lambda x: not iso_json(x, povet_broad.value))
-            collapsed_patterns_new.unpersist()
+            del collapsed_patterns_new
             flip = not flip
 
 
