@@ -79,9 +79,9 @@ def exp5_3(n, p):
         N_graph_exp = choose(n, num_n) * pow(p, num_e) * pow((1-p), (num_n * (num_n - 1)/2 - num_e))
 
 
-        error_multiplyer =
-        error5_3 += error_multiplyer * N_graph_exp
-    return error5_3, OF5_3
+      #  error_multiplyer =
+     #   error5_3 += error_multiplyer * N_graph_exp
+ #   return error5_3, OF5_3
 
 
 
