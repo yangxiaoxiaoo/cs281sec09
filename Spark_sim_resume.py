@@ -29,7 +29,7 @@ def main():
     flip = True
     left_size = collapsed_patterns.count()
     counter = 0
-    counterMax = 20
+    counterMax = 20 #to prevent timeout error
 
     while True:
         if counter < counterMax:
