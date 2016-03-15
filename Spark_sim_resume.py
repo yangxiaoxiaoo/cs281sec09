@@ -40,6 +40,7 @@ def main():
             fout_inter.write(str(left_size) + ' ' + povet + '\n')
             fout_inter.close()
             collapsed_patterns_new = collapsed_patterns.filter(lambda x: not iso_json(x, povet_broad.value))
+            collapsed_patterns.unpersist()
             flip = not flip
         else:
             left_size = collapsed_patterns_new.count()
@@ -54,6 +55,7 @@ def main():
             fout_inter.write(str(left_size) + ' ' + povet + '\n')
             fout_inter.close()
             collapsed_patterns = collapsed_patterns_new.filter(lambda x: not iso_json(x, povet_broad.value))
+            collapsed_patterns_new.unpersist()
             flip = not flip
 
 
