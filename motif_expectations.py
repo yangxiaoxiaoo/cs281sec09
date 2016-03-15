@@ -1,4 +1,7 @@
 #calculate an stimation occrance for all shapes in 5
+
+
+
 import matplotlib.pyplot as plt
 import numpy as np
 import networkx
@@ -77,11 +80,13 @@ def exp5_3(n, p):
         num_n = graph1.number_of_nodes()
         num_e = graph1.number_of_edges()
         N_graph_exp = choose(n, num_n) * pow(p, num_e) * pow((1-p), (num_n * (num_n - 1)/2 - num_e))
+        edge_multiplyer, error_multiplyer = G_string_to_safe_totalcost(line)
+        error5_3 += (error_multiplyer - 1 ) * N_graph_exp
+        #offset from 1 from lower estimation
+        OF5_3 += (edge_multiplyer - 2) * N_graph_exp
+        #offset from 2 from lower estimation
 
-
-      #  error_multiplyer =
-     #   error5_3 += error_multiplyer * N_graph_exp
- #   return error5_3, OF5_3
+    return error5_3, OF5_3
 
 
 
@@ -145,11 +150,3 @@ def oracle_5(n, p):
 
     return edge_num_list, OF_list
 
-
-def main():
-    subprocess.check_call("hdfs dfs -get patterns_queue1 /net/data/graph-models/sim-graphs/approx5-unfiltered")
-
-
-
-if __name__ == "__main__":
-    main()
