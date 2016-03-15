@@ -84,12 +84,18 @@ def main():
 
                 collapsed_patterns_new = collapsed_patterns.filter(lambda x: not iso_json(x, povet_broad.value))
 
-                collapsed_patterns_new.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue_inter2")
                 try:
-                    subprocess.check_call("hdfs dfs -rm -r patterns_queue_inter1", shell=True)
+                    collapsed_patterns.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue_inter1")
+                    subprocess.check_call("hdfs dfs -rm -r patterns_queue_inter2", shell=True)
+                    collapsed_patterns_new = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue_inter1")
                 except:
+                    try:
+                        collapsed_patterns.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue_inter2")
+                        subprocess.check_call("hdfs dfs -rm -r patterns_queue_inter1", shell=True)
+                        collapsed_patterns_new = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue_inter2")
+                    except:
+                        pass
                     print "old hardrive data not there"
-                collapsed_patterns = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue_inter2")
 
                 counter = 0
 
@@ -109,12 +115,18 @@ def main():
 
                 collapsed_patterns = collapsed_patterns_new.filter(lambda x: not iso_json(x, povet_broad.value))
 
-                collapsed_patterns.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue_inter1")
                 try:
+                    collapsed_patterns.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue_inter1")
                     subprocess.check_call("hdfs dfs -rm -r patterns_queue_inter2", shell=True)
+                    collapsed_patterns_new = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue_inter1")
                 except:
+                    try:
+                        collapsed_patterns.saveAsTextFile("hdfs://scrapper/user/xiaofeng/patterns_queue_inter2")
+                        subprocess.check_call("hdfs dfs -rm -r patterns_queue_inter1", shell=True)
+                        collapsed_patterns_new = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue_inter2")
+                    except:
+                        pass
                     print "old hardrive data not there"
-                collapsed_patterns_new = sc.textFile("hdfs://scrapper/user/xiaofeng/patterns_queue_inter1")
 
                 counter = 0
 
