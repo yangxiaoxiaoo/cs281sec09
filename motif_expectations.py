@@ -70,7 +70,7 @@ def choose(n, k):
 
 def exp5_3(n, p):
     #how larger motifs affect the edges that can be safely removed
-    fin = open('/net/data/graph-models/sim-graphs/approx5-unfiltered', 'r')
+    fin = open('/net/data/graph-models/sim-graphs/approx5-json-inter', 'r')
     error5_3 = 0 #how many edges can be safely removed
     OF5_3 = 0 #how many 3-hop relations are there in the larger motif
 
