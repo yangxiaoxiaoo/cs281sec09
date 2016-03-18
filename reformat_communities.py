@@ -24,7 +24,15 @@ def reform_motifs():
     outfile.close()
 
 
-
+def reform_json():
+    fin = open('approx5-json', 'r')
+    fout = open('approx5-json-2', 'w')
+    for line in fin:
+        line_new =  line[7:]
+        fout.write(line_new)
+    fin.close()
+    fout.close()
 
 if __name__ == "__main__":
-    reform_motifs()
+    #reform_motifs()
+    reform_json()

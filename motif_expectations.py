@@ -68,30 +68,53 @@ def choose(n, k):
     else:
         return 0
 
-def exp5_3(n, p):
+def exp4_3(n, p):
     #how larger motifs affect the edges that can be safely removed
-    fin = open('/net/data/graph-models/sim-graphs/approx5-json-inter', 'r')
-    error5_3 = 0 #how many edges can be safely removed
-    OF5_3 = 0 #how many 3-hop relations are there in the larger motif
+    fin = open('approx3-json', 'r')
+    error4_3 = 0 #how many edges can be safely removed
+    OF4_3 = 0 #how many 3-hop relations are there in the larger motif
 
     for line in fin:
+      #  line_new =  line[7:]
+      #  print line_new      ????why
         data = json.loads(line)
         graph1 = json_graph.node_link_graph(data)
         num_n = graph1.number_of_nodes()
         num_e = graph1.number_of_edges()
         N_graph_exp = choose(n, num_n) * pow(p, num_e) * pow((1-p), (num_n * (num_n - 1)/2 - num_e))
         edge_multiplyer, error_multiplyer = G_string_to_safe_totalcost(line)
-        error5_3 += (error_multiplyer - 1 ) * N_graph_exp
+        error4_3 += (error_multiplyer - 1 ) * N_graph_exp
         #offset from 1 from lower estimation
-        OF5_3 += (edge_multiplyer - 2) * N_graph_exp
+        OF4_3 += (edge_multiplyer - 2) * N_graph_exp
         #offset from 2 from lower estimation
 
-    return error5_3, OF5_3
+    return error4_3, OF4_3
+
+def exp5_4(n, p):
+    #how larger motifs affect the edges that can be safely removed
+    fin = open('approx5-json-2', 'r')
+    error5_4 = 0 #how many edges can be safely removed
+    OF5_4 = 0 #how many 3-hop relations are there in the larger motif
+
+    for line in fin:
+      #  line_new =  line[7:]
+      #  print line_new      ????why
+        data = json.loads(line)
+        graph1 = json_graph.node_link_graph(data)
+        num_n = graph1.number_of_nodes()
+        num_e = graph1.number_of_edges()
+        N_graph_exp = choose(n, num_n) * pow(p, num_e) * pow((1-p), (num_n * (num_n - 1)/2 - num_e))
+        edge_multiplyer, error_multiplyer = G_string_to_safe_totalcost(line)
+        error5_4 += (error_multiplyer - 1 ) * N_graph_exp
+        #offset from 1 from lower estimation
+        OF5_4 += (edge_multiplyer - 2) * N_graph_exp
+        #offset from 2 from lower estimation
+
+    return error5_4, OF5_4
 
 
 
-
-def OF5(n, p):
+def OF3(n, p):
     #objective function in 5 -approximation
     m = p * n *(n-1)/2
 
@@ -142,11 +165,49 @@ def oracle_5(n, p):
                             N_2c*N_2c + N_3*N_2c +
                            N_3*N_3
                            )/m
-    edge_num_list.append(x_1)
+
+    error4_3, OF4_3 = exp4_3(n, p)
+    error5_4, OF5_4 = exp5_4(n, p)
+
+    edge_num_list.append(x_1 + error4_3 + error5_4)
     OF_list.append(0)
 
     edge_num_list.append(m)
-    OF_list.append(OF5(n, p))
+    OF_list.append(OF3(n, p)+ OF4_3 + OF5_4)
+
+    return edge_num_list, OF_list
+
+def oracle_4(n, p):
+    edge_num_list = list()
+    OF_list = list()
+
+    m = p * n *(n-1)/2
+    N_3line = 12 * choose(n, 4) * pow(p,3) * pow((1-p),3)
+    N_2line = 3 * choose(n, 3) * pow(p,2) * (1-p)
+    N_1a = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_1b = 3 * choose(n, 3) * pow(p,3)
+    N_2a = 60 * choose(n, 5) * pow(p,5) * pow((1-p),5)
+    N_2b = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_2c = 24 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_3 = 360 * choose(n, 6) * pow(p,6) * pow((1-p),9)
+
+    #p1
+    x_1 = N_1a + N_1b + N_2a + N_2b +  N_2c + N_3 -\
+                          (N_1a*N_1a + N_1b*N_1a + N_2a*N_1a + N_2b*N_1a +  N_2c*N_1a + N_3*N_1a +
+                           N_1b*N_1b + N_2a*N_1b + N_2b*N_1b +  N_2c*N_1b + N_3*N_1b +
+                            N_2a*N_2a + N_2b*N_2a +  N_2c*N_2a + N_3*N_2a +
+                           N_2b*N_2b +  N_2c*N_2b + N_3*N_2b +
+                            N_2c*N_2c + N_3*N_2c +
+                           N_3*N_3
+                           )/m
+
+    error4_3, OF4_3 = exp4_3(n, p)
+
+    edge_num_list.append(x_1 + error4_3)
+    OF_list.append(0)
+
+    edge_num_list.append(m)
+    OF_list.append(OF3(n, p)+ OF4_3)
 
     return edge_num_list, OF_list
 

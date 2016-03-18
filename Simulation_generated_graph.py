@@ -370,11 +370,13 @@ def benchmark(n, p):
 def upperlower_plot(n, p):
     list_oracle1_x, list_oracle1_y = oracle_1(n, p)
     list_oracle3_x, list_oracle3_y = oracle_3(n, p)
+    list_oracle4_x, list_oracle4_y = motif_expectations.oracle_4(n, p)
     list_oracle5_x, list_oracle5_y = motif_expectations.oracle_5(n, p)
     list_benchmark_x, list_benchmark_y = benchmark(n, p)
     upperlower = plt.subplot(111)
     oracle_line1 = upperlower.scatter(list_oracle1_x, list_oracle1_y,color='red', label="Oracle1")
     oracle_line2 = upperlower.scatter(list_oracle3_x, list_oracle3_y,color='green', label="Oracle3")
+    oracle_line3 = upperlower.scatter(list_oracle4_x, list_oracle4_y,color='black', label="Oracle4")
     oracle_line3 = upperlower.scatter(list_oracle5_x, list_oracle5_y,color='purple', label="Oracle5")
     nodes_2 = upperlower.plot(list_benchmark_x,list_benchmark_y, color="blue", label= 'benchmark')
     plt.ylabel('3-hop relations loss')
