@@ -426,7 +426,7 @@ def diverge_point_plot(n):
     ax.legend(handles, labels)
     plt.xlabel("n")
     plt.title("n=" + str(n)+", difference from 4 to 1")
-    plt.show()
+   # plt.show()
     plt.savefig("safeedge_trends_for_p", facecolor='w', edgecolor='w',orientation='portrait')
 
 
