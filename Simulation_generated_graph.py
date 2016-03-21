@@ -400,20 +400,20 @@ def diverge_point_plot(n):
     for n_item in range(10, n, 10):
         print n_item
         e1_xlist.append(n_item)
-        print motif_expectations.approx4(n_item, p1) - motif_expectations.approx1(n_item, p1)
-        e1_ylist.append(motif_expectations.approx4(n_item, p1) - motif_expectations.approx1(n_item, p1))
+        print motif_expectations.approx1(n_item, p1) - motif_expectations.approx4(n_item, p1)
+        e1_ylist.append(motif_expectations.approx1(n_item, p1) - motif_expectations.approx4(n_item, p1))
 
     e2_xlist = list()
     e2_ylist = list()
     for n_item in range(10, n, 10):
         e2_xlist.append(n_item)
-        e2_ylist.append(motif_expectations.approx4(n_item, p2) - motif_expectations.approx1(n_item, p2))
+        e2_ylist.append(motif_expectations.approx1(n_item, p2) - motif_expectations.approx4(n_item, p2))
 
     e3_xlist = list()
     e3_ylist = list()
     for n_item in range(10, n, 10):
         e3_xlist.append(n_item)
-        e3_ylist.append(motif_expectations.approx4(n_item, p3) - motif_expectations.approx1(n_item, p3))
+        e3_ylist.append(motif_expectations.approx1(n_item, p3) - motif_expectations.approx4(n_item, p3))
 
 
     p1, = ax.plot(e1_xlist, e1_ylist, color='red', label="p1")
