@@ -211,3 +211,60 @@ def oracle_4(n, p):
 
     return edge_num_list, OF_list
 
+#just return a number of safely removable edges for this parameter set
+def approx1(n, p):
+    m = p * n *(n-1)/2
+    N_3line = 12 * choose(n, 4) * pow(p,3) * pow((1-p),3)
+    N_2line = 3 * choose(n, 3) * pow(p,2) * (1-p)
+    N_1a = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_1b = 3 * choose(n, 3) * pow(p,3)
+    N_2a = 60 * choose(n, 5) * pow(p,5) * pow((1-p),5)
+    N_2b = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_2c = 24 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_3 = 360 * choose(n, 6) * pow(p,6) * pow((1-p),9)
+
+    e_num1 = N_1a + N_1b + N_2a + N_2b +  N_2c + N_3
+    return e_num1
+
+def approx2(n, p):
+    m = p * n *(n-1)/2
+    N_3line = 12 * choose(n, 4) * pow(p,3) * pow((1-p),3)
+    N_2line = 3 * choose(n, 3) * pow(p,2) * (1-p)
+    N_1a = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_1b = 3 * choose(n, 3) * pow(p,3)
+    N_2a = 60 * choose(n, 5) * pow(p,5) * pow((1-p),5)
+    N_2b = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_2c = 24 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_3 = 360 * choose(n, 6) * pow(p,6) * pow((1-p),9)
+    e_num_2 = N_1a + N_1b + N_2a + N_2b +  N_2c + N_3 -\
+                          (N_1a*N_1a + N_1b*N_1a + N_2a*N_1a + N_2b*N_1a +  N_2c*N_1a + N_3*N_1a +
+                           N_1b*N_1b + N_2a*N_1b + N_2b*N_1b +  N_2c*N_1b + N_3*N_1b +
+                            N_2a*N_2a + N_2b*N_2a +  N_2c*N_2a + N_3*N_2a +
+                           N_2b*N_2b +  N_2c*N_2b + N_3*N_2b +
+                            N_2c*N_2c + N_3*N_2c +
+                           N_3*N_3
+                           )/m
+
+    return e_num_2
+
+def approx3(n, p):
+    m = p * n *(n-1)/2
+    N_3line = 12 * choose(n, 4) * pow(p,3) * pow((1-p),3)
+    N_2line = 3 * choose(n, 3) * pow(p,2) * (1-p)
+    N_1a = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_1b = 3 * choose(n, 3) * pow(p,3)
+    N_2a = 60 * choose(n, 5) * pow(p,5) * pow((1-p),5)
+    N_2b = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_2c = 24 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+    N_3 = 360 * choose(n, 6) * pow(p,6) * pow((1-p),9)
+
+    emum_2 = approx2(n, p)
+    error4_3, OF4_3 = exp4_3(n, p)
+    enum3 = emum_2 + error4_3
+    return enum3
+
+def approx4(n, p):
+    enum3 = approx3(n, p)
+    error5_4, OF5_4 = exp5_4(n, p)
+    enum4 = enum3 + error5_4
+    return enum4

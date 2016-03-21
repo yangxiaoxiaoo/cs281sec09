@@ -388,6 +388,47 @@ def upperlower_plot(n, p):
     plt.show(upperlower)
 
 
+def diverge_point_plot(n):
+    p1 = 0.01
+    p2 = 0.02
+    p3 = 0.03
+
+
+    ax = plt.subplot(111)
+    e1_xlist = list()
+    e1_ylist = list()
+    for n_item in range(10, n, 10):
+        print n_item
+        e1_xlist.append(n_item)
+        print motif_expectations.approx4(n_item, p1) - motif_expectations.approx1(n_item, p1)
+        e1_ylist.append(motif_expectations.approx4(n_item, p1) - motif_expectations.approx1(n_item, p1))
+
+    e2_xlist = list()
+    e2_ylist = list()
+    for n_item in range(10, n, 10):
+        e2_xlist.append(n_item)
+        e2_ylist.append(motif_expectations.approx4(n_item, p2) - motif_expectations.approx1(n_item, p2))
+
+    e3_xlist = list()
+    e3_ylist = list()
+    for n_item in range(10, n, 10):
+        e3_xlist.append(n_item)
+        e3_ylist.append(motif_expectations.approx4(n_item, p3) - motif_expectations.approx1(n_item, p3))
+
+
+    p1, = ax.plot(e1_xlist, e1_ylist, color='red', label="p1")
+    p2, = ax.plot(e2_xlist, e2_ylist, color='black', label="p2")
+    p3, = ax.plot(e3_xlist, e3_ylist, color='green', label="p3")
+
+
+    handles, labels = ax.get_legend_handles_labels()
+    ax.set_yscale('log')
+    ax.legend(handles, labels)
+    plt.xlabel("n")
+    plt.title("n=" + str(n)+", difference from 4 to 1")
+    plt.show()
+    plt.savefig("safeedge_trends_for_p", facecolor='w', edgecolor='w',orientation='portrait')
+
 
 
 
@@ -395,4 +436,8 @@ if __name__ == "__main__":
     #main()
     #plot_np()
     #plot_2appro()
-    upperlower_plot(500, 0.004)
+
+    #for seeing the improvements while gradually removing edges, comparing to random benchmark
+    #upperlower_plot(500, 0.004)
+
+    diverge_point_plot(500)
