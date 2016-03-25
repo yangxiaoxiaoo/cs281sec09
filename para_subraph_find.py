@@ -69,7 +69,7 @@ def main():
 
     machines = ["achtung%02i" % (x) for x in range(2, 12)]
 
-    m_size = 5
+    m_size = 6
     while m_size <= 6:
         graph_ids = get_graph_ids(m_size)
         print "graph ids"
