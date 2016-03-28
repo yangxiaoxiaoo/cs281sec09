@@ -431,9 +431,9 @@ def diverge_point_plot(n):
 
 
 def diverge_point_plot34(n):
-    p1 = 0.005
-    p2 = 0.007
-    p3 = 0.01
+    p1 = 0.001
+    p2 = 0.01
+    p3 = 0.1
 
 
     ax = plt.subplot(111)
@@ -447,13 +447,13 @@ def diverge_point_plot34(n):
 
     e2_xlist = list()
     e2_ylist = list()
-    for n_item in range(10, n, 10):
+    for n_item in range(10, n, 100):
         e2_xlist.append(n_item)
         e2_ylist.append(motif_expectations.approx4(n_item, p2) - motif_expectations.approx3(n_item, p2))
 
     e3_xlist = list()
     e3_ylist = list()
-    for n_item in range(10, n, 10):
+    for n_item in range(10, n, 100):
         e3_xlist.append(n_item)
         e3_ylist.append(motif_expectations.approx4(n_item, p3) - motif_expectations.approx3(n_item, p3))
 
@@ -464,7 +464,8 @@ def diverge_point_plot34(n):
 
 
     handles, labels = ax.get_legend_handles_labels()
-   # ax.set_yscale('log')
+    ax.set_yscale('log')
+    ax.set_xscale('log')
     ax.legend(handles, labels)
     plt.xlabel("n")
     plt.title("n=" + str(n)+", difference from 4 to 3")
@@ -483,4 +484,4 @@ if __name__ == "__main__":
     #upperlower_plot(500, 0.004)
 
     #diverge_point_plot(500)
-    diverge_point_plot34(500)
+    diverge_point_plot34(10000)
