@@ -458,8 +458,8 @@ def diverge_point_plot34(n):
         e3_ylist.append(1 + motif_expectations.approx4(n_item, p3) - motif_expectations.approx3(n_item, p3))
 
 
-    p1, = ax.plot(e1_xlist, e1_ylist, color='red', label="p1 = 0.05")
-    p2, = ax.plot(e2_xlist, e2_ylist, color='black', label="p2 = 0.07")
+    p1, = ax.plot(e1_xlist, e1_ylist, color='red', label="p1 = 0.001")
+    p2, = ax.plot(e2_xlist, e2_ylist, color='black', label="p2 = 0.01")
     p3, = ax.plot(e3_xlist, e3_ylist, color='green', label="p3 = 0.1")
 
 
