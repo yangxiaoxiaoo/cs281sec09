@@ -442,20 +442,19 @@ def diverge_point_plot34(n):
     for n_item in range(10, n, 200):
         print n_item
         e1_xlist.append(n_item)
-        print motif_expectations.approx3(n_item, p1) - motif_expectations.approx4(n_item, p1)
-        e1_ylist.append( 1+ (motif_expectations.approx4(n_item, p1) - motif_expectations.approx3(n_item, p1)))
+        e1_ylist.append( 1+ (motif_expectations.approx4(n_item, p1) - motif_expectations.approx2(n_item, p1)))
 
     e2_xlist = list()
     e2_ylist = list()
     for n_item in range(10, n, 200):
         e2_xlist.append(n_item)
-        e2_ylist.append( 1 + (motif_expectations.approx4(n_item, p2) - motif_expectations.approx3(n_item, p2)))
+        e2_ylist.append( 1 + (motif_expectations.approx4(n_item, p2) - motif_expectations.approx2(n_item, p2)))
 
     e3_xlist = list()
     e3_ylist = list()
     for n_item in range(10, n, 200):
         e3_xlist.append(n_item)
-        e3_ylist.append( 1 + (motif_expectations.approx4(n_item, p3) - motif_expectations.approx3(n_item, p3)))
+        e3_ylist.append( 1 + (motif_expectations.approx4(n_item, p3) - motif_expectations.approx2(n_item, p3)))
 
 
     p1, = ax.plot(e1_xlist, e1_ylist, color='red', label="p1 = 0.001")
@@ -468,9 +467,9 @@ def diverge_point_plot34(n):
     ax.set_xscale('log')
     ax.legend(handles, labels)
     plt.xlabel("n")
-    plt.title("n=" + str(n)+", difference from 4 to 3")
+    plt.title("n=" + str(n)+", difference from 4 to 2")
    # plt.show()
-    plt.savefig("safeedge_trends_for_p2", facecolor='w', edgecolor='w',orientation='portrait')
+    plt.savefig("safeedge_trends_for_42", facecolor='w', edgecolor='w',orientation='portrait')
 
 
 
