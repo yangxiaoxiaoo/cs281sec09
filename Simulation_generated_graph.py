@@ -464,7 +464,7 @@ def diverge_point_plot34(n):
 
 
     handles, labels = ax.get_legend_handles_labels()
-    ax.set_yscale('log')
+   # ax.set_yscale('log')
     ax.set_xscale('log')
     ax.legend(handles, labels)
     plt.xlabel("n")
