@@ -92,18 +92,29 @@ def plot_density():
         print len(list_of_node_size)
         return list_of_node_size, list_of_edge_size
 
+    def simulate_connected(node_max, edge_max):
+        list_of_node_size = list()
+        list_of_edge_size = list()
+        for n in range(1, node_max):
+            list_of_edge_size.append(n)
+            list_of_edge_size.append(n-1)
+        return list_of_node_size, list_of_edge_size
+
+
 
     list_of_node_size, list_of_edge_size = simulate_boundary(max(bigger_node_sizes), max(bigger_edge_sizes))
+    list_of_node_size2, list_of_edge_size2 = simulate_connected(max(bigger_node_sizes), max(bigger_edge_sizes))
     print len(list_of_edge_size)
     print len(list_of_node_size)
-    sparse_region = plt.plot(np.array(list_of_node_size), np.array(list_of_edge_size), color = 'green',label = 'dense/sparse boundary')
+    sparse_region = plt.plot(np.array(list_of_node_size), np.array(list_of_edge_size), color = 'green')
     bigger = plt.scatter(bigger_node_sizes, bigger_edge_sizes,color='red')
     smaller = plt.scatter(smaller_node_sizes, smaller_edge_sizes,color='blue')
+    connected_line = plt.plot(np.array(list_of_node_size2), np.array(list_of_edge_size2), color = 'black')
     plt.yscale('log')
     plt.ylabel('number of edges')
     plt.xscale('log')
     plt.xlabel('number of nodes')
-    plt.legend([sparse_region, (bigger, smaller)], ["bigger clusters 90%nodes","smaller clusters 10%nodes"])
+    plt.legend()
     plt.savefig("plot_clusterdensity.pdf", facecolor='w', edgecolor='w',orientation='portrait')
 
 
