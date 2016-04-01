@@ -467,9 +467,9 @@ def diverge_point_plot34(n):
     ax.set_xscale('log')
     ax.legend(handles, labels)
     plt.xlabel("n")
-    plt.title("n=" + str(n)+", difference from 4 to 3, Normalized")
+    plt.title("n=" + str(n)+", difference from 4 to 2, Normalized")
    # plt.show()
-    plt.savefig("safeedge_trends_normalized_43", facecolor='w', edgecolor='w',orientation='portrait')
+    plt.savefig("safeedge_trends_normalized_42", facecolor='w', edgecolor='w',orientation='portrait')
 
 
 
