@@ -114,8 +114,8 @@ def plot_density():
     plt.ylabel('number of edges')
     plt.xscale('log')
     plt.xlabel('number of nodes')
-    plt.legend([sparse_region],[connected_line], loc=2)
-    plt.legend([bigger],[smaller], loc=4)
+    plt.legend(loc=2)
+
     plt.savefig("plot_clusterdensity.pdf", facecolor='w', edgecolor='w',orientation='portrait')
 
 
