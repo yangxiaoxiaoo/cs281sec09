@@ -95,8 +95,8 @@ def plot_density():
     def simulate_connected(node_max, edge_max):
         list_of_node_size = list()
         list_of_edge_size = list()
-        for n in range(1, node_max):
-            list_of_edge_size.append(n)
+        for n in range(2, node_max):
+            list_of_node_size.append(n)
             list_of_edge_size.append(n-1)
         return list_of_node_size, list_of_edge_size
 
