@@ -64,7 +64,7 @@ def plot_density():
         smaller_edge_sizes = list()
         for line in fin:
             name = line.split(' ')[0]
-            deletedset = set(['roadNet-CA', 'roadNet-PA','roadNet-TX', 'web-BerkSta', 'web-Google', 'web-NotreDame','web-Stanford'])
+            deletedset = set(['email-EuA','soc-sign-epinions', 'roadNet-CA', 'roadNet-PA','roadNet-TX', 'web-BerkSta', 'web-Google', 'web-NotreDame','web-Stanford'])
             if name not in deletedset:
                 min_size_interested = int(line.split(' ')[2])
                 with open("/net/data/graph-models/louvain-clusters/nnum-enum-nlist/" + name + ".density", 'r') as fin2:
