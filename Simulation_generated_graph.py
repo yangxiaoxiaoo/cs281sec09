@@ -475,7 +475,7 @@ def diverge_point_plot34(n):
 
 
 def error_between_k(n):
-    p = 0.001
+    p = 0.01
 
 
     ax = plt.subplot(111)
@@ -523,9 +523,9 @@ def error_between_k(n):
     ax.set_xscale('log')
     ax.legend(handles, labels)
     plt.xlabel("n")
-    plt.title("n=" + str(n)+", p = 0.001, errors between k= 1, 2, 3, 4")
+    plt.title("n=" + str(n)+", p = 0.01, errors between k= 1, 2, 3, 4")
    # plt.show()
-    plt.savefig("safeedge_trends_p0001", facecolor='w', edgecolor='w',orientation='portrait')
+    plt.savefig("safeedge_trends_p001", facecolor='w', edgecolor='w',orientation='portrait')
 
 
 
