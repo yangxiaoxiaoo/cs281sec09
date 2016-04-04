@@ -526,5 +526,7 @@ if __name__ == "__main__":
     #upperlower_plot(500, 0.004)
 
     #diverge_point_plot(500)
-    diverge_point_plot34(10000)
+
+
+   # diverge_point_plot34(10000)
     error_between_k(10000)
