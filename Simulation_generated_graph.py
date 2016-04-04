@@ -484,19 +484,19 @@ def error_between_k(n):
     for n_item in range(10, n, 200):
         print n_item
         e1_xlist.append(n_item)
-        e1_ylist.append( abs(motif_expectations.approx4(n_item, p) - motif_expectations.approx1(n_item, p))/(p *n_item* (n_item-1)))
+        e1_ylist.append( 1+ abs(motif_expectations.approx4(n_item, p) - motif_expectations.approx1(n_item, p))/(p *n_item* (n_item-1)))
 
     e2_xlist = list()
     e2_ylist = list()
     for n_item in range(10, n, 200):
         e2_xlist.append(n_item)
-        e2_ylist.append(  abs(motif_expectations.approx4(n_item, p) - motif_expectations.approx2(n_item, p))/(p *n_item* (n_item-1)))
+        e2_ylist.append(1+  abs(motif_expectations.approx4(n_item, p) - motif_expectations.approx2(n_item, p))/(p *n_item* (n_item-1)))
 
     e3_xlist = list()
     e3_ylist = list()
     for n_item in range(10, n, 200):
         e3_xlist.append(n_item)
-        e3_ylist.append(  abs(motif_expectations.approx4(n_item, p) - motif_expectations.approx3(n_item, p))/(p *n_item* (n_item-1)))
+        e3_ylist.append( 1+ abs(motif_expectations.approx4(n_item, p) - motif_expectations.approx3(n_item, p))/(p *n_item* (n_item-1)))
 
 
     p1, = ax.plot(e1_xlist, e1_ylist, color='red', label="4-1 error")
@@ -505,7 +505,7 @@ def error_between_k(n):
 
 
     handles, labels = ax.get_legend_handles_labels()
-    #ax.set_yscale('log')
+    ax.set_yscale('log')
     ax.set_xscale('log')
     ax.legend(handles, labels)
     plt.xlabel("n")
