@@ -517,7 +517,7 @@ def error_between_k(n, p_in, name):
 
     with open(outfile, 'w') as outfile:
         for i in range(0, len(e1_xlist)):
-            outfile.write(str(e1_xlist[i]) +' '+ str(e1_ylist)[i]+ ' '+ str(e2_ylist)[i]+ ' ' +str(e3_ylist)[i] + '\n')
+            outfile.write(str(e1_xlist[i]) +' '+ str(e1_ylist[i])+ ' '+ str(e2_ylist[i])+ ' ' +str(e3_ylist[i]) + '\n')
 '''
     p1, = ax.plot(e1_xlist, e1_ylist, color='red', label="4-1 error")
     p2, = ax.plot(e2_xlist, e2_ylist, color='black', label="4-2 error")
