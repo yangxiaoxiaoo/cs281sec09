@@ -474,8 +474,11 @@ def diverge_point_plot34(n):
 
 
 
-def error_between_k(n):
-    p = 0.01
+def error_between_k(n, p_in, name):
+
+    outfile = "gnudata/" + name +".data"
+
+    p = p_in
 
 
     ax = plt.subplot(111)
@@ -512,7 +515,10 @@ def error_between_k(n):
         e3_xlist.append(n_item)
         e3_ylist.append( 1+ abs(motif_expectations.approx4(n_item, p) - motif_expectations.approx3(n_item, p))/(p *n_item* (n_item-1)))
 
-
+    with open(outfile, 'w') as outfile:
+        for i in range(0, len(e1_xlist)):
+            outfile.write(str(e1_xlist[i]) +' '+ str(e1_ylist)[i]+ ' '+ str(e2_ylist)[i]+ ' ' +str(e3_ylist)[i] + '\n')
+'''
     p1, = ax.plot(e1_xlist, e1_ylist, color='red', label="4-1 error")
     p2, = ax.plot(e2_xlist, e2_ylist, color='black', label="4-2 error")
     p3, = ax.plot(e3_xlist, e3_ylist, color='green', label="4-3 error")
@@ -527,7 +533,7 @@ def error_between_k(n):
    # plt.show()
     plt.savefig("safeedge_trends_p001", facecolor='w', edgecolor='w',orientation='portrait')
 
-
+'''
 
 
 
@@ -543,4 +549,5 @@ if __name__ == "__main__":
 
 
    # diverge_point_plot34(10000)
-    error_between_k(10000)
+    error_between_k(10000, 0.01, "p001")
+    error_between_k(10000, 0.001, "p0001")
