@@ -481,7 +481,7 @@ def error_between_k(n, p_in, name):
     p = p_in
 
 
-    ax = plt.subplot(111)
+   # ax = plt.subplot(111)
     e1_xlist = list()
     e1_ylist = list()
 
