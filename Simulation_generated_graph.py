@@ -474,6 +474,49 @@ def diverge_point_plot34(n):
 
 
 
+def error_between_k(n):
+    p = 0.001
+
+
+    ax = plt.subplot(111)
+    e1_xlist = list()
+    e1_ylist = list()
+    for n_item in range(10, n, 200):
+        print n_item
+        e1_xlist.append(n_item)
+        e1_ylist.append( abs(motif_expectations.approx4(n_item, p) - motif_expectations.approx1(n_item, p))/(p *n_item* (n_item-1)))
+
+    e2_xlist = list()
+    e2_ylist = list()
+    for n_item in range(10, n, 200):
+        e2_xlist.append(n_item)
+        e2_ylist.append(  abs(motif_expectations.approx4(n_item, p) - motif_expectations.approx2(n_item, p))/(p *n_item* (n_item-1)))
+
+    e3_xlist = list()
+    e3_ylist = list()
+    for n_item in range(10, n, 200):
+        e3_xlist.append(n_item)
+        e3_ylist.append(  abs(motif_expectations.approx4(n_item, p) - motif_expectations.approx3(n_item, p))/(p *n_item* (n_item-1)))
+
+
+    p1, = ax.plot(e1_xlist, e1_ylist, color='red', label="4-1 error")
+    p2, = ax.plot(e2_xlist, e2_ylist, color='black', label="4-2 error")
+    p3, = ax.plot(e3_xlist, e3_ylist, color='green', label="4-3 error")
+
+
+    handles, labels = ax.get_legend_handles_labels()
+    #ax.set_yscale('log')
+    ax.set_xscale('log')
+    ax.legend(handles, labels)
+    plt.xlabel("n")
+    plt.title("n=" + str(n)+", p = 0.001, errors between k= 1, 2, 3, 4")
+   # plt.show()
+    plt.savefig("safeedge_trends_p0001", facecolor='w', edgecolor='w',orientation='portrait')
+
+
+
+
+
 if __name__ == "__main__":
     #main()
     #plot_np()
@@ -484,3 +527,4 @@ if __name__ == "__main__":
 
     #diverge_point_plot(500)
     diverge_point_plot34(10000)
+    error_between_k(10000)
