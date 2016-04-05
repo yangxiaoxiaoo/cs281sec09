@@ -129,7 +129,7 @@ def plot_density():
     #line4: connected line
     with open(outfile, 'w') as outfile:
         for i in range(0, len(np.array(list_of_node_size2))):
-            outfile.write(str(np.array(list_of_node_size2)[i]) +' '+ str(np.array(list_of_edge_size2))+ '\n')
+            outfile.write(str(np.array(list_of_node_size2)[i]) +' '+ str(np.array(list_of_edge_size2)[i])+ '\n')
 
 
 
