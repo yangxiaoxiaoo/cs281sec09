@@ -110,8 +110,10 @@ def plot_density():
     outfile = "gnudata/clusterdensity1.data"
     #line1: sparse_region
     with open(outfile, 'w') as outfile:
-        for i in range(0, len(np.array(list_of_node_size))):
-            outfile.write(str(np.array(list_of_node_size)[i]) +' '+ str(np.array(list_of_edge_size)[i])+ '\n')
+        nodes = np.array(list_of_node_size)
+        edges = np.array(list_of_edge_size)
+        for i in range(0, len(nodes)):
+            outfile.write(str(nodes[i]) +' '+ str(edges[i])+ '\n')
 
     outfile = "gnudata/clusterdensity2.data"
     #line2: bigger blocks
@@ -128,8 +130,10 @@ def plot_density():
     outfile = "gnudata/clusterdensity4.data"
     #line4: connected line
     with open(outfile, 'w') as outfile:
-        for i in range(0, len(np.array(list_of_node_size2))):
-            outfile.write(str(np.array(list_of_node_size2)[i]) +' '+ str(np.array(list_of_edge_size2)[i])+ '\n')
+        nodes2 = np.array(list_of_node_size2)
+        edges2 = np.array(list_of_edge_size2)
+        for i in range(0, len(nodes2)):
+            outfile.write(str(nodes2[i]) +' '+ str(edges2[i])+ '\n')
 
 
 
