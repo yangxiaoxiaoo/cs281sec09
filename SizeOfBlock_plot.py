@@ -106,6 +106,35 @@ def plot_density():
     list_of_node_size2, list_of_edge_size2 = simulate_connected(max(bigger_node_sizes), max(bigger_edge_sizes))
     print len(list_of_edge_size)
     print len(list_of_node_size)
+
+    outfile = "gnudata/clusterdensity1.data"
+    #line1: sparse_region
+    with open(outfile, 'w') as outfile:
+        for i in range(0, len(np.array(list_of_node_size))):
+            outfile.write(str(np.array(list_of_node_size)[i]) +' '+ str(np.array(list_of_edge_size)[i])+ '\n')
+
+    outfile = "gnudata/clusterdensity2.data"
+    #line2: bigger blocks
+    with open(outfile, 'w') as outfile:
+        for i in range(0, len(bigger_node_sizes)):
+            outfile.write(str(bigger_node_sizes[i]) +' '+ str(bigger_edge_sizes[i])+ '\n')
+
+    outfile = "gnudata/clusterdensity3.data"
+    #line3: smaller blocks
+    with open(outfile, 'w') as outfile:
+        for i in range(0, len(smaller_node_sizes)):
+            outfile.write(str(smaller_node_sizes[i]) +' '+ str(smaller_edge_sizes[i])+ '\n')
+
+    outfile = "gnudata/clusterdensity4.data"
+    #line4: connected line
+    with open(outfile, 'w') as outfile:
+        for i in range(0, len(np.array(list_of_node_size2))):
+            outfile.write(str(np.array(list_of_node_size2)[i]) +' '+ str(np.array(list_of_edge_size2))+ '\n')
+
+
+
+
+'''
     sparse_region = plt.plot(np.array(list_of_node_size), np.array(list_of_edge_size), color = 'green', label="sparse-dense boundary")
     bigger = plt.scatter(bigger_node_sizes, bigger_edge_sizes,color='red', label="bigger nodes")
     smaller = plt.scatter(smaller_node_sizes, smaller_edge_sizes,color='blue', label="smaller nodes")
@@ -117,7 +146,7 @@ def plot_density():
     plt.legend(loc=2)
 
     plt.savefig("plot_clusterdensity.pdf", facecolor='w', edgecolor='w',orientation='portrait')
-
+'''
 
 if __name__ == "__main__":
     #cut_cover90()
