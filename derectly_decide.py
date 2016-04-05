@@ -94,11 +94,24 @@ def main():
     N_list2, P_list2 = Simulation_generated_graph.decidePforN(error_rate, max(bigger_node_sizes))
     error_rate = 0.15
     N_list3, P_list3 = Simulation_generated_graph.decidePforN(error_rate, max(bigger_node_sizes))
+
+    outfile = "gnudata/pvalue_errordots.data"
+    with open(outfile, 'w') as outfile:
+        for i in range(0, len(bigger_node_sizes)):
+            outfile.write(str(bigger_node_sizes[i]) +' '+ str(p_values[i])+ '\n')
+
+    outfile = "gnudata/pvalue_errorline.data"
+    with open(outfile, 'w') as outfile:
+        for i in range(0, len(N_list1)):
+            outfile.write(str(N_list1[i]) +' '+ str(P_list1[i])+' '+ str(P_list2[i])+' '+ str(P_list3[i])+ '\n')
+
+'''
     plotline = plt.subplot(111)
     nodes = plt.scatter(bigger_node_sizes, p_values,color='red', label="nodes")
     errorline = plt.plot(N_list1, P_list1, color="blue", label= "5% error")
     errorline2 = plt.plot(N_list2, P_list2, color="green", label= "10% error")
     errorline3 = plt.plot(N_list3, P_list3, color="purple", label= "15% error")
+
 
     plt.ylabel('p-value')
     plt.xscale('log')
@@ -107,7 +120,7 @@ def main():
     handles, labels = plotline.get_legend_handles_labels()
     plt.legend(handles, labels)
     plt.savefig("plot_pvalue_errorline.pdf", facecolor='w', edgecolor='w',orientation='portrait')
-
+'''
 
 if __name__ == "__main__":
     main()
