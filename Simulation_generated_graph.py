@@ -479,39 +479,40 @@ def error_between_k(n, p_in, name):
     outfile = "gnudata/" + name +".data"
 
     p = p_in
+    N_under = n/100
 
 
    # ax = plt.subplot(111)
     e1_xlist = list()
     e1_ylist = list()
 
-    for n_item in range(10, 200, 10):
-        print n_item
-        e1_xlist.append(n_item)
-        e1_ylist.append( 1+ abs(motif_expectations.approx4(n_item, p) - motif_expectations.approx1(n_item, p))/(p *n_item* (n_item-1)))
+   # for n_item in range(10, 200, 10):
+   #     print n_item
+   #     e1_xlist.append(n_item)
+   #     e1_ylist.append( 1+ abs(motif_expectations.approx4(n_item, p) - motif_expectations.approx1(n_item, p))/(p *n_item* (n_item-1)))
 
-    for n_item in range(200, n, 200):
+    for n_item in range(N_under, n, N_under):
         print n_item
         e1_xlist.append(n_item)
         e1_ylist.append( 1+ abs(motif_expectations.approx4(n_item, p) - motif_expectations.approx1(n_item, p))/(p *n_item* (n_item-1)))
 
     e2_xlist = list()
     e2_ylist = list()
-    for n_item in range(10, 200, 10):
-        e2_xlist.append(n_item)
-        e2_ylist.append(1+  abs(motif_expectations.approx4(n_item, p) - motif_expectations.approx2(n_item, p))/(p *n_item* (n_item-1)))
+  #  for n_item in range(10, 200, 10):
+  #      e2_xlist.append(n_item)
+  #      e2_ylist.append(1+  abs(motif_expectations.approx4(n_item, p) - motif_expectations.approx2(n_item, p))/(p *n_item* (n_item-1)))
 
-    for n_item in range(200, n, 200):
+    for n_item in range(N_under, n, N_under):
         e2_xlist.append(n_item)
         e2_ylist.append(1+  abs(motif_expectations.approx4(n_item, p) - motif_expectations.approx2(n_item, p))/(p *n_item* (n_item-1)))
 
     e3_xlist = list()
     e3_ylist = list()
-    for n_item in range(10, 200, 10):
-        e3_xlist.append(n_item)
-        e3_ylist.append( 1+ abs(motif_expectations.approx4(n_item, p) - motif_expectations.approx3(n_item, p))/(p *n_item* (n_item-1)))
+ #   for n_item in range(10, 200, 10):
+  #      e3_xlist.append(n_item)
+  #      e3_ylist.append( 1+ abs(motif_expectations.approx4(n_item, p) - motif_expectations.approx3(n_item, p))/(p *n_item* (n_item-1)))
 
-    for n_item in range(200, n, 200):
+    for n_item in range(N_under, n, N_under):
         e3_xlist.append(n_item)
         e3_ylist.append( 1+ abs(motif_expectations.approx4(n_item, p) - motif_expectations.approx3(n_item, p))/(p *n_item* (n_item-1)))
 
@@ -550,4 +551,6 @@ if __name__ == "__main__":
 
    # diverge_point_plot34(10000)
     error_between_k(10000, 0.01, "p001")
-    error_between_k(10000, 0.001, "p0001")
+    error_between_k(100000, 0.001, "p0001")
+    error_between_k(1000000, 0.0001, "p00001")
+
