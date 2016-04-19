@@ -69,7 +69,7 @@ def main():
 
     machines = ["achtung%02i" % (x) for x in range(2, 12)]
 
-    m_size = 4
+    m_size = 3
     while m_size <= 6:
         graph_ids = get_graph_ids(m_size)
         print "graph ids"
@@ -141,8 +141,8 @@ def main():
 
                             procs.append(subprocess.Popen(cmd))
 
-            for proc in procs:
-                proc.wait()
+        #    for proc in procs:
+        #        proc.wait()
 
         m_size += 1
 
