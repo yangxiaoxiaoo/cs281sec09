@@ -216,9 +216,9 @@ def decidePforN_34(error, Nmax):
     N_list = list()
     P_list = list()
 
-    for n in (range(1,100, 1) + range(100,Nmax,100)):
+    for n in (range(1,Nmax/100, 100) + range(Nmax/100,Nmax,Nmax/100)):
 
-        p = np.arange(0.001, 0.2, 0.001)
+        p = np.arange(0.0001, 0.01, 0.0001)
         m = p * n *(n-1)/2
 
         N_3line = 12 * choose(n, 4) * pow(p,3) * pow((1-p),3)

@@ -91,12 +91,12 @@ def main():
                                 p_values.append(p)
 
 
-    error_rate = 0.05
-    N_list1, P_list1 = Simulation_generated_graph.decidePforN_34(error_rate, max(bigger_node_sizes))
+ #   error_rate = 0.05
+  #  N_list1, P_list1 = Simulation_generated_graph.decidePforN_34(error_rate, max(bigger_node_sizes))
     error_rate = 0.1
     N_list2, P_list2 = Simulation_generated_graph.decidePforN_34(error_rate, max(bigger_node_sizes))
-    error_rate = 0.15
-    N_list3, P_list3 = Simulation_generated_graph.decidePforN_34(error_rate, max(bigger_node_sizes))
+  #  error_rate = 0.15
+   # N_list3, P_list3 = Simulation_generated_graph.decidePforN_34(error_rate, max(bigger_node_sizes))
 
 #    outfile = "gnudata/pvalue_errordots.data"
  #   with open(outfile, 'w') as outfile:
@@ -105,8 +105,8 @@ def main():
 
     outfile = "gnudata/pvalue_errorline_34.data"
     with open(outfile, 'w') as outfile:
-        for i in range(0, len(N_list1)):
-            outfile.write(str(N_list1[i]) +' '+ str(P_list1[i])+' '+ str(P_list2[i])+' '+ str(P_list3[i])+ '\n')
+        for i in range(0, len(N_list2)):
+            outfile.write(str(N_list2[i]) +' '+ str(P_list2[i])+' '+ '\n')
 
 '''
     plotline = plt.subplot(111)
