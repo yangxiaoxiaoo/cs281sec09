@@ -551,7 +551,7 @@ def safely_removable_p(n, p_in, name):
     for n_item in range(N_under, n, N_under):
         print n_item
         e1_xlist.append(n_item)
-        e1_ylist.append( 1 + abs(motif_expectations.approx4(n_item, p)/(p *n_item* (n_item-1))))
+        e1_ylist.append( 1 + abs(motif_expectations.approx4(n_item, p)))
         e2_ylist.append( 1 + (p *n_item* (n_item-1)))
 
     with open(outfile, 'w') as outfile:
