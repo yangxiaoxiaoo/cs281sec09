@@ -559,27 +559,32 @@ def safely_removable_p(n, p_in, name):
             outfile.write(str(e1_xlist[i]) +' '+ str(e1_ylist[i])+' '+ str(e2_ylist[i]) + '\n')
 
 
-def safely_removable_n(n, p_in, name):
+def safely_removable_np(n, p_in, name):
 #generate plot data for fixed n as p grows
     outfile = "gnudata/" + name +".data"
 
-    p = p_in
+    p_under = p_in/100
     N_under = n/100
 
 
     e1_xlist = list()
     e1_ylist = list()
-    e2_ylist = list()
+    e1_zlist = list()
+
 
     for n_item in range(N_under, n, N_under):
-        print n_item
-        e1_xlist.append(n_item)
-        e1_ylist.append( 1 + abs(motif_expectations.approx4(n_item, p)))
-        e2_ylist.append( 1 + (p *n_item* (n_item-1)))
+        for p_item in range(p_under, p_in, p_under):
+            print n_item
+
+            rate = ( 1 + abs(motif_expectations.approx4(n_item, p_item)))/( 1 + (p_item *n_item* (n_item-1)))
+            if rate <= 1:
+                e1_xlist.append(n_item)
+                e1_ylist.append(p_item)
+                e1_zlist.append(rate)
 
     with open(outfile, 'w') as outfile:
         for i in range(0, len(e1_xlist)):
-            outfile.write(str(e1_xlist[i]) +' '+ str(e1_ylist[i])+' '+ str(e2_ylist[i]) + '\n')
+            outfile.write(str(e1_xlist[i]) +' '+ str(e1_ylist[i])+' '+ str(e1_zlist[i]) + '\n')
 
 
 
@@ -603,7 +608,7 @@ if __name__ == "__main__":
  #   error_between_k(100000, 0.001, "p0001")
  #   error_between_k(1000000, 0.0001, "p00001")
 
-    safely_removable_p(100000, 0.001, "safely_removable_fixp0001")
- #   safely_removable_n(100000, 0.0001, "safely_removable_fixN")
+  #  safely_removable_p(100000, 0.01, "safely_removable_fixp0001")
+    safely_removable_np(100000, 0.001, "safely_removable_3D")
 
 
