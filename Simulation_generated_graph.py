@@ -578,7 +578,7 @@ if __name__ == "__main__":
  #   error_between_k(100000, 0.001, "p0001")
  #   error_between_k(1000000, 0.0001, "p00001")
 
-    safely_removable_p(100000, 0.0001, "safely_removable_fixp")
+    safely_removable_p(100000, 0.001, "safely_removable_fixp0001")
  #   safely_removable_n(100000, 0.0001, "safely_removable_fixN")
 
 
