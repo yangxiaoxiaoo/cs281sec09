@@ -536,6 +536,27 @@ def error_between_k(n, p_in, name):
 
 '''
 
+def safely_removable_p(n, p_in, name):
+
+    outfile = "gnudata/" + name +".data"
+
+    p = p_in
+    N_under = n/100
+
+
+    e1_xlist = list()
+    e1_ylist = list()
+
+    for n_item in range(N_under, n, N_under):
+        print n_item
+        e1_xlist.append(n_item)
+        e1_ylist.append( 1 + abs(motif_expectations.approx4(n_item, p)/(p *n_item* (n_item-1))))
+
+
+    with open(outfile, 'w') as outfile:
+        for i in range(0, len(e1_xlist)):
+            outfile.write(str(e1_xlist[i]) +' '+ str(e1_ylist[i]) + '\n')
+
 
 
 if __name__ == "__main__":
@@ -550,7 +571,13 @@ if __name__ == "__main__":
 
 
    # diverge_point_plot34(10000)
-    error_between_k(10000, 0.01, "p001")
-    error_between_k(100000, 0.001, "p0001")
-    error_between_k(1000000, 0.0001, "p00001")
+
+
+ #   error_between_k(10000, 0.01, "p001")
+ #   error_between_k(100000, 0.001, "p0001")
+ #   error_between_k(1000000, 0.0001, "p00001")
+
+    safely_removable_p(100000, 0.0001, "safely_removable_fixp")
+ #   safely_removable_n(100000, 0.0001, "safely_removable_fixN")
+
 
