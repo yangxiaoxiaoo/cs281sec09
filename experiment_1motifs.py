@@ -1,3 +1,6 @@
+#Experiment with real data to find supporting statistics
+
+
 import os
 
 def IS_line_meta(line):

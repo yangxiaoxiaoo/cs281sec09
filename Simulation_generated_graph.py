@@ -242,10 +242,12 @@ def decidePforN_34(error, Nmax):
         Error1_2 = N_1a + N_1b + N_2a + N_2b + N_2c + N_3
         Appx2 = Appx1 - Error1_2
         Appx3 = Appx2 + Error2_3
+        error4_3, OF4_3 = motif_expectations.exp4_3(n, p)
+        Appx4 = Appx3 + error4_3
 
         p_diverge = 1
         for i in range(1, len(p)):
-            if Appx3[i] > float(1 + error)*Appx1[i]:
+            if Appx4[i] > float(1 + error)*Appx3[i]:
                 p_diverge = p[i]
                 print i
                 break
