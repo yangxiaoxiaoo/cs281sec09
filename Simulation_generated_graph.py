@@ -211,6 +211,53 @@ def decidePforN(error, Nmax):
 
     return N_list, P_list
 
+
+def decidePforN_34(error, Nmax):
+    N_list = list()
+    P_list = list()
+
+    for n in (range(1,100, 1) + range(100,Nmax,100)):
+
+        p = np.arange(0.001, 0.2, 0.001)
+        m = p * n *(n-1)/2
+
+        N_3line = 12 * choose(n, 4) * pow(p,3) * pow((1-p),3)
+        N_2line = 3 * choose(n, 3) * pow(p,2) * (1-p)
+        N_1a = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+        N_1b = 3 * choose(n, 3) * pow(p,3)
+        N_2a = 60 * choose(n, 5) * pow(p,5) * pow((1-p),5)
+        N_2b = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+        N_2c = 24 * choose(n, 4) * pow(p,4) * pow((1-p),2)
+        N_3 = 360 * choose(n, 6) * pow(p,6) * pow((1-p),9)
+
+        Error2_3 = (N_1a * N_1b + N_1a * N_2a + N_1a * N_2b + N_1a * N_2c + N_1a* N_3
+                            + N_1b * N_2a + N_1b * N_2b + N_1b * N_2c + N_1b* N_3
+                                          + N_2a * N_2b + N_2a * N_2c + N_2a* N_3
+                                                        + N_2b * N_2c + N_2b* N_3
+                                                                      + N_2c* N_3
+                + pow(N_1a, 2) + pow(N_1b, 2) + pow(N_2a, 2) + pow(N_2b, 2) + pow(N_2c, 2) + pow(N_3, 2)
+            )/m
+
+        Appx1 = m + N_3line + N_2line
+        Error1_2 = N_1a + N_1b + N_2a + N_2b + N_2c + N_3
+        Appx2 = Appx1 - Error1_2
+        Appx3 = Appx2 + Error2_3
+
+        p_diverge = 1
+        for i in range(1, len(p)):
+            if Appx3[i] > float(1 + error)*Appx1[i]:
+                p_diverge = p[i]
+                print i
+                break
+        if p_diverge != 0:
+            N_list.append(n)
+            P_list.append(p_diverge)
+
+    return N_list, P_list
+
+
+
+
 def OF1(n, p):
     #objective function in 3-approximation
     m = p * n *(n-1)/2
@@ -573,7 +620,8 @@ def safely_removable_np(n, p_in, name):
 
 
     for n_item in range(N_under, n, N_under):
-        for p_item in range(p_under, p_in, p_under):
+        for p_item in my_range(p_under, p_in, p_under):
+
             print n_item
 
             rate = ( 1 + abs(motif_expectations.approx4(n_item, p_item)))/( 1 + (p_item *n_item* (n_item-1)))
@@ -586,7 +634,10 @@ def safely_removable_np(n, p_in, name):
         for i in range(0, len(e1_xlist)):
             outfile.write(str(e1_xlist[i]) +' '+ str(e1_ylist[i])+' '+ str(e1_zlist[i]) + '\n')
 
-
+def my_range(start, end, step):
+    while start <= end:
+        yield start
+        start += step
 
 
 
