@@ -537,7 +537,7 @@ def error_between_k(n, p_in, name):
 '''
 
 def safely_removable_p(n, p_in, name):
-
+#generate plot data for fixed p as n grows
     outfile = "gnudata/" + name +".data"
 
     p = p_in
@@ -557,6 +557,31 @@ def safely_removable_p(n, p_in, name):
     with open(outfile, 'w') as outfile:
         for i in range(0, len(e1_xlist)):
             outfile.write(str(e1_xlist[i]) +' '+ str(e1_ylist[i])+' '+ str(e2_ylist[i]) + '\n')
+
+
+def safely_removable_n(n, p_in, name):
+#generate plot data for fixed n as p grows
+    outfile = "gnudata/" + name +".data"
+
+    p = p_in
+    N_under = n/100
+
+
+    e1_xlist = list()
+    e1_ylist = list()
+    e2_ylist = list()
+
+    for n_item in range(N_under, n, N_under):
+        print n_item
+        e1_xlist.append(n_item)
+        e1_ylist.append( 1 + abs(motif_expectations.approx4(n_item, p)))
+        e2_ylist.append( 1 + (p *n_item* (n_item-1)))
+
+    with open(outfile, 'w') as outfile:
+        for i in range(0, len(e1_xlist)):
+            outfile.write(str(e1_xlist[i]) +' '+ str(e1_ylist[i])+' '+ str(e2_ylist[i]) + '\n')
+
+
 
 
 

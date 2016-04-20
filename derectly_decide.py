@@ -14,10 +14,13 @@ import pvalue_plot
 
 def dataset_threshold():
     blocknum_list = list()
+    deletedset = set(['roadNet-CA', 'roadNet-PA','roadNet-TX', 'web-BerkSta', 'web-Google', 'web-NotreDame','web-Stanford', 'email-EuA','soc-sign-epinions'])
     with open("/net/data/graph-models/louvain-clusters/blocknum_threshold_90.txt", 'r') as fin:
         for line in fin:
+            name = line.split(' ')[0]
             blocknum = int(line.split(' ')[1])
-            blocknum_list.append(blocknum)
+            if name not in deletedset:
+                blocknum_list.append(blocknum)
     pvalue_plot.pre_CDF_title(blocknum_list, 200, "CDF_90blocknums")
 
 '''
