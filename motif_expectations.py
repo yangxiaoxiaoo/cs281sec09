@@ -243,7 +243,7 @@ def approx2(n, p):
                            N_2b*N_2b +  N_2c*N_2b + N_3*N_2b +
                             N_2c*N_2c + N_3*N_2c +
                            N_3*N_3
-                           )/m
+                           )/(m +1)
 
     return e_num_2
 
