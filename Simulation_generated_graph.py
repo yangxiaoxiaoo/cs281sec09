@@ -212,23 +212,21 @@ def decidePforN(error, Nmax):
     return N_list, P_list
 
 
-def decidePforN_34(error, Nmax):
+def decidePforN_34(error_in, Nmax):
     N_list = list()
     P_list = list()
 
     for n in (range(1,Nmax/100, 100) + range(Nmax/100,Nmax,Nmax/100)):
 
-        p = np.arange(0.0001, 0.01, 0.0001)
-        error_rate = motif_expectations.error_rate4_3(n, p)
-        p_diverge = 1
-        for i in range(1, len(p)):
-            if error_rate[i] > float(1 + error):
-                p_diverge = p[i]
-                print i
+        for p in my_range(0.0001, 0.01, 0.0001):
+
+            #p = np.arange(0.0001, 0.01, 0.0001)
+            error_rate = motif_expectations.error_rate4_3(n, p)
+
+            if error_rate > float(error_in):
+                N_list.append(n)
+                P_list.append(p)
                 break
-        if p_diverge != 0:
-            N_list.append(n)
-            P_list.append(p_diverge)
 
     return N_list, P_list
 
