@@ -89,7 +89,7 @@ def main():
                            #     fout.write(str(node_num) + ' ' + str(p) + '\n')
                                 bigger_node_sizes.append(node_num)
                                 p_values.append(p)
-
+'''
 
  #   error_rate = 0.05
   #  N_list1, P_list1 = Simulation_generated_graph.decidePforN_34(error_rate, max(bigger_node_sizes))
@@ -108,12 +108,13 @@ def main():
         for i in range(0, len(N_list2)):
             outfile.write(str(N_list2[i]) +' '+ str(P_list2[i])+' '+ '\n')
 
-'''
+
     plotline = plt.subplot(111)
     nodes = plt.scatter(bigger_node_sizes, p_values,color='red', label="nodes")
     errorline = plt.plot(N_list1, P_list1, color="blue", label= "5% error")
     errorline2 = plt.plot(N_list2, P_list2, color="green", label= "10% error")
     errorline3 = plt.plot(N_list3, P_list3, color="purple", label= "15% error")
+
 
 
     plt.ylabel('p-value')
@@ -125,7 +126,19 @@ def main():
     plt.savefig("plot_pvalue_errorline.pdf", facecolor='w', edgecolor='w',orientation='portrait')
 '''
 
+
+def errorline():
+    error_rate = 0.1
+    N_list2, P_list2 = Simulation_generated_graph.decidePforN_34(error_rate, 1000000)
+    outfile = "gnudata/pvalue_errorline_34.data"
+    with open(outfile, 'w') as outfile:
+        for i in range(0, len(N_list2)):
+            outfile.write(str(N_list2[i]) +' '+ str(P_list2[i])+' '+ '\n')
+
+
+
 if __name__ == "__main__":
-    main()
+    errorline()
+    #main()
     #dataset_threshold()
     #dataset_select(100)

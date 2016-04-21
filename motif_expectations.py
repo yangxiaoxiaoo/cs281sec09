@@ -268,3 +268,9 @@ def approx4(n, p):
     error5_4, OF5_4 = exp5_4(n, p)
     enum4 = enum3 + error5_4
     return enum4
+
+def error_rate4_3(n, p):
+    enum3 = approx3(n, p)
+    error5_4, OF5_4 = exp5_4(n, p)
+    enum4 = enum3 + error5_4
+    return float(abs(enum4 - enum3))/float(enum3)

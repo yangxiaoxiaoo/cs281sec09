@@ -219,35 +219,10 @@ def decidePforN_34(error, Nmax):
     for n in (range(1,Nmax/100, 100) + range(Nmax/100,Nmax,Nmax/100)):
 
         p = np.arange(0.0001, 0.01, 0.0001)
-        m = p * n *(n-1)/2
-
-        N_3line = 12 * choose(n, 4) * pow(p,3) * pow((1-p),3)
-        N_2line = 3 * choose(n, 3) * pow(p,2) * (1-p)
-        N_1a = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
-        N_1b = 3 * choose(n, 3) * pow(p,3)
-        N_2a = 60 * choose(n, 5) * pow(p,5) * pow((1-p),5)
-        N_2b = 12 * choose(n, 4) * pow(p,4) * pow((1-p),2)
-        N_2c = 24 * choose(n, 4) * pow(p,4) * pow((1-p),2)
-        N_3 = 360 * choose(n, 6) * pow(p,6) * pow((1-p),9)
-
-        Error2_3 = (N_1a * N_1b + N_1a * N_2a + N_1a * N_2b + N_1a * N_2c + N_1a* N_3
-                            + N_1b * N_2a + N_1b * N_2b + N_1b * N_2c + N_1b* N_3
-                                          + N_2a * N_2b + N_2a * N_2c + N_2a* N_3
-                                                        + N_2b * N_2c + N_2b* N_3
-                                                                      + N_2c* N_3
-                + pow(N_1a, 2) + pow(N_1b, 2) + pow(N_2a, 2) + pow(N_2b, 2) + pow(N_2c, 2) + pow(N_3, 2)
-            )/m
-
-        Appx1 = m + N_3line + N_2line
-        Error1_2 = N_1a + N_1b + N_2a + N_2b + N_2c + N_3
-        Appx2 = Appx1 - Error1_2
-        Appx3 = Appx2 + Error2_3
-        error4_3, OF4_3 = motif_expectations.exp4_3(n, p)
-        Appx4 = Appx3 + error4_3
-
+        error_rate = motif_expectations.error_rate4_3(n, p)
         p_diverge = 1
         for i in range(1, len(p)):
-            if Appx4[i] > float(1 + error)*Appx3[i]:
+            if error_rate[i] > float(1 + error):
                 p_diverge = p[i]
                 print i
                 break
