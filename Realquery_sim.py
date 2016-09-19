@@ -7,7 +7,8 @@ import motif_expectations
 def querytime(Graphname):
     ts1 = time.time()
     G = networkx.read_edgelist("/net/data/graph-models/realgraph/" + Graphname + ".ncol")
-    seednode = random.choice(G.nodes)
+    nodelist = G.nodes()
+    seednode = random.choice(nodelist)
     print Graphname + " query "+str(seednode) +"is: "
     print len(motif_expectations.hop3(G, seednode))
     ts2 = time.time()
