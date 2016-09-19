@@ -1,4 +1,4 @@
-Toronto_ss2008 18
+Toronto_2008 18
 Egypt_2009 21
 LA_2009 24
 Egypt_2008 17
