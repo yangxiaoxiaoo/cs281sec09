@@ -1,5 +1,4 @@
-Toronto_2008 18
-Egypt_2009 21
+pythoEgypt_2009 21
 LA_2009 24
 Egypt_2008 17
 Chicago_2008 19

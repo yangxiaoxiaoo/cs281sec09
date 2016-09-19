@@ -28,6 +28,9 @@ def main():
     graphlist = creatlist()
     for graphname in graphlist:
         time = querytime(graphname)
+        fout = open("Realquery_time.txt", "a")
+        fout.write(graphname + ", time is: " + str(time) + "\n")
+        fout.close()
 
 if __name__ == "__main__":
     main()
